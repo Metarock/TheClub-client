@@ -15,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
         <Flex zIndex={1} position="sticky" top={0} p={4} bg={colorMode === "dark" ? "black" : "teal.500"} color={primaryColor}>
             <Flex flex={1} m="auto" align='center'>
                 <Link to="/">
-                    TheClub updates
+                    TheClub updates double checking
                 </Link>
                 <Box textAlign="center" fontSize="xl" color={primaryColor}>
                     <ColorModeSwitcher justifySelf="flex-end" />
