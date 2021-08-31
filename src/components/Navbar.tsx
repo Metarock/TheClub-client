@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react'
-import { Box, Button, Flex, Icon, Link, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, Link, useColorMode } from "@chakra-ui/react";
+import React from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 
 interface NavbarProps {
@@ -8,7 +8,7 @@ interface NavbarProps {
 }
 
 
-export const Navbar: React.FC<NavbarProps> = ({ }) => {
+export const Navbar: React.FC<NavbarProps> = () => {
     const { colorMode } = useColorMode();
     const primaryColor = colorMode === "dark" ? "white" : "white";
     return (

@@ -1,4 +1,4 @@
-import { ApolloClient, from, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 const httpLink = new HttpLink({
     uri: process.env.PORT,
