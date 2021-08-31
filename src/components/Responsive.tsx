@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/layout';
-import React, { useState } from 'react'
+import React from 'react';
 
 export type WrapperVariant = "small" | "regular"
 interface WrapperProps {

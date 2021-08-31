@@ -4,7 +4,7 @@ interface homeProps {
 
 }
 
-export const Home: React.FC<homeProps> = ({ }) => {
+export const Home: React.FC<homeProps> = () => {
     return (
         <div>home</div>
     );
