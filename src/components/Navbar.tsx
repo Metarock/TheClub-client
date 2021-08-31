@@ -17,6 +17,9 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <Link to="/">
                     TheClub updates double checking
                 </Link>
+                <Box ml={"auto"}>
+
+                </Box>
                 <Box textAlign="center" fontSize="xl" color={primaryColor}>
                     <ColorModeSwitcher justifySelf="flex-end" />
                 </Box>
