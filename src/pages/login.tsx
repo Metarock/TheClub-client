@@ -32,8 +32,11 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                     })
 
                     console.log("login response: ", response.data?.login.user?.id);
-
-                    history.push('/');
+                    if (response.data?.login.errors) {
+                        setErrors(toErrorMap(response.data.login.errors));
+                    } else {
+                        history.push('/');
+                    }
                 }}>
                 {({ isSubmitting }) => (
                     <Form>
