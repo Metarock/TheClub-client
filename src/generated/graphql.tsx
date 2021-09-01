@@ -151,9 +151,9 @@ export type UsernamePasswordInput = {
 
 export type ErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type RegularUserFragment = { __typename?: 'User', id: number, email: string, clubName: string, clubUsername: string, university: string, createdAt: string, updatedAt: string };
+export type RegularUserFragment = { __typename?: 'User', id: number, clubUsername: string };
 
-export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, clubName: string, clubUsername: string, university: string, createdAt: string, updatedAt: string }> };
+export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, clubUsername: string }> };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -161,7 +161,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, clubName: string, clubUsername: string, university: string, createdAt: string, updatedAt: string }> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, clubUsername: string }> } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -171,7 +171,7 @@ export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, email: string, clubName: string, clubUsername: string, university: string, createdAt: string, updatedAt: string }> };
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, clubUsername: string }> };
 
 export const ErrorFragmentDoc = gql`
     fragment Error on FieldError {
@@ -182,12 +182,7 @@ export const ErrorFragmentDoc = gql`
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
-  email
-  clubName
   clubUsername
-  university
-  createdAt
-  updatedAt
 }
     `;
 export const UserResponseFragmentDoc = gql`

@@ -31,17 +31,14 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         }
                     })
 
-                    console.log("login response: ", response);
-                    if (response.data?.login.errors) {
-                        setErrors(toErrorMap(response.data.login.errors));
-                    } else if (response.data?.login.user) {
-                        history.push('/');
-                    }
+                    console.log("login response: ", response.data?.login.user?.id);
+
+                    history.push('/');
                 }}>
-                {() => (
+                {({ isSubmitting }) => (
                     <Form>
                         <InputField
-                            name="usernameOremail"
+                            name="usernameOrEmail"
                             placeholder="username or email"
                             label="Username or Email" />
                         <Box mt={4}>
@@ -55,6 +52,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         <Button
                             mt={4}
                             type="submit"
+                            isLoading={isSubmitting}
                             colorScheme="teal"
                         >
                             Login

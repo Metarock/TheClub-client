@@ -4,7 +4,7 @@ import { onError } from "@apollo/client/link/error";
 
 const link = new HttpLink({
     uri: "http://localhost:4000/graphql",
-    credentials: "same-origin"
+    credentials: "include"
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {

@@ -14,7 +14,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = () => {
     const { colorMode } = useColorMode();
     const primaryColor = colorMode === "dark" ? "white" : "white";
-    const { data, loading } = useMeQuery({ skip: isServer() });
+    const { data, loading } = useMeQuery();
     const apolloClient = useApolloClient();
     const [logout, { loading: logoutFetching }] = useLogoutMutation();
 
@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <Link mr={2} href="/login">Login</Link>
             </>
         )
-    } else {
+    } else { //user logged
         body = (
             <Flex align='center'>
                 <Box mr={2}>{data.me.clubUsername}</Box>
@@ -43,7 +43,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
                     isLoading={logoutFetching}
                     varaint="link">logout</Button>
             </Flex>)
-
     }
     return (
         <Flex zIndex={1} position="sticky" top={0} p={4} bg={colorMode === "dark" ? "black" : "teal.500"} color={primaryColor}>
