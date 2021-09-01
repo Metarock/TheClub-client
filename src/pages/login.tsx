@@ -6,20 +6,42 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
+import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
+import { toErrorMap } from '../utils/toErrorMap';
 
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
+
+    const [login] = useLoginMutation();
 
     return (
         <Responsive variant="small">
             <Formik
-                initialValues={{ username: '', password: '' }}
-                onSubmit={(values) => {
-                    console.log(values);
+                initialValues={{ usernameOrEmail: '', password: '' }}
+                onSubmit={async (values, { setErrors }) => {
+                    const response = await login({
+                        variables: values,
+                        update: (cache, { data }) => {
+                            cache.writeQuery<MeQuery>({
+                                query: MeDocument,
+                                data: {
+                                    __typename: "Query",
+                                    me: data?.login.user,
+                                }
+                            })
+                        }
+                    })
+
+                    console.log("login response: ", response.data?.login.user?.id);
+                    if (response.data?.login.errors) {
+                        setErrors(toErrorMap(response.data.login.errors));
+                    } else {
+                        history.push('/');
+                    }
                 }}>
-                {() => (
+                {({ isSubmitting }) => (
                     <Form>
                         <InputField
-                            name="usernameOremail"
+                            name="usernameOrEmail"
                             placeholder="username or email"
                             label="Username or Email" />
                         <Box mt={4}>
@@ -33,6 +55,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         <Button
                             mt={4}
                             type="submit"
+                            isLoading={isSubmitting}
                             colorScheme="teal"
                         >
                             Login
