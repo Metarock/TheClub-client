@@ -34,7 +34,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                     console.log("login response: ", response);
                     if (response.data?.login.errors) {
                         setErrors(toErrorMap(response.data.login.errors));
-                    } else {
+                    } else if (response.data?.login.user) {
                         history.push('/');
                     }
                 }}>
