@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Stack, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import React from 'react'
+import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
