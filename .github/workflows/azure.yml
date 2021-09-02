@@ -38,4 +38,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: the-club
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b851812d0ee4410eb9d69a9e6b4945b3}}
+        publish-profile: ${{AZUREAPPSERVICE_PUBLISHPROFILE_D54EA4EAC66A41C8BABD080250EE3589}}
