@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/layout';
 import React from 'react';
 
-export type WrapperVariant = "small" | "regular"
-interface WrapperProps {
-    variant?: WrapperVariant;
+export type ResponsiveVariant = "small" | "regular"
+interface ResponvieProps {
+    variant?: ResponsiveVariant;
 }
 
 /**
@@ -11,7 +11,7 @@ interface WrapperProps {
  * @param param0 
  * @returns 
  */
-export const Responsive: React.FC<WrapperProps> = ({ children, variant = 'regular' }) => {
+export const Responsive: React.FC<ResponvieProps> = ({ children, variant = 'regular' }) => {
     return (
         <Box
             mt={8}
