@@ -27,6 +27,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
         body = (
             <>
                 <Link mr={2} href="/login">Login</Link>
+                <Link mr={2} href="/register">Register</Link>
             </>
         )
     } else { //user logged
