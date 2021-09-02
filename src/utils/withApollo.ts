@@ -1,7 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 const link = new HttpLink({
-    uri: "https://clubwithenv.azurewebsites.net/graphql",
+    uri: process.env.REACT_APP_API_URL,
     credentials: "include"
 });
 
