@@ -25,7 +25,7 @@ export type Mutation = {
   login: UserResponse;
   register: UserResponse;
   logout: Scalars['Boolean'];
-  createPage: PageResponse;
+  createPage: Page;
   deletePage: Scalars['Boolean'];
   createPost: Post;
   deletePost: Scalars['Boolean'];
@@ -75,12 +75,6 @@ export type Page = {
   creatorId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-};
-
-export type PageResponse = {
-  __typename?: 'PageResponse';
-  errors?: Maybe<Array<FieldError>>;
-  page?: Maybe<Page>;
 };
 
 export type Post = {
@@ -147,10 +141,6 @@ export type UsernamePasswordInput = {
 
 export type ErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type PageResponseFragment = { __typename?: 'PageResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string }> };
-
-export type RegularPageFragment = { __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string };
-
 export type RegularUserFragment = { __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string };
 
 export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
@@ -163,7 +153,7 @@ export type CreatePageMutationVariables = Exact<{
 }>;
 
 
-export type CreatePageMutation = { __typename?: 'Mutation', createPage: { __typename?: 'PageResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string }> } };
+export type CreatePageMutation = { __typename?: 'Mutation', createPage: { __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -196,26 +186,6 @@ export const ErrorFragmentDoc = gql`
   message
 }
     `;
-export const RegularPageFragmentDoc = gql`
-    fragment RegularPage on Page {
-  id
-  pageTitle
-  pageText
-  pageimgUrl
-  aboutUs
-}
-    `;
-export const PageResponseFragmentDoc = gql`
-    fragment PageResponse on PageResponse {
-  errors {
-    ...Error
-  }
-  page {
-    ...RegularPage
-  }
-}
-    ${ErrorFragmentDoc}
-${RegularPageFragmentDoc}`;
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
@@ -246,10 +216,14 @@ export const CreatePageDocument = gql`
     aboutUs: $aboutUs
     pageimgUrl: $pageimgUrl
   ) {
-    ...PageResponse
+    id
+    pageTitle
+    pageText
+    pageimgUrl
+    aboutUs
   }
 }
-    ${PageResponseFragmentDoc}`;
+    `;
 export type CreatePageMutationFn = Apollo.MutationFunction<CreatePageMutation, CreatePageMutationVariables>;
 
 /**

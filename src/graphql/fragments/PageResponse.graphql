@@ -1,9 +1,0 @@
-fragment PageResponse on PageResponse {
-    errors {
-        ...Error
-    }
-
-    page {
-        ...RegularPage
-    }
-}
