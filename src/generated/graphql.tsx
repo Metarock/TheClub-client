@@ -44,7 +44,10 @@ export type MutationRegisterArgs = {
 
 
 export type MutationCreatePageArgs = {
-  input: PageInput;
+  pageimgUrl?: Maybe<Scalars['String']>;
+  aboutUs: Scalars['String'];
+  pageText: Scalars['String'];
+  pageTitle: Scalars['String'];
 };
 
 
@@ -72,13 +75,6 @@ export type Page = {
   creatorId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
-};
-
-export type PageInput = {
-  pageTitle: Scalars['String'];
-  pageText: Scalars['String'];
-  aboutUs: Scalars['String'];
-  pageimgUrl: Scalars['String'];
 };
 
 export type PageResponse = {
@@ -151,9 +147,23 @@ export type UsernamePasswordInput = {
 
 export type ErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
+export type PageResponseFragment = { __typename?: 'PageResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string }> };
+
+export type RegularPageFragment = { __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string };
+
 export type RegularUserFragment = { __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string };
 
 export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
+
+export type CreatePageMutationVariables = Exact<{
+  pageTitle: Scalars['String'];
+  pageText: Scalars['String'];
+  aboutUs: Scalars['String'];
+  pageimgUrl?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreatePageMutation = { __typename?: 'Mutation', createPage: { __typename?: 'PageResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string }> } };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -186,6 +196,26 @@ export const ErrorFragmentDoc = gql`
   message
 }
     `;
+export const RegularPageFragmentDoc = gql`
+    fragment RegularPage on Page {
+  id
+  pageTitle
+  pageText
+  pageimgUrl
+  aboutUs
+}
+    `;
+export const PageResponseFragmentDoc = gql`
+    fragment PageResponse on PageResponse {
+  errors {
+    ...Error
+  }
+  page {
+    ...RegularPage
+  }
+}
+    ${ErrorFragmentDoc}
+${RegularPageFragmentDoc}`;
 export const RegularUserFragmentDoc = gql`
     fragment RegularUser on User {
   id
@@ -208,6 +238,47 @@ export const UserResponseFragmentDoc = gql`
 }
     ${ErrorFragmentDoc}
 ${RegularUserFragmentDoc}`;
+export const CreatePageDocument = gql`
+    mutation createPage($pageTitle: String!, $pageText: String!, $aboutUs: String!, $pageimgUrl: String) {
+  createPage(
+    pageTitle: $pageTitle
+    pageText: $pageText
+    aboutUs: $aboutUs
+    pageimgUrl: $pageimgUrl
+  ) {
+    ...PageResponse
+  }
+}
+    ${PageResponseFragmentDoc}`;
+export type CreatePageMutationFn = Apollo.MutationFunction<CreatePageMutation, CreatePageMutationVariables>;
+
+/**
+ * __useCreatePageMutation__
+ *
+ * To run a mutation, you first call `useCreatePageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPageMutation, { data, loading, error }] = useCreatePageMutation({
+ *   variables: {
+ *      pageTitle: // value for 'pageTitle'
+ *      pageText: // value for 'pageText'
+ *      aboutUs: // value for 'aboutUs'
+ *      pageimgUrl: // value for 'pageimgUrl'
+ *   },
+ * });
+ */
+export function useCreatePageMutation(baseOptions?: Apollo.MutationHookOptions<CreatePageMutation, CreatePageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePageMutation, CreatePageMutationVariables>(CreatePageDocument, options);
+      }
+export type CreatePageMutationHookResult = ReturnType<typeof useCreatePageMutation>;
+export type CreatePageMutationResult = Apollo.MutationResult<CreatePageMutation>;
+export type CreatePageMutationOptions = Apollo.BaseMutationOptions<CreatePageMutation, CreatePageMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {

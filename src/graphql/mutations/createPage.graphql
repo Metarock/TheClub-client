@@ -1,0 +1,5 @@
+mutation createPage($pageTitle: String!, $pageText: String!, $aboutUs: String!, $pageimgUrl: String){
+    createPage(pageTitle: $pageTitle, pageText: $pageText ,aboutUs: $aboutUs, pageimgUrl: $pageimgUrl ){
+        ...PageResponse
+    }
+}

@@ -1,0 +1,7 @@
+fragment RegularPage on Page {
+    id
+    pageTitle
+    pageText
+    pageimgUrl
+    aboutUs
+}

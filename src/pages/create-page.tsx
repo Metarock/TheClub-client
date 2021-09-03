@@ -1,3 +1,4 @@
+import { Formik } from 'formik';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { cloudinarySignature } from '../utils/utilCloudinary';
@@ -59,9 +60,6 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
     }
 
     return (
-        <div>
-            <input ref={fileInputRef} name="postImage" type="file" accept="image/*" onChange={handleSetImage} />
-            <button onClick={uploadImage}>Upload</button>
-        </div>
+        <div>Hello</div>
     );
 }
