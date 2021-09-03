@@ -7,6 +7,7 @@ import { Login } from "./pages/login";
 import { Home } from "./pages/home";
 import { Register } from "./pages/register";
 import { Footer } from "./components/Footer";
+import { CreatePage } from "./pages/create-page";
 
 export const App = () => (
   <ApolloProvider client={client}>
@@ -16,6 +17,7 @@ export const App = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/create-page" component={CreatePage} />
       </Switch>
       <Footer />
     </BrowserRouter>

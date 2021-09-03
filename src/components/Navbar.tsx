@@ -33,7 +33,14 @@ export const Navbar: React.FC<NavbarProps> = () => {
     } else { //user logged
         body = (
             <Flex align='center'>
-                <Box mr={2}>{data.me.clubUsername}</Box>
+                <Link href="/create-page">
+                    <Button
+                        bg={colorMode === "dark" ? "black" : "teal.500"}
+                        color={primaryColor} mr={4}>
+                        Create page
+                    </Button>
+                </Link>
+                <Box mr={2}>Welcome: {data.me.clubUsername}</Box>
                 <Button onClick={async () => {
                     await logout();
                     await apolloClient.resetStore()
