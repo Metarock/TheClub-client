@@ -43,7 +43,7 @@ export const Home: React.FC<RouteComponentProps> = () => {
                         p={2}
                         alignSelf={'flex-start'}
                         rounded={'md'}>
-                        Our Story
+                        Our Story: Prove this is working
                     </Text>
                     <Heading>A platform for all University Clubs</Heading>
                     <Text color={'gray.500'} fontSize={'lg'}>
