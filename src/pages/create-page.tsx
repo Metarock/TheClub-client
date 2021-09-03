@@ -1,6 +1,10 @@
-import { Formik } from 'formik';
+import { Box } from '@chakra-ui/layout';
+import { Button, Image } from '@chakra-ui/react';
+import { Form, Formik } from 'formik';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { InputField } from '../components/InputField';
+import { Responsive } from '../components/Responsive';
 import { useCreatePageMutation } from '../generated/graphql';
 import { cloudinarySignature } from '../utils/utilCloudinary';
 
@@ -48,6 +52,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
 
         const data = await response.json();
         const url = data.secure_url as string;
+        console.log("upload image[this is the url]: ", url);
         return { success: true, url };
 
     }
@@ -62,37 +67,84 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
     }
 
     return (
-        <Formik
-            initialValues={{ pageTitle: '', pageText: '', aboutUs: '' }}
-            onSubmit={async (values, { setErrors, resetForm }) => {
-                let pageimgUrl: string | undefined;
+        <Responsive variant="small">
+            <Formik
+                initialValues={{ pageTitle: '', pageText: '', aboutUs: '' }}
+                onSubmit={async (values, { setErrors, resetForm }) => {
+                    let imgUrl: string | undefined;
 
-                if (file) {
-                    const upload = await uploadImage();
-                    if (!upload.success) {
-                        //if upload is not successful
-                        return; //return nothing
+                    if (file) {
+                        const upload = await uploadImage();
+                        if (!upload.success) {
+                            //if upload is not successful
+                            return; //return nothing
+                        }
+
+                        //if successful 
+                        imgUrl = upload.url;
+                        console.log("formik this is the img url", imgUrl);
                     }
 
-                    //if successful 
-                    pageimgUrl = upload.url;
-                }
+                    const response = await createPage({
+                        variables: { pageTitle: values.pageTitle, pageText: values.pageText, aboutUs: values.aboutUs, pageimgUrl: imgUrl }
+                    })
+                    //if there is an error
+                    if (response.errors) {
+                        setErrors({ pageTitle: "an error has occured with creating page" });
+                        return;
+                    }
+                    resetForm();
+                    const page = response.data?.createPage.id;
+                    console.log("page is posted: ", page);
+                    history.push("/");
+                }}
 
-                const response = await createPage({
-                    variables: { pageTitle: values.pageTitle, pageText: values.pageText, aboutUs: values.aboutUs, pageimgUrl: pageimgUrl }
-                })
-                //if there is an error
-                if (response.errors) {
-                    setErrors({ pageTitle: "an error has occured with creating page" });
-                    return;
-                }
-                resetForm();
-                const page = response.data?.createPage.id;
-                console.log("page is posted: ", page);
-            }}
-
-        >
-
-        </Formik>
+            >
+                {({ isSubmitting }) => (
+                    <Form>
+                        <InputField
+                            name="pageTitle"
+                            placeholder="pageTitle"
+                            label="Title"
+                        />
+                        <Box mt={4}>
+                            <InputField
+                                textarea
+                                name="pageText"
+                                placeholder="text..."
+                                label="Description"
+                            />
+                        </Box>
+                        <Box mt={4}>
+                            <InputField
+                                textarea
+                                name="aboutUs"
+                                placeholder="text..."
+                                label="About us"
+                            />
+                        </Box>
+                        <Box mt={4}>
+                            <Button ml={12} type="submit" isLoading={isSubmitting}>
+                                Create Page
+                            </Button>
+                            <label htmlFor="postImage">
+                                <Button mr={8} onClick={() => fileInputRef.current?.click()}>
+                                    Upload Image
+                                </Button>
+                            </label>
+                            <input
+                                ref={fileInputRef}
+                                name="postImage"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleSetImage}
+                                style={{ display: "none" }}
+                            />
+                            <Image src={fileUrl} maxH={200} maxW={400} />
+                        </Box>
+                    </Form>
+                )}
+            </Formik>
+        </Responsive>
     );
 }
