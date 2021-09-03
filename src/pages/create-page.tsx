@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { cloudinarySignature } from '../utils/utilCloudinary';
 
-export const CreatePage: React.FC<RouteComponentProps> = () => {
+export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
     const [file, setFile] = useState<File>();
     const [fileUrl, setFileUrl] = useState<string>();
     const fileInputRef = useRef<HTMLInputElement>(null);
