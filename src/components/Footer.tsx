@@ -36,6 +36,7 @@ const SocialButton = ({
 export const Footer: React.FC = () => {
     return (
         <Box
+            zIndex={1}
             bg={useColorModeValue('gray.50', 'gray.900')}
             color={useColorModeValue('gray.700', 'gray.200')}
             bottom={0}
@@ -52,13 +53,13 @@ export const Footer: React.FC = () => {
                 align={{ base: 'center', md: 'center' }}>
                 <Text>© 2021 John Isaiah Sangalang</Text>
                 <Stack direction={'row'} spacing={6}>
-                    <SocialButton label={'Twitter'} href={'#'}>
+                    <SocialButton label={'Twitter'} href={'https://twitter.com/esang037'}>
                         <FaTwitter />
                     </SocialButton>
                     <SocialButton label={'Github'} href={'https://github.com/Metarock'}>
                         <FaGithub />
                     </SocialButton>
-                    <SocialButton label={'Instagram'} href={'#'}>
+                    <SocialButton label={'Instagram'} href={'https://www.instagram.com/jirsangalang/'}>
                         <FaInstagram />
                     </SocialButton>
                 </Stack>

@@ -1,5 +1,5 @@
 import { Image } from '@chakra-ui/image';
-import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
+import { Box, Heading, Text } from '@chakra-ui/layout';
 import React from 'react';
 
 interface CardProps {
@@ -22,8 +22,8 @@ export const Card: React.FC<CardProps> = ({
 
     return (
         <Box
-            borderWidth={2}
-            borderRadius={5}
+            borderWidth={1}
+            borderRadius={2}
             alignItems="center"
             textAlign="center"
             display="inline-block"
@@ -32,14 +32,16 @@ export const Card: React.FC<CardProps> = ({
             mb={6}
         >
             <Box display="block" textAlign="center" ml="auto">
-                <Heading mr={2} mt={2} ml={4}>{pageTitle}</Heading>
-                <Text display="block" fontSize={16} suppressHydrationWarning>
+                <Heading size="xl" fontWeight="extrabold">{pageTitle}</Heading>
+                <Text fontWeight="medium" display="block" fontSize={16} suppressHydrationWarning>
                     by {creatorName}
                 </Text>
-                <Text display="block" m={3} mr={5} flexDirection="row">About us: {aboutUs}</Text>
+                <Text display="block" fontWeight="medium">About us:</Text>
+                <Text>{aboutUs}</Text>
+                <Text mt={3} whiteSpace="break-spaces">Description:</Text>
+                <Text>{pageText}</Text>
+                {pageimgUrl ? <Image mx="auto" src={pageimgUrl} mt={3} maxH={800} /> : null}
             </Box>
-            <Text mt={3} whiteSpace="break-spaces">Description: {pageText}</Text>
-            {pageimgUrl ? <Image mx="auto" src={pageimgUrl} mt={3} maxH={300} /> : null}
         </Box>
     );
 }

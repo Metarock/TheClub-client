@@ -4,7 +4,6 @@ import React, { ReactElement } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
 import { Card } from '../components/Card';
-import { Layout } from '../components/Layout';
 import { usePagesQuery } from '../generated/graphql';
 
 interface FeatureProps {

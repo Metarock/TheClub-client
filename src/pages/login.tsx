@@ -46,7 +46,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                     console.log("login response: ", response.data?.login.user?.id);
                     if (response.data?.login.errors) {
                         setErrors(toErrorMap(response.data.login.errors));
-                    } else if (response.data?.login.user) {
+                    } else if (!response.data?.login.user) {
                         setErrors(toErrorMap(response.data.login.errors));
                     }
                     else {
