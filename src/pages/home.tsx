@@ -95,21 +95,19 @@ export const Home: React.FC<RouteComponentProps> = () => {
             <Box direction="row" h="50px" p={10}>
                 <Divider orientation="horizontal" />
             </Box>
-            <Layout>
-                {!data ? (
-                    <Text>This is where the card will be</Text>
-                ) : (
-                    <Stack spacing={8}>
-                        {data!.pages.map((p) => !p ? null : (
-                            <Card
-                                key={p.id}
-                                creatorName={p.creator.clubName}
-                                {...p}
-                            />
-                        ))}
-                    </Stack>
-                )}
-            </Layout>
+            {!data ? (
+                <Text>This is where the card will be</Text>
+            ) : (
+                <>
+                    {data!.pages.map((p) => !p ? null : (
+                        <Card
+                            key={p.id}
+                            creatorName={p.creator.clubName}
+                            {...p}
+                        />
+                    ))}
+                </>
+            )}
         </Container>
     );
 }
