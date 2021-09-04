@@ -1,12 +1,9 @@
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-const link = new HttpLink({
-    uri: process.env.REACT_APP_API_URL,
-    credentials: "include"
-});
 
 const client = new ApolloClient({
-    link,
+    uri: process.env.REACT_APP_API_URL,
+    credentials: "include",
     cache: new InMemoryCache(),
 })
 
