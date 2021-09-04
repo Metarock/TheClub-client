@@ -92,31 +92,24 @@ export const Home: React.FC<RouteComponentProps> = () => {
                     />
                 </Flex>
             </SimpleGrid>
-            <Box direction="row" h="500px" p={10}>
+            <Box direction="row" h="50px" p={10}>
                 <Divider orientation="horizontal" />
-                <Card />
-                <Layout>
-                    {!data ? (
-                        <Card />
-                    ) : (
-                        <Stack spacing={8}>
-                            {data!.pages.map((p) => !p ? null : (
-                                <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
-                                    <Box>
-                                        <Heading>{p.pageTitle}</Heading>
-                                    </Box>
-                                    <Text>Posted by: {p.creator.clubName}</Text>
-                                    <Box>
-                                        <Text>about us: {p.aboutUs}</Text>
-                                        <Text>description: {p.pageText}</Text>
-                                        {p.pageimgUrl ? <Image mx="auto" src={p.pageimgUrl} mt={3} maxH={500} /> : null}
-                                    </Box>
-                                </Flex>
-                            ))}
-                        </Stack>
-                    )}
-                </Layout>
             </Box>
+            <Layout>
+                {!data ? (
+                    <Text>This is where the card will be</Text>
+                ) : (
+                    <Stack spacing={8}>
+                        {data!.pages.map((p) => !p ? null : (
+                            <Card
+                                key={p.id}
+                                creatorName={p.creator.clubName}
+                                {...p}
+                            />
+                        ))}
+                    </Stack>
+                )}
+            </Layout>
         </Container>
     );
 }

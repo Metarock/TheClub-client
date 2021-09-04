@@ -8,6 +8,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children, variant }) => {
     return (
         <>
+
             <Responsive variant={variant}>
                 {children}
             </Responsive>
