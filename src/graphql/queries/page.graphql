@@ -1,0 +1,15 @@
+query Page ($id: Int!){
+    page(id: $id){
+        id
+        pageTitle
+        pageText
+        pageimgUrl
+        creatorId
+        creator {
+            id
+            clubUsername
+        }
+        createdAt
+        updatedAt
+    }
+}

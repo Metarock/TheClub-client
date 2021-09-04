@@ -73,6 +73,7 @@ export type Page = {
   aboutUs: Scalars['String'];
   pageimgUrl?: Maybe<Scalars['String']>;
   creatorId: Scalars['Float'];
+  creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -179,6 +180,18 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
+
+export type PageQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubUsername: string } }> };
+
+export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } }> };
 
 export const ErrorFragmentDoc = gql`
     fragment Error on FieldError {
@@ -384,3 +397,95 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const PageDocument = gql`
+    query Page($id: Int!) {
+  page(id: $id) {
+    id
+    pageTitle
+    pageText
+    pageimgUrl
+    creatorId
+    creator {
+      id
+      clubUsername
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __usePageQuery__
+ *
+ * To run a query within a React component, call `usePageQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePageQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePageQuery(baseOptions: Apollo.QueryHookOptions<PageQuery, PageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PageQuery, PageQueryVariables>(PageDocument, options);
+      }
+export function usePageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PageQuery, PageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PageQuery, PageQueryVariables>(PageDocument, options);
+        }
+export type PageQueryHookResult = ReturnType<typeof usePageQuery>;
+export type PageLazyQueryHookResult = ReturnType<typeof usePageLazyQuery>;
+export type PageQueryResult = Apollo.QueryResult<PageQuery, PageQueryVariables>;
+export const PagesDocument = gql`
+    query Pages {
+  pages {
+    id
+    pageTitle
+    pageText
+    aboutUs
+    pageimgUrl
+    creator {
+      id
+      clubName
+      clubUsername
+      email
+    }
+    creatorId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __usePagesQuery__
+ *
+ * To run a query within a React component, call `usePagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePagesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePagesQuery(baseOptions?: Apollo.QueryHookOptions<PagesQuery, PagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
+      }
+export function usePagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PagesQuery, PagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PagesQuery, PagesQueryVariables>(PagesDocument, options);
+        }
+export type PagesQueryHookResult = ReturnType<typeof usePagesQuery>;
+export type PagesLazyQueryHookResult = ReturnType<typeof usePagesLazyQuery>;
+export type PagesQueryResult = Apollo.QueryResult<PagesQuery, PagesQueryVariables>;
