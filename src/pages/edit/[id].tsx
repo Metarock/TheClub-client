@@ -1,11 +1,6 @@
-import { Button } from "@chakra-ui/button";
-import { Box } from "@chakra-ui/layout";
-import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { RouteComponentProps, useParams } from "react-router-dom";
-import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
-import { Responsive } from "../../components/Responsive";
 import { useEditPageMutation, usePageQuery } from "../../generated/graphql";
 
 export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
@@ -14,9 +9,14 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     const getId = parseInt(id);
     console.log(getId);
 
-    const { data, loading } = usePageQuery({ skip: getId === -1, variables: { id: getId } });
+    const { data, loading } = usePageQuery({ variables: { id: getId } });
     console.log("Page ", data?.page.pageTitle);
+    console.log("Page ", data?.page.pageText);
+    console.log("Page ", data?.page.aboutUs);
     const [updatePage] = useEditPageMutation();
+    const [pageTitle, setPageTitle] = useState('');
+    const [pageText, setPageText] = useState('');
+    const [aboutUs, setAboutUs] = useState('');
 
     if (loading) {
         return (
@@ -35,36 +35,47 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     }
 
     return (
-        <Responsive variant="small">
-            <Formik
-                initialValues={{ pageTitle: data.page.pageTitle, pageText: data.page.pageText, aboutUs: data.page.aboutUs }}
-                onSubmit={async (values) => {
-                    await updatePage({ variables: { id: getId, ...values } });
-                    history.push("/");
-                }}
-            >
-                {({ isSubmitting }) => {
-                    <Form id="editPage" style={{ width: "100%" }}>
-                        <Box>
-                            <InputField name="pageTitle" placeholder="Title" label="Title" />
-                        </Box>
-                        <Box>
-                            <InputField textarea name="pageText" placeholder="pageText" label="Text" />
-                        </Box>
-                        <Box mt={4}>
-                            <InputField
-                                textarea
-                                name="aboutUs"
-                                placeholder="text..."
-                                label="About us"
-                            />
-                        </Box>
-                        <Button mt={4} type="submit" isLoading={isSubmitting}>
-                            Update page
-                        </Button>
-                    </Form>
-                }}
-            </Formik>
-        </Responsive>
+        <form onSubmit={async e => {
+            console.log("edit");
+            await updatePage({
+                variables: {
+                    id: getId,
+                    pageTitle,
+                    pageText,
+                    aboutUs
+                }
+            })
+
+            history.push('/');
+        }}>
+            <div>
+                <input
+                    value={pageTitle}
+                    placeholder={data?.page.pageTitle}
+                    onChange={e => {
+                        setPageTitle(e.target.value)
+                    }}
+                />
+            </div>
+            <div>
+                <input
+                    value={pageText}
+                    placeholder={data?.page.pageText}
+                    onChange={e => {
+                        setPageText(e.target.value)
+                    }}
+                />
+            </div>
+            <div>
+                <input
+                    value={aboutUs}
+                    placeholder={data?.page.aboutUs}
+                    onChange={e => {
+                        setAboutUs(e.target.value)
+                    }}
+                />
+            </div>
+            <button type="submit">update page</button>
+        </form>
     );
 }

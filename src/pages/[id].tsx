@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { useParams } from "react-router-dom"
+import { RouteComponentProps, useParams } from "react-router-dom"
 import { Card } from '../components/Card';
 import { Layout } from '../components/Layout';
 import { useMeQuery, usePageQuery } from '../generated/graphql';
 
-const Page = () => {
+const Page: React.FC<RouteComponentProps> = ({ history }) => {
     const { id }: any = useParams(); //get id
     const getId = parseInt(id);
 
