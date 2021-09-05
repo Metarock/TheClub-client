@@ -12,7 +12,7 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
 
     const pageQuery = usePageQuery({ variables: { id: getId } });
     console.log(pageQuery);
-    const { data: meData } = useMeQuery();
+    const { data: meData } = useMeQuery({ fetchPolicy: "network-only" });
 
     const page = pageQuery.data?.page;
 
