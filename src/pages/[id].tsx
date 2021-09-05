@@ -5,16 +5,12 @@ import { Card } from '../components/Card';
 import { Layout } from '../components/Layout';
 import { useMeQuery, usePageQuery } from '../generated/graphql';
 
-interface PageProps {
-
-}
-
-const Page: React.FC<PageProps> = () => {
+const Page = () => {
     const { id }: any = useParams(); //get id
-    // const id = parseInt(getId);
-    console.log(parseInt(id));
+    const getId = parseInt(id);
 
-    const pageQuery = usePageQuery({ variables: { id: parseInt(id) } });
+
+    const pageQuery = usePageQuery({ variables: { id: getId } });
     console.log(pageQuery);
     const { data: meData } = useMeQuery();
 

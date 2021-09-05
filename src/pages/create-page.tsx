@@ -87,7 +87,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
                     }
 
                     const response = await createPage({
-                        variables: { pageTitle: values.pageTitle, pageText: values.pageText, aboutUs: values.aboutUs, pageimgUrl: imgUrl }
+                        variables: { ...values, pageimgUrl: imgUrl }
                     })
                     //if there is an error
                     //TO DO

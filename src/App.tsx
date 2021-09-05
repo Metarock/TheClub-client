@@ -9,7 +9,7 @@ import { Register } from "./pages/register";
 import { Footer } from "./components/Footer";
 import { CreatePage } from "./pages/create-page";
 import Page from "./pages/[id]";
-import EditPage from "./pages/edit/[id]";
+import { EditPage } from "./pages/edit/[id]";
 
 export const App = () => (
   <ApolloProvider client={client}>
@@ -20,8 +20,8 @@ export const App = () => (
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/create-page" component={CreatePage} />
-        <Route exact path="/:id" component={Page} />
-        <Route exact path="/edit/:id" component={EditPage} />
+        <Route exact path="/page/:id" component={Page} />
+        <Route exact path="/page/edit/:id" component={EditPage} />
       </Switch>
       <Footer />
     </BrowserRouter>

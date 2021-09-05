@@ -172,6 +172,16 @@ export type DeletePageMutationVariables = Exact<{
 
 export type DeletePageMutation = { __typename?: 'Mutation', deletePage: boolean };
 
+export type EditPageMutationVariables = Exact<{
+  id: Scalars['Int'];
+  pageTitle: Scalars['String'];
+  aboutUs: Scalars['String'];
+  pageText: Scalars['String'];
+}>;
+
+
+export type EditPageMutation = { __typename?: 'Mutation', editPage?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number }> };
+
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
   password: Scalars['String'];
@@ -313,6 +323,47 @@ export function useDeletePageMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeletePageMutationHookResult = ReturnType<typeof useDeletePageMutation>;
 export type DeletePageMutationResult = Apollo.MutationResult<DeletePageMutation>;
 export type DeletePageMutationOptions = Apollo.BaseMutationOptions<DeletePageMutation, DeletePageMutationVariables>;
+export const EditPageDocument = gql`
+    mutation EditPage($id: Int!, $pageTitle: String!, $aboutUs: String!, $pageText: String!) {
+  editPage(id: $id, pageTitle: $pageTitle, aboutUs: $aboutUs, pageText: $pageText) {
+    id
+    pageTitle
+    pageText
+    aboutUs
+    pageimgUrl
+    creatorId
+  }
+}
+    `;
+export type EditPageMutationFn = Apollo.MutationFunction<EditPageMutation, EditPageMutationVariables>;
+
+/**
+ * __useEditPageMutation__
+ *
+ * To run a mutation, you first call `useEditPageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditPageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editPageMutation, { data, loading, error }] = useEditPageMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      pageTitle: // value for 'pageTitle'
+ *      aboutUs: // value for 'aboutUs'
+ *      pageText: // value for 'pageText'
+ *   },
+ * });
+ */
+export function useEditPageMutation(baseOptions?: Apollo.MutationHookOptions<EditPageMutation, EditPageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditPageMutation, EditPageMutationVariables>(EditPageDocument, options);
+      }
+export type EditPageMutationHookResult = ReturnType<typeof useEditPageMutation>;
+export type EditPageMutationResult = Apollo.MutationResult<EditPageMutation>;
+export type EditPageMutationOptions = Apollo.BaseMutationOptions<EditPageMutation, EditPageMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {

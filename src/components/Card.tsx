@@ -36,7 +36,7 @@ export const Card: React.FC<CardProps> = ({
 
     const handleEditPage = () => {
         setEditLoading(true);
-        history.push(`/edit/${id}`);
+        history.push(`/page/edit/${id}`);
     }
 
     const handleDeletePage = async () => {
@@ -76,7 +76,7 @@ export const Card: React.FC<CardProps> = ({
                         </Flex>
                     </Flex>
                 ) : null}
-                <Heading as={headerLink ? "a" : undefined} size="xl" fontWeight="extrabold" href={`/${id}`}>{pageTitle}</Heading>
+                <Heading as={headerLink ? "a" : undefined} size="xl" fontWeight="extrabold" href={`/page/${id}`}>{pageTitle}</Heading>
                 <Text fontWeight="medium" display="block" fontSize={16} suppressHydrationWarning>
                     by {creatorName}
                 </Text>
