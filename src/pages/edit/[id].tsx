@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { RouteComponentProps, useParams } from "react-router-dom";
 import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
@@ -19,10 +19,6 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     console.log("Page ", data?.page.pageText);
     console.log("Page ", data?.page.aboutUs);
     const [updatePage] = useEditPageMutation();
-    const [pageTitle, setPageTitle] = useState('');
-    const [pageText, setPageText] = useState('');
-    const [aboutUs, setAboutUs] = useState('');
-
     if (loading) {
         return (
             <Layout>
