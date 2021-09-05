@@ -26,6 +26,7 @@ export type Mutation = {
   register: UserResponse;
   logout: Scalars['Boolean'];
   createPage: Page;
+  editPage?: Maybe<Page>;
   deletePage: Scalars['Boolean'];
   createPost: Post;
   deletePost: Scalars['Boolean'];
@@ -48,6 +49,14 @@ export type MutationCreatePageArgs = {
   aboutUs: Scalars['String'];
   pageText: Scalars['String'];
   pageTitle: Scalars['String'];
+};
+
+
+export type MutationEditPageArgs = {
+  aboutUs: Scalars['String'];
+  pageText: Scalars['String'];
+  pageTitle: Scalars['String'];
+  id: Scalars['Int'];
 };
 
 
@@ -155,6 +164,13 @@ export type CreatePageMutationVariables = Exact<{
 
 
 export type CreatePageMutation = { __typename?: 'Mutation', createPage: { __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string } };
+
+export type DeletePageMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeletePageMutation = { __typename?: 'Mutation', deletePage: boolean };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -266,6 +282,37 @@ export function useCreatePageMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePageMutationHookResult = ReturnType<typeof useCreatePageMutation>;
 export type CreatePageMutationResult = Apollo.MutationResult<CreatePageMutation>;
 export type CreatePageMutationOptions = Apollo.BaseMutationOptions<CreatePageMutation, CreatePageMutationVariables>;
+export const DeletePageDocument = gql`
+    mutation deletePage($id: Int!) {
+  deletePage(id: $id)
+}
+    `;
+export type DeletePageMutationFn = Apollo.MutationFunction<DeletePageMutation, DeletePageMutationVariables>;
+
+/**
+ * __useDeletePageMutation__
+ *
+ * To run a mutation, you first call `useDeletePageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePageMutation, { data, loading, error }] = useDeletePageMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePageMutation(baseOptions?: Apollo.MutationHookOptions<DeletePageMutation, DeletePageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePageMutation, DeletePageMutationVariables>(DeletePageDocument, options);
+      }
+export type DeletePageMutationHookResult = ReturnType<typeof useDeletePageMutation>;
+export type DeletePageMutationResult = Apollo.MutationResult<DeletePageMutation>;
+export type DeletePageMutationOptions = Apollo.BaseMutationOptions<DeletePageMutation, DeletePageMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {

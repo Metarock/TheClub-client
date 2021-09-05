@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/layout';
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, CloseButton, Image } from '@chakra-ui/react';
+import { Button, Image } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -66,6 +66,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
         setFileUrl(URL.createObjectURL(newFile));
     }
 
+    let body = null;
     return (
         <Responsive variant="small">
             <Formik
@@ -92,13 +93,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
                     //TO DO
                     // Fix the error message
                     if (response.errors) {
-                        <Alert status="error">
-                            <AlertIcon />
-                            <AlertTitle mr={2}>Your browser is outdated!</AlertTitle>
-                            <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
-                            <CloseButton position="absolute" right="8px" top="8px" />
-                        </Alert>
-                        setErrors({ pageTitle: "an error has occured with creating page" });
+                        setErrors({ pageTitle: "this is an error", pageText: "error on text" });
                         return;
                     }
                     resetForm();
@@ -153,6 +148,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
                     </Form>
                 )}
             </Formik>
+            {body ? body : null}
         </Responsive>
     );
 }
