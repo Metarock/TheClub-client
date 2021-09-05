@@ -202,7 +202,7 @@ export type PageQueryVariables = Exact<{
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubUsername: string } }> };
+export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string } }> };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -451,9 +451,11 @@ export const PageDocument = gql`
     pageTitle
     pageText
     pageimgUrl
+    aboutUs
     creatorId
     creator {
       id
+      clubName
       clubUsername
     }
     createdAt

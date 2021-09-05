@@ -13,6 +13,7 @@ interface CardProps {
     aboutUs: string
     pageimgUrl?: string | null;
     creatorName: string;
+    headerLink?: boolean;
     userIsOwner?: boolean;
 }
 
@@ -22,6 +23,7 @@ export const Card: React.FC<CardProps> = ({
     pageText,
     aboutUs,
     pageimgUrl,
+    headerLink,
     creatorName,
     userIsOwner = false,
 }) => {
@@ -74,7 +76,7 @@ export const Card: React.FC<CardProps> = ({
                         </Flex>
                     </Flex>
                 ) : null}
-                <Heading size="xl" fontWeight="extrabold">{pageTitle}</Heading>
+                <Heading as={headerLink ? "a" : undefined} size="xl" fontWeight="extrabold" href={`/${id}`}>{pageTitle}</Heading>
                 <Text fontWeight="medium" display="block" fontSize={16} suppressHydrationWarning>
                     by {creatorName}
                 </Text>

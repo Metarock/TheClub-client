@@ -1,9 +1,11 @@
-import { useHistory } from "react-router";
+import React from "react";
 
-
-const EditPost = ({ }) => {
-    const history = useHistory();
-
+const EditPage = ({ }) => {
+    return (
+        <div>
+            This is working for edit
+        </div>
+    );
 }
 
-export default EditPost;
+export default EditPage;

@@ -105,6 +105,7 @@ export const Home: React.FC<RouteComponentProps> = () => {
                             creatorName={p.creator.clubName}
                             userIsOwner={!!meData?.me && meData?.me.id === p.creator.id}
                             {...p}
+                            headerLink
                         />
                     ))}
                 </>
