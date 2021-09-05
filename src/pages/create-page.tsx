@@ -66,6 +66,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
         setFileUrl(URL.createObjectURL(newFile));
     }
 
+    let body = null;
     return (
         <Responsive variant="small">
             <Formik
@@ -86,11 +87,13 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
                     }
 
                     const response = await createPage({
-                        variables: { pageTitle: values.pageTitle, pageText: values.pageText, aboutUs: values.aboutUs, pageimgUrl: imgUrl }
+                        variables: { ...values, pageimgUrl: imgUrl }
                     })
                     //if there is an error
+                    //TO DO
+                    // Fix the error message
                     if (response.errors) {
-                        setErrors({ pageTitle: "an error has occured with creating page" });
+                        setErrors({ pageTitle: "this is an error", pageText: "error on text" });
                         return;
                     }
                     resetForm();
@@ -145,6 +148,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
                     </Form>
                 )}
             </Formik>
+            {body ? body : null}
         </Responsive>
     );
 }

@@ -4,8 +4,7 @@ import React, { ReactElement } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
 import { Card } from '../components/Card';
-import { Layout } from '../components/Layout';
-import { usePagesQuery } from '../generated/graphql';
+import { useMeQuery, usePagesQuery } from '../generated/graphql';
 
 interface FeatureProps {
     text: string;
@@ -33,6 +32,7 @@ const Feature = ({ text, icon, iconBg }: FeatureProps) => {
 
 export const Home: React.FC<RouteComponentProps> = () => {
     const { data } = usePagesQuery();
+    const { data: meData } = useMeQuery();
     return (
         <Container maxW={'5xl'} py={12}>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
@@ -92,31 +92,24 @@ export const Home: React.FC<RouteComponentProps> = () => {
                     />
                 </Flex>
             </SimpleGrid>
-            <Box direction="row" h="500px" p={10}>
+            <Box direction="row" h="50px" p={10}>
                 <Divider orientation="horizontal" />
-                <Card />
-                <Layout>
-                    {!data ? (
-                        <Card />
-                    ) : (
-                        <Stack spacing={8}>
-                            {data!.pages.map((p) => !p ? null : (
-                                <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
-                                    <Box>
-                                        <Heading>{p.pageTitle}</Heading>
-                                    </Box>
-                                    <Text>Posted by: {p.creator.clubName}</Text>
-                                    <Box>
-                                        <Text>about us: {p.aboutUs}</Text>
-                                        <Text>description: {p.pageText}</Text>
-                                        {p.pageimgUrl ? <Image mx="auto" src={p.pageimgUrl} mt={3} maxH={500} /> : null}
-                                    </Box>
-                                </Flex>
-                            ))}
-                        </Stack>
-                    )}
-                </Layout>
             </Box>
+            {!data ? (
+                <Text fontWeight="medium">This is where the card will be</Text>
+            ) : (
+                <>
+                    {data!.pages.map((p) => !p ? null : (
+                        <Card
+                            key={p.id}
+                            creatorName={p.creator.clubName}
+                            userIsOwner={!!meData?.me && meData?.me.id === p.creator.id}
+                            {...p}
+                            headerLink
+                        />
+                    ))}
+                </>
+            )}
         </Container>
     );
 }
