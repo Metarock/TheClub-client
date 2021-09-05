@@ -70,6 +70,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
     return (
         <Responsive variant="small">
             <Formik
+                enableReinitialize
                 initialValues={{ pageTitle: '', pageText: '', aboutUs: '' }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     let imgUrl: string | undefined;

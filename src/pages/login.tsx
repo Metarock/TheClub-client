@@ -50,7 +50,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         setErrors(toErrorMap(response.data.login.errors));
                     }
                     else {
-                        history.push(`/edit/${response.data.login.user.id}`)
+                        // history.push(`/page/edit/${response.data.login.user.id}`)
                         history.push('/'); // if it work
                     }
                 }}>
