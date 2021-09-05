@@ -7,10 +7,9 @@ import { useMeQuery, usePageQuery } from '../generated/graphql';
 
 const Page: React.FC<RouteComponentProps> = ({ history }) => {
     const { id }: any = useParams(); //get id
-    const getId = parseInt(id);
 
 
-    const pageQuery = usePageQuery({ variables: { id: getId } });
+    const pageQuery = usePageQuery({ variables: { id } });
     console.log(pageQuery);
     const { data: meData } = useMeQuery();
 

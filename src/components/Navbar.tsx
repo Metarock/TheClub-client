@@ -4,6 +4,7 @@ import { Box, Button, Flex, Link, useColorMode } from "@chakra-ui/react";
 import React from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
+import { setAccessToken } from '../utils/accessToken';
 
 interface NavbarProps {
 
@@ -14,8 +15,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     const { colorMode } = useColorMode();
     const primaryColor = colorMode === "dark" ? "white" : "white";
     const { data, loading } = useMeQuery();
-    const apolloClient = useApolloClient();
-    const [logout, { loading: logoutFetching }] = useLogoutMutation();
+    const [logout, { client, loading: logoutFetching }] = useLogoutMutation();
 
 
     let body = null;
@@ -43,7 +43,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <Box mr={2}>Welcome: {data.me.clubUsername}</Box>
                 <Button onClick={async () => {
                     await logout();
-                    await apolloClient.resetStore()
+                    setAccessToken('');
+                    await client!.resetStore()
                 }}
                     bg={colorMode === "dark" ? "black" : "teal.500"}
                     color={primaryColor}

@@ -1,4 +1,4 @@
-query Page ($id: Int!){
+query Page ($id: String!){
   page(id: $id) {
     id
     pageTitle

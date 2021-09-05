@@ -22,25 +22,15 @@ export type FieldError = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: UserResponse;
-  register: UserResponse;
-  logout: Scalars['Boolean'];
   createPage: Page;
   editPage?: Maybe<Page>;
   deletePage: Scalars['Boolean'];
   createPost: Post;
   deletePost: Scalars['Boolean'];
-};
-
-
-export type MutationLoginArgs = {
-  password: Scalars['String'];
-  usernameOrEmail: Scalars['String'];
-};
-
-
-export type MutationRegisterArgs = {
-  options: UsernamePasswordInput;
+  revokeRefreshTokensForUser: Scalars['Boolean'];
+  login: UserResponse;
+  register: UserResponse;
+  logout: Scalars['Boolean'];
 };
 
 
@@ -56,12 +46,12 @@ export type MutationEditPageArgs = {
   aboutUs: Scalars['String'];
   pageText: Scalars['String'];
   pageTitle: Scalars['String'];
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
 export type MutationDeletePageArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
@@ -74,14 +64,30 @@ export type MutationDeletePostArgs = {
   id: Scalars['Int'];
 };
 
+
+export type MutationRevokeRefreshTokensForUserArgs = {
+  userId: Scalars['String'];
+};
+
+
+export type MutationLoginArgs = {
+  password: Scalars['String'];
+  usernameOrEmail: Scalars['String'];
+};
+
+
+export type MutationRegisterArgs = {
+  options: UsernamePasswordInput;
+};
+
 export type Page = {
   __typename?: 'Page';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   pageTitle: Scalars['String'];
   pageText: Scalars['String'];
   aboutUs: Scalars['String'];
   pageimgUrl?: Maybe<Scalars['String']>;
-  creatorId: Scalars['Float'];
+  creatorId: Scalars['String'];
   creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -89,7 +95,7 @@ export type Page = {
 
 export type Post = {
   __typename?: 'Post';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   title: Scalars['String'];
   text: Scalars['String'];
   postCreatorId: Scalars['Float'];
@@ -104,19 +110,17 @@ export type PostInput = {
 
 export type Query = {
   __typename?: 'Query';
-  hello: Scalars['String'];
-  azureupdated: Scalars['String'];
-  doubleChecking: Scalars['String'];
-  users: Array<User>;
-  me?: Maybe<User>;
   pages: Array<Page>;
   page?: Maybe<Page>;
   post?: Maybe<Post>;
+  hello: Scalars['String'];
+  users: Array<User>;
+  me?: Maybe<User>;
 };
 
 
 export type QueryPageArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
@@ -126,7 +130,7 @@ export type QueryPostArgs = {
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   email: Scalars['String'];
   university: Scalars['String'];
   clubUsername: Scalars['String'];
@@ -137,6 +141,7 @@ export type User = {
 
 export type UserResponse = {
   __typename?: 'UserResponse';
+  accessToken?: Maybe<Scalars['String']>;
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
 };
@@ -151,9 +156,9 @@ export type UsernamePasswordInput = {
 
 export type ErrorFragment = { __typename?: 'FieldError', field: string, message: string };
 
-export type RegularUserFragment = { __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string };
+export type RegularUserFragment = { __typename?: 'User', id: string, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string };
 
-export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
+export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: string, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
 
 export type CreatePageMutationVariables = Exact<{
   pageTitle: Scalars['String'];
@@ -163,24 +168,24 @@ export type CreatePageMutationVariables = Exact<{
 }>;
 
 
-export type CreatePageMutation = { __typename?: 'Mutation', createPage: { __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string } };
+export type CreatePageMutation = { __typename?: 'Mutation', createPage: { __typename?: 'Page', id: string, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string } };
 
 export type DeletePageMutationVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['String'];
 }>;
 
 
 export type DeletePageMutation = { __typename?: 'Mutation', deletePage: boolean };
 
 export type EditPageMutationVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['String'];
   pageTitle: Scalars['String'];
   aboutUs: Scalars['String'];
   pageText: Scalars['String'];
 }>;
 
 
-export type EditPageMutation = { __typename?: 'Mutation', editPage?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number }> };
+export type EditPageMutation = { __typename?: 'Mutation', editPage?: Maybe<{ __typename?: 'Page', id: string, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: string }> };
 
 export type LoginMutationVariables = Exact<{
   usernameOrEmail: Scalars['String'];
@@ -188,7 +193,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'UserResponse', accessToken?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: string, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -200,24 +205,24 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>>, user?: Maybe<{ __typename?: 'User', id: string, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: number, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', id: string, email: string, university: string, clubUsername: string, clubName: string, createdAt: string, updatedAt: string }> };
 
 export type PageQueryVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['String'];
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string } }> };
+export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: string, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string, creatorId: string, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: string, clubName: string, clubUsername: string } }> };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } }> };
+export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: string, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: string, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: string, clubName: string, clubUsername: string, email: string } }> };
 
 export const ErrorFragmentDoc = gql`
     fragment Error on FieldError {
@@ -293,7 +298,7 @@ export type CreatePageMutationHookResult = ReturnType<typeof useCreatePageMutati
 export type CreatePageMutationResult = Apollo.MutationResult<CreatePageMutation>;
 export type CreatePageMutationOptions = Apollo.BaseMutationOptions<CreatePageMutation, CreatePageMutationVariables>;
 export const DeletePageDocument = gql`
-    mutation deletePage($id: Int!) {
+    mutation deletePage($id: String!) {
   deletePage(id: $id)
 }
     `;
@@ -324,7 +329,7 @@ export type DeletePageMutationHookResult = ReturnType<typeof useDeletePageMutati
 export type DeletePageMutationResult = Apollo.MutationResult<DeletePageMutation>;
 export type DeletePageMutationOptions = Apollo.BaseMutationOptions<DeletePageMutation, DeletePageMutationVariables>;
 export const EditPageDocument = gql`
-    mutation EditPage($id: Int!, $pageTitle: String!, $aboutUs: String!, $pageText: String!) {
+    mutation EditPage($id: String!, $pageTitle: String!, $aboutUs: String!, $pageText: String!) {
   editPage(id: $id, pageTitle: $pageTitle, aboutUs: $aboutUs, pageText: $pageText) {
     id
     pageTitle
@@ -367,6 +372,7 @@ export type EditPageMutationOptions = Apollo.BaseMutationOptions<EditPageMutatio
 export const LoginDocument = gql`
     mutation Login($usernameOrEmail: String!, $password: String!) {
   login(usernameOrEmail: $usernameOrEmail, password: $password) {
+    accessToken
     ...UserResponse
   }
 }
@@ -496,7 +502,7 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const PageDocument = gql`
-    query Page($id: Int!) {
+    query Page($id: String!) {
   page(id: $id) {
     id
     pageTitle

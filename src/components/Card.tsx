@@ -7,7 +7,7 @@ import { useDeletePageMutation } from '../generated/graphql';
 import PageIcon from './PageIcon';
 
 interface CardProps {
-    id: number,
+    id: string,
     pageTitle: string;
     pageText: string;
     aboutUs: string

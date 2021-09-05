@@ -31,7 +31,7 @@ const Feature = ({ text, icon, iconBg }: FeatureProps) => {
 
 
 export const Home: React.FC<RouteComponentProps> = () => {
-    const { data } = usePagesQuery();
+    const { data } = usePagesQuery({ fetchPolicy: 'network-only' });
     const { data: meData } = useMeQuery();
     return (
         <Container maxW={'5xl'} py={12}>

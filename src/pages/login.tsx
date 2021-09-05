@@ -10,6 +10,7 @@ import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
+import { setAccessToken } from '../utils/accessToken';
 
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
@@ -32,12 +33,15 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                 onSubmit={async (values, { setErrors }) => {
                     const response = await login({
                         variables: values,
-                        update: (cache, { data }) => {
-                            cache.writeQuery<MeQuery>({
+                        update: (store, { data }) => {
+                            if (!data) {
+                                return null;
+                            }
+
+                            store.writeQuery<MeQuery>({
                                 query: MeDocument,
                                 data: {
-                                    __typename: "Query",
-                                    me: data?.login.user,
+                                    me: data.login.user
                                 }
                             })
                         }
@@ -51,6 +55,9 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                     }
                     else {
                         // history.push(`/page/edit/${response.data.login.user.id}`)
+                        if (response && response.data) {
+                            setAccessToken(response.data.login.accessToken);
+                        }
                         history.push('/'); // if it work
                     }
                 }}>

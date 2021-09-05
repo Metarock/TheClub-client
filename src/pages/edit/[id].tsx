@@ -9,7 +9,7 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     const getId = parseInt(id);
     console.log(getId);
 
-    const { data, loading } = usePageQuery({ variables: { id: getId } });
+    const { data, loading } = usePageQuery({ variables: { id } });
     console.log("Page ", data?.page.pageTitle);
     console.log("Page ", data?.page.pageText);
     console.log("Page ", data?.page.aboutUs);
@@ -39,7 +39,7 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
             console.log("edit");
             await updatePage({
                 variables: {
-                    id: getId,
+                    id: id,
                     pageTitle,
                     pageText,
                     aboutUs
