@@ -1,19 +1,19 @@
-import * as React from "react"
-import { Navbar } from "./components/Navbar"
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import client from "./utils/withApollo";
-import { Login } from "./pages/login";
-import { Home } from "./pages/home";
-import { Register } from "./pages/register";
+import * as React from "react";
+import { Route, Switch } from "react-router-dom";
 import { Footer } from "./components/Footer";
+import { Navbar } from "./components/Navbar";
 import { CreatePage } from "./pages/create-page";
-import Page from "./pages/[id]";
 import { EditPage } from "./pages/edit/[id]";
+import { Home } from "./pages/home";
+import { Login } from "./pages/login";
+import { Register } from "./pages/register";
+import Page from "./pages/[id]";
+import client from "./utils/withApollo";
 
 export const App = () => (
-  <ApolloProvider client={client}>
-    <BrowserRouter>
+  <>
+    <ApolloProvider client={client}>
       <Navbar />
       <Switch>
         <Route exact path="/" component={Home} />
@@ -24,6 +24,6 @@ export const App = () => (
         <Route exact path="/page/edit/:id" component={EditPage} />
       </Switch>
       <Footer />
-    </BrowserRouter>
-  </ApolloProvider>
+    </ApolloProvider>
+  </>
 )
