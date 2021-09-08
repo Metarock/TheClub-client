@@ -26,8 +26,26 @@ export const Navbar: React.FC<NavbarProps> = () => {
     } else if (!data?.me) {
         body = (
             <>
-                <Link mr={2} href="/login">Login</Link>
-                <Link mr={2} href="/register">Register</Link>
+                <Link mr={2} href="/login">
+                    <Button
+                        bg={colorMode === "dark" ? "black" : "teal.500"}
+                        color={primaryColor}
+                        mr={4}
+                        variant="outline"
+                    >
+                        Login
+                    </Button>
+                </Link>
+                <Link mr={2} href="/register">
+                    <Button
+                        bg={colorMode === "dark" ? "black" : "teal.500"}
+                        color={primaryColor}
+                        mr={4}
+                        variant="outline"
+                    >
+                        Register
+                    </Button>
+                </Link>
             </>
         )
     } else { //user logged
@@ -36,7 +54,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <Link href="/create-page">
                     <Button
                         bg={colorMode === "dark" ? "black" : "teal.500"}
-                        color={primaryColor} mr={4}>
+                        color={primaryColor} mr={4}
+                        variant="outline">
                         Create page
                     </Button>
                 </Link>

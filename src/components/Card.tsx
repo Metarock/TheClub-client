@@ -1,7 +1,9 @@
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
-import React, { useState } from 'react';
+import { IconButton } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDeletePageMutation } from '../generated/graphql';
 import PageIcon from './PageIcon';
@@ -63,16 +65,8 @@ export const Card: React.FC<CardProps> = ({
                 {userIsOwner ? (
                     <Flex direction="column" align="flex-end">
                         <Flex>
-                            <PageIcon
-                                Icon={FiEdit2}
-                                onClick={handleEditPage}
-                                loading={editLoading}
-                            />
-                            <PageIcon
-                                Icon={FiTrash2}
-                                onClick={handleDeletePage}
-                                loading={deleteLoading}
-                            />
+                            <IconButton aria-label="edit page" onClick={handleEditPage} icon={<EditIcon />} isloading={`${editLoading}`} />
+                            <IconButton aria-label="delete page" onClick={handleDeletePage} icon={<DeleteIcon isloading={`${deleteLoading}`} />} />
                         </Flex>
                     </Flex>
                 ) : null}
@@ -84,7 +78,7 @@ export const Card: React.FC<CardProps> = ({
                 <Text>{aboutUs}</Text>
                 <Text mt={3} whiteSpace="break-spaces">Description:</Text>
                 <Text fontWeight="medium">{pageText}</Text>
-                {pageimgUrl ? <Image mx="auto" src={pageimgUrl} mt={3} maxH={800} /> : null}
+                {pageimgUrl ? <Image mx="auto" objectFit="cover" src={pageimgUrl} mt={3} maxH={800} /> : null}
             </Box>
         </Box>
     );

@@ -38,7 +38,7 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     return (
         <Responsive variant="regular">
             <Formik
-                initialValues={{ pageTitle: data.page.pageTitle, pageText: data.page.pageText, aboutUs: data.page.aboutUs }}
+                initialValues={{ pageTitle: data.page.pageTitle, pageText: data.page.pageText, aboutUs: data.page.aboutUs, pageimgUrl: data.page.pageimgUrl }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
                     await updatePage({ variables: { id: getId, ...values } })
                     history.push("/");
@@ -65,6 +65,13 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
                                 name="aboutUs"
                                 placeholder="text..."
                                 label="About us"
+                            />
+                        </Box>
+                        <Box mt={4}>
+                            <InputField
+                                name="pageimgUrl"
+                                placeholder="text..."
+                                label="Image "
                             />
                         </Box>
                         <Button
