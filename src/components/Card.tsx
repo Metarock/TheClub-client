@@ -2,11 +2,9 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
 import { IconButton } from '@chakra-ui/react';
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDeletePageMutation } from '../generated/graphql';
-import PageIcon from './PageIcon';
 
 interface CardProps {
     id: number,
