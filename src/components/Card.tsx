@@ -76,7 +76,7 @@ export const Card: React.FC<CardProps> = ({
                 <Text>{aboutUs}</Text>
                 <Text mt={3} whiteSpace="break-spaces">Description:</Text>
                 <Text fontWeight="medium">{pageText}</Text>
-                {pageimgUrl ? <Image mx="auto" objectFit="cover" src={pageimgUrl} mt={3} maxH={800} /> : null}
+                {pageimgUrl ? <Image size="100px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={pageimgUrl} mt={3} maxH={800} /> : null}
             </Box>
         </Box>
     );
