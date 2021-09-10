@@ -16,7 +16,7 @@ export const Responsive: React.FC<ResponvieProps> = ({ children, variant = 'regu
         <Box
             mt={8}
             mx="auto"
-            maxW={variant === "regular" ? "800" : "400px"}
+            maxW={variant === "regular" ? "800px" : "400px"}
             w="100%"
         >
             {children}

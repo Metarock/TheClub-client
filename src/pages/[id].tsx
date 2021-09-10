@@ -1,5 +1,5 @@
 import { Image } from '@chakra-ui/image';
-import { Box, Flex, Grid, Stack, Text } from '@chakra-ui/layout';
+import { Box, Divider, Flex, Grid, Stack, Text } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
@@ -54,6 +54,9 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                         pr={3}
                         pt={5}
                         pb={5}
+                        display="inline-block"
+                        boxShadow="md"
+                        ml={100}
                     >
                         <Flex
                             display="flex"
@@ -71,9 +74,9 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                             >
                                 <Text
                                     textTransform={'uppercase'}
-                                    color={'teal.400'}
-                                    fontWeight={600}
-                                    fontSize={'xl'}
+                                    color={'teal.300'}
+                                    fontWeight={500}
+                                    fontSize="40px"
                                     bg={useColorModeValue('blue.50', 'blue.900')}
                                     p={2}
                                     alignSelf={'flex-start'}
@@ -81,49 +84,53 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                                     About us
                                 </Text>
                             </Flex>
-                            <Text>{page.aboutUs}</Text>
-                        </Flex>
-                    </Box>
-                </Stack>
-                <Stack>
-                    <Box
-                        borderRadius="lg"
-                        pl={3}
-                        pr={3}
-                        pt={5}
-                        pb={5}
-                    >
-                        <Flex
-                            display="flex"
-                            flexDirection="column"
-                            alignItems="center"
-                            justifyContent="center"
-                            textAlign="center"
-                            mt={4}>
-                            <Flex
-                                display="flex"
-                                flexDirection="row"
-                                alignItems="center"
-                                justifyContent="flex-start"
-                                mb={7}
-                            >
-                                <Text
-                                    textTransform={'uppercase'}
-                                    color={'teal.400'}
-                                    fontWeight={600}
-                                    fontSize={'xl'}
-                                    bg={useColorModeValue('blue.50', 'blue.900')}
-                                    p={2}
-                                    alignSelf={'flex-start'}
-                                    rounded={'md'}>
-                                    Description
-                                </Text>
-                            </Flex>
-                            <Text>{page.pageText}</Text>
+                            <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
                         </Flex>
                     </Box>
                 </Stack>
             </Grid>
+            <Divider width={1500} display="inline-block" orientation="horizontal" ml={550} />
+            <Box>
+                <Box
+                    borderRadius="lg"
+                    boxShadow="md"
+                    pl={3}
+                    pr={3}
+                    pt={5}
+                    pb={5}
+                    display="inline-block"
+                    ml={1000}
+                >
+                    <Flex
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justifyContent="center"
+                        textAlign="center"
+                        mt={4}>
+                        <Flex
+                            display="flex"
+                            flexDirection="row"
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            mb={7}
+                        >
+                            <Text
+                                textTransform={'uppercase'}
+                                color={'teal.300'}
+                                fontWeight={500}
+                                fontSize="50px"
+                                bg={useColorModeValue('blue.50', 'blue.900')}
+                                p={2}
+                                alignSelf={'flex-start'}
+                                rounded={'md'}>
+                                Description
+                            </Text>
+                        </Flex>
+                        <Text fontWeight={600} fontSize="22px">{page.pageText}</Text>
+                    </Flex>
+                </Box>
+            </Box>
         </>
     );
 }
