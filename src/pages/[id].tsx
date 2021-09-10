@@ -3,7 +3,7 @@ import { Box, Divider, Flex, Grid, Stack, Text } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
-import { usePageQuery } from '../generated/graphql';
+import { useMeQuery, usePageQuery } from '../generated/graphql';
 
 const Page: React.FC<RouteComponentProps> = ({ history }) => {
     const { id }: any = useParams(); //get id
@@ -12,12 +12,29 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
 
     const pageQuery = usePageQuery({ variables: { id: getId } });
     console.log(pageQuery);
+    const { data, loading } = useMeQuery();
     // const { data: meData } = useMeQuery({ fetchPolicy: "network-only" });
 
     const page = pageQuery.data?.page;
 
     if (page === undefined) return <p>loading</p>
     if (page === null) return <p>Page not found</p> //error 404
+
+    let body = null;
+
+    if (loading) {
+        //user is not logged in
+    }
+    else if (!!data?.me && data?.me.id === page.creator.id) { //if user and creator id match allow them to post
+        body = (
+            <>
+                <Flex align='center'>
+                    user and creator id is equal
+                </Flex>
+            </>
+        )
+    }
+
     return (
         <>
             <Flex
@@ -45,6 +62,7 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                         minHeight="250px"
                     />
                 </Box>
+                {body}
             </Flex>
             <Grid p={10} gap={6} templateColumns="repeat(2, 1fr)">
                 <Stack>
