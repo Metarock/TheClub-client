@@ -5,6 +5,7 @@ query Posts{
         text
         createdAt
         updatedAt
+        postimgUrl
         postCreatorId
         postCreator {
         creator {

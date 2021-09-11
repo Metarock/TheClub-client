@@ -1,29 +1,29 @@
-import { ApolloProvider } from "@apollo/client";
 import * as React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { CreatePage } from "./pages/create-page";
+import { CreatePost } from "./pages/create-post";
 import { EditPage } from "./pages/edit/[id]";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
+import { EditPost } from "./pages/postsEdit/[id]";
 import { Register } from "./pages/register";
-import Page from "./pages/[id]";
-import client from "./utils/withApollo";
+import { Page } from "./pages/[id]";
 
 export const App = () => (
   <>
-    <ApolloProvider client={client}>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/create-page" component={CreatePage} />
-        <Route exact path="/page/:id" component={Page} />
-        <Route exact path="/page/edit/:id" component={EditPage} />
-      </Switch>
-      <Footer />
-    </ApolloProvider>
+    <Navbar />
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/register" component={Register} />
+      <Route exact path="/create-page" component={CreatePage} />
+      <Route exact path="/create-post" component={CreatePost} />
+      <Route exact path="/pages/:id" component={Page} />
+      <Route exact path="/pages/edit/:id" component={EditPage} />
+      <Route exact path="/pages/postsEdit/:id" component={EditPost} />
+    </Switch>
+    <Footer />
   </>
 )

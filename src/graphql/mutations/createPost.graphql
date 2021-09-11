@@ -1,0 +1,11 @@
+mutation CreatePost($input: PostInput!, $postimgUrl: String) {
+    createPost(input: $input, postimgUrl: $postimgUrl){
+        id
+        title
+        text
+        postimgUrl
+        createdAt
+        updatedAt
+        postCreatorId
+    }
+}

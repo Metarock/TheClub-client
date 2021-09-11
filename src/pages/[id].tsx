@@ -1,12 +1,15 @@
+import { AddIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
+import { Button, IconButton, Link, useColorMode } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
+import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
 import { Layout } from '../components/Layout';
 import { useMeQuery, usePageQuery, usePostsQuery } from '../generated/graphql';
 
-const Page: React.FC<RouteComponentProps> = ({ history }) => {
+export const Page: React.FC<RouteComponentProps> = () => {
     const { id }: any = useParams(); //get id
     const getId = parseInt(id);
 
@@ -15,6 +18,8 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
     const { data: postData, error, loading: postLoading } = usePostsQuery();
     console.log(pageQuery);
     const { data, loading } = useMeQuery();
+    const { colorMode } = useColorMode();
+    const primaryColor = colorMode === "dark" ? "white" : "white";
     // const { data: meData } = useMeQuery({ fetchPolicy: "network-only" });
 
     const page = pageQuery.data?.page;
@@ -39,7 +44,13 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
         body = (
             <>
                 <Flex align='center'>
-                    user and creator id is equal
+                    <Link href={`/create-post`}>
+                        <IconButton
+                            aria-label="Create Post"
+                            size={'sm'}
+                            icon={<AddIcon />}
+                        />
+                    </Link>
                 </Flex>
             </>
         )
@@ -178,6 +189,12 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                                     <Text>Creator: {p.postCreator.creator.clubName}</Text>
                                     <Text>{p.text}</Text>
                                 </Box>
+                                <Flex align="center">
+                                    <Box ml="auto">
+                                        <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
+                                    </Box>
+                                </Flex>
+                                {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
                             </Flex>
                         ))}
                     </Stack>
@@ -186,5 +203,3 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
         </>
     );
 }
-
-export default Page;
