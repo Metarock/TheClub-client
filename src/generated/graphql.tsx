@@ -29,6 +29,7 @@ export type Mutation = {
   editPage?: Maybe<Page>;
   deletePage: Scalars['Boolean'];
   createPost: Post;
+  updatePost?: Maybe<Post>;
   deletePost: Scalars['Boolean'];
 };
 
@@ -70,6 +71,13 @@ export type MutationCreatePostArgs = {
 };
 
 
+export type MutationUpdatePostArgs = {
+  text: Scalars['String'];
+  title: Scalars['String'];
+  id: Scalars['Int'];
+};
+
+
 export type MutationDeletePostArgs = {
   id: Scalars['Int'];
 };
@@ -95,6 +103,8 @@ export type Post = {
   postCreatorId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+  textSnippet: Scalars['String'];
+  postCreator: Page;
 };
 
 export type PostInput = {
@@ -112,6 +122,7 @@ export type Query = {
   pages: Array<Page>;
   page?: Maybe<Page>;
   post?: Maybe<Post>;
+  posts: Array<Post>;
 };
 
 
@@ -218,6 +229,11 @@ export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } }> };
+
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, text: string, createdAt: string, updatedAt: string, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string } } }> };
 
 export const ErrorFragmentDoc = gql`
     fragment Error on FieldError {
@@ -589,3 +605,49 @@ export function usePagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Page
 export type PagesQueryHookResult = ReturnType<typeof usePagesQuery>;
 export type PagesLazyQueryHookResult = ReturnType<typeof usePagesLazyQuery>;
 export type PagesQueryResult = Apollo.QueryResult<PagesQuery, PagesQueryVariables>;
+export const PostsDocument = gql`
+    query Posts {
+  posts {
+    id
+    title
+    text
+    createdAt
+    updatedAt
+    postCreatorId
+    postCreator {
+      creator {
+        id
+        clubName
+        clubUsername
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __usePostsQuery__
+ *
+ * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+      }
+export function usePostsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
+        }
+export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
+export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
+export type PostsQueryResult = Apollo.QueryResult<PostsQuery, PostsQueryVariables>;

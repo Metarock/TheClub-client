@@ -40,7 +40,7 @@ export const Footer: React.FC = () => {
             bg={useColorModeValue('gray.50', 'gray.900')}
             color={useColorModeValue('gray.700', 'gray.200')}
             bottom={0}
-            position="fixed"
+            position="sticky"
             width="100%"
             textAlign="center">
             <Container

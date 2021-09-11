@@ -1,9 +1,10 @@
 import { Image } from '@chakra-ui/image';
-import { Box, Divider, Flex, Grid, Stack, Text } from '@chakra-ui/layout';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
-import { useMeQuery, usePageQuery } from '../generated/graphql';
+import { Layout } from '../components/Layout';
+import { useMeQuery, usePageQuery, usePostsQuery } from '../generated/graphql';
 
 const Page: React.FC<RouteComponentProps> = ({ history }) => {
     const { id }: any = useParams(); //get id
@@ -11,6 +12,7 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
 
 
     const pageQuery = usePageQuery({ variables: { id: getId } });
+    const { data: postData, error, loading: postLoading } = usePostsQuery();
     console.log(pageQuery);
     const { data, loading } = useMeQuery();
     // const { data: meData } = useMeQuery({ fetchPolicy: "network-only" });
@@ -21,6 +23,14 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
     if (page === null) return <p>Page not found</p> //error 404
 
     let body = null;
+    if (!postLoading && !postData) {
+        return (
+            <div>
+                <div>you got query failed for some reason</div>
+                <div>{error?.message}</div>
+            </div>
+        )
+    }
 
     if (loading) {
         //user is not logged in
@@ -33,6 +43,7 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                 </Flex>
             </>
         )
+
     }
 
     return (
@@ -91,7 +102,7 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                             textTransform={'uppercase'}
                             color={'teal.300'}
                             fontWeight={500}
-                            fontSize="40px"
+                            fontSize="50px"
                             bg={useColorModeValue('blue.50', 'blue.900')}
                             p={2}
                             alignSelf={'flex-start'}
@@ -142,6 +153,36 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                     </Flex>
                 </Box>
             </Box>
+            <Layout>
+                {!postData && postLoading ? (
+                    <div>Loading....</div>
+                ) : (
+                    <Stack display="block" spacing={8}>
+                        <Text
+                            textTransform={'uppercase'}
+                            color={'teal.300'}
+                            fontWeight={500}
+                            fontSize="50px"
+                            bg={useColorModeValue('blue.50', 'blue.900')}
+                            p={2}
+                            alignSelf={'flex-start'}
+                            rounded={'md'}>
+                            Posts
+                        </Text>
+                        {postData?.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
+                            <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
+                                <Box flex={1}>
+                                    <Heading fontSize="xl">
+                                        {p.title}
+                                    </Heading>
+                                    <Text>Creator: {p.postCreator.creator.clubName}</Text>
+                                    <Text>{p.text}</Text>
+                                </Box>
+                            </Flex>
+                        ))}
+                    </Stack>
+                )}
+            </Layout>
         </>
     );
 }

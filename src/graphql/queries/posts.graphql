@@ -1,0 +1,17 @@
+query Posts{
+    posts {
+        id
+        title
+        text
+        createdAt
+        updatedAt
+        postCreatorId
+        postCreator {
+        creator {
+            id
+            clubName
+            clubUsername
+        }
+        }
+  }
+}
