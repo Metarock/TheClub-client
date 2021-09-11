@@ -7,6 +7,7 @@ import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
 import { useCreatePageMutation } from '../generated/graphql';
 import { cloudinarySignature } from '../utils/utilCloudinary';
+import { v4 as uuidv4 } from 'uuid';
 
 export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
     const [file, setFile] = useState<File>();
@@ -21,7 +22,7 @@ export const CreatePage: React.FC<RouteComponentProps> = ({ history }) => {
         }
 
         const timestamp = Math.floor(Date.now() / 1000).toString();
-        const publicId = "test";
+        const publicId = uuidv4();
         const cloudinary_secret = process.env.REACT_APP_CLOUDINARY_SECRET ?? "";
 
         const signature = await cloudinarySignature({

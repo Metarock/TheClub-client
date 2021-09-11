@@ -51,7 +51,7 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                     alignItems="flex-start"
                     justifyContent="flex-start"
                 >
-                    <Text fontSize="3xl" fontWeight="bold">{page.pageTitle}</Text>
+                    <Text fontSize="xxx-large" fontWeight="bold">{page.pageTitle}</Text>
                 </Flex>
                 <Box>
                     <Image
@@ -64,60 +64,53 @@ const Page: React.FC<RouteComponentProps> = ({ history }) => {
                 </Box>
                 {body}
             </Flex>
-            <Grid p={10} gap={6} templateColumns="repeat(2, 1fr)">
-                <Stack>
-                    <Box
-                        borderRadius="lg"
-                        pl={3}
-                        pr={3}
-                        pt={5}
-                        pb={5}
-                        display="inline-block"
-                        boxShadow="md"
-                        ml={100}
+            <Box
+                borderRadius="lg"
+                pl={3}
+                pr={3}
+                pt={5}
+                pb={5}
+                display="inherit"
+                boxShadow="sm"
+            >
+                <Flex
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    textAlign="center"
+                    mt={4}>
+                    <Flex
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        justifyContent="flex-start"
+                        mb={7}
                     >
-                        <Flex
-                            display="flex"
-                            flexDirection="column"
-                            alignItems="center"
-                            justifyContent="center"
-                            textAlign="center"
-                            mt={4}>
-                            <Flex
-                                display="flex"
-                                flexDirection="row"
-                                alignItems="center"
-                                justifyContent="flex-start"
-                                mb={7}
-                            >
-                                <Text
-                                    textTransform={'uppercase'}
-                                    color={'teal.300'}
-                                    fontWeight={500}
-                                    fontSize="40px"
-                                    bg={useColorModeValue('blue.50', 'blue.900')}
-                                    p={2}
-                                    alignSelf={'flex-start'}
-                                    rounded={'md'}>
-                                    About us
-                                </Text>
-                            </Flex>
-                            <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
-                        </Flex>
-                    </Box>
-                </Stack>
-            </Grid>
-            <Divider width={1500} display="inline-block" orientation="horizontal" ml={550} />
+                        <Text
+                            textTransform={'uppercase'}
+                            color={'teal.300'}
+                            fontWeight={500}
+                            fontSize="40px"
+                            bg={useColorModeValue('blue.50', 'blue.900')}
+                            p={2}
+                            alignSelf={'flex-start'}
+                            rounded={'md'}>
+                            About us
+                        </Text>
+                    </Flex>
+                    <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
+                </Flex>
+            </Box>
             <Box>
                 <Box
                     borderRadius="lg"
-                    boxShadow="md"
+                    boxShadow="sm"
                     pl={3}
                     pr={3}
                     pt={5}
                     pb={5}
-                    display="inline-block"
-                    ml={1000}
+                    display="block"
                 >
                     <Flex
                         display="flex"
