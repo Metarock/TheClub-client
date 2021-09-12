@@ -25,4 +25,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: theClub
+        package: client/build
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D54EA4EAC66A41C8BABD080250EE3589 }}
