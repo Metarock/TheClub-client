@@ -7,7 +7,7 @@ import { CreatePost } from "./pages/create-post";
 import { EditPage } from "./pages/edit/[id]";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
-import { EditPost } from "./pages/postsEdit/[id]";
+import { EditPost } from "./pages/editPost/[id]";
 import { Register } from "./pages/register";
 import { Page } from "./pages/[id]";
 
@@ -22,7 +22,7 @@ export const App = () => (
       <Route exact path="/create-post" component={CreatePost} />
       <Route exact path="/pages/:id" component={Page} />
       <Route exact path="/pages/edit/:id" component={EditPage} />
-      <Route exact path="/pages/postsEdit/:id" component={EditPost} />
+      <Route exact path="/pages/editPost/:id" component={EditPost} />
     </Switch>
     <Footer />
   </>

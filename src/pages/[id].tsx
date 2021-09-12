@@ -1,13 +1,14 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
-import { Button, IconButton, Link, useColorMode } from '@chakra-ui/react';
+import { IconButton, Link } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
 import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
 import { Layout } from '../components/Layout';
 import { useMeQuery, usePageQuery, usePostsQuery } from '../generated/graphql';
+import { timeStamp } from '../utils/timeStamp';
 
 export const Page: React.FC<RouteComponentProps> = () => {
     const { id }: any = useParams(); //get id
@@ -18,9 +19,6 @@ export const Page: React.FC<RouteComponentProps> = () => {
     const { data: postData, error, loading: postLoading } = usePostsQuery();
     console.log(pageQuery);
     const { data, loading } = useMeQuery();
-    const { colorMode } = useColorMode();
-    const primaryColor = colorMode === "dark" ? "white" : "white";
-    // const { data: meData } = useMeQuery({ fetchPolicy: "network-only" });
 
     const page = pageQuery.data?.page;
 
@@ -84,7 +82,6 @@ export const Page: React.FC<RouteComponentProps> = () => {
                         minHeight="250px"
                     />
                 </Box>
-                {body}
             </Flex>
             <Box
                 borderRadius="lg"
@@ -165,36 +162,37 @@ export const Page: React.FC<RouteComponentProps> = () => {
                 </Box>
             </Box>
             <Layout>
+                <Text
+                    textTransform={'uppercase'}
+                    color={'teal.300'}
+                    fontWeight={500}
+                    fontSize="50px"
+                    bg={useColorModeValue('blue.50', 'blue.900')}
+                    p={2}
+                    alignSelf={'flex-start'}
+                    rounded={'md'}>
+                    Posts
+                </Text>
                 {!postData && postLoading ? (
                     <div>Loading....</div>
                 ) : (
                     <Stack display="block" spacing={8}>
-                        <Text
-                            textTransform={'uppercase'}
-                            color={'teal.300'}
-                            fontWeight={500}
-                            fontSize="50px"
-                            bg={useColorModeValue('blue.50', 'blue.900')}
-                            p={2}
-                            alignSelf={'flex-start'}
-                            rounded={'md'}>
-                            Posts
-                        </Text>
+                        {body}
                         {postData?.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
                             <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
                                 <Box flex={1}>
-                                    <Heading fontSize="xl">
-                                        {p.title}
-                                    </Heading>
-                                    <Text>Creator: {p.postCreator.creator.clubName}</Text>
-                                    <Text>{p.text}</Text>
-                                </Box>
-                                <Flex align="center">
                                     <Box ml="auto">
                                         <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
                                     </Box>
+                                    <Heading fontSize="xl">
+                                        {p.title}
+                                    </Heading>
+                                    <Text>Creator: {p.postCreator.creator.clubName}, {timeStamp(p.createdAt)}</Text>
+                                    <Text>{p.text}</Text>
+                                    {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
+                                </Box>
+                                <Flex align="center">
                                 </Flex>
-                                {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
                             </Flex>
                         ))}
                     </Stack>

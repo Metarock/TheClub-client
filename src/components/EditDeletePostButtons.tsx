@@ -18,7 +18,7 @@ export const EditDeletePostButtons: React.FC<EditDeletePostButtonsProps> = ({ id
     }
     return (
         <Box>
-            <Link href={`/pages/postsEdit/${encodeURIComponent(id)}`}>
+            <Link href={`/pages/editPost/${encodeURIComponent(id)}`}>
                 <IconButton
                     mr={4}
                     aria-label="Edit Post"

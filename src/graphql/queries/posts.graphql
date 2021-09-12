@@ -8,11 +8,11 @@ query Posts{
         postimgUrl
         postCreatorId
         postCreator {
-        creator {
-            id
-            clubName
-            clubUsername
-        }
+            creator {
+                id
+                clubName
+                clubUsername
+            }
         }
   }
 }

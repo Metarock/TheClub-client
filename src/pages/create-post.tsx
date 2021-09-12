@@ -1,13 +1,13 @@
-import { Box, Flex } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 import { Button, Image } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { v4 as uuidv4 } from 'uuid';
 import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
-import { useCreatePageMutation, useCreatePostMutation } from '../generated/graphql';
+import { useCreatePostMutation } from '../generated/graphql';
 import { cloudinarySignature } from '../utils/utilCloudinary';
-import { v4 as uuidv4 } from 'uuid';
 
 export const CreatePost: React.FC<RouteComponentProps> = ({ history }) => {
     const [file, setFile] = useState<File>();
@@ -67,7 +67,6 @@ export const CreatePost: React.FC<RouteComponentProps> = ({ history }) => {
         setFileUrl(URL.createObjectURL(newFile));
     }
 
-    let body = null;
     return (
         <Responsive variant="small">
             <Formik
@@ -92,7 +91,7 @@ export const CreatePost: React.FC<RouteComponentProps> = ({ history }) => {
                     history.push(`/pages/${post}`);
                 }}
             >
-                {({ values, isSubmitting }) => (
+                {({ isSubmitting }) => (
                     <Form id="newpost" style={{ width: "100%" }}>
                         <InputField
                             name="title"
@@ -109,7 +108,7 @@ export const CreatePost: React.FC<RouteComponentProps> = ({ history }) => {
                         </Box>
                         <Box mt={4}>
                             <Button ml={12} type="submit" isLoading={isSubmitting}>
-                                Create Page
+                                Create Post
                             </Button>
                             <label htmlFor="postImage">
                                 <Button mr={8} onClick={() => fileInputRef.current?.click()}>
