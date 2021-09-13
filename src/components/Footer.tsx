@@ -47,8 +47,8 @@ export const Footer: React.FC = () => {
         >
             <Container
                 as={Stack}
-                maxW={'6xl'}
-                py={4}
+                maxW={'5xl'}
+                py={2}
                 direction={{ base: 'column', md: 'row' }}
                 spacing={4}
                 justify={{ base: 'center', md: 'space-between' }}

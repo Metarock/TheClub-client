@@ -96,6 +96,12 @@ export type Page = {
   updatedAt: Scalars['String'];
 };
 
+export type PaginatedPosts = {
+  __typename?: 'PaginatedPosts';
+  posts: Array<Post>;
+  hasMore: Scalars['Boolean'];
+};
+
 export type Post = {
   __typename?: 'Post';
   id: Scalars['Float'];
@@ -119,7 +125,7 @@ export type Query = {
   pages: Array<Page>;
   page?: Maybe<Page>;
   post?: Maybe<Post>;
-  posts: Array<Post>;
+  posts: PaginatedPosts;
   hello: Scalars['String'];
   azureupdated: Scalars['String'];
   doubleChecking: Scalars['String'];
@@ -135,6 +141,12 @@ export type QueryPageArgs = {
 
 export type QueryPostArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryPostsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 export type User = {
@@ -263,10 +275,13 @@ export type PostQueryVariables = Exact<{
 
 export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, text: string, title: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } } }> };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: number, title: string, text: string, createdAt: string, updatedAt: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string } } }> };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, text: string, createdAt: string, updatedAt: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string } } }> } };
 
 export const ErrorFragmentDoc = gql`
     fragment Error on FieldError {
@@ -796,20 +811,23 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const PostsDocument = gql`
-    query Posts {
-  posts {
-    id
-    title
-    text
-    createdAt
-    updatedAt
-    postimgUrl
-    postCreatorId
-    postCreator {
-      creator {
-        id
-        clubName
-        clubUsername
+    query Posts($limit: Int!, $cursor: String) {
+  posts(limit: $limit, cursor: $cursor) {
+    hasMore
+    posts {
+      id
+      title
+      text
+      createdAt
+      updatedAt
+      postimgUrl
+      postCreatorId
+      postCreator {
+        creator {
+          id
+          clubName
+          clubUsername
+        }
       }
     }
   }
@@ -828,10 +846,12 @@ export const PostsDocument = gql`
  * @example
  * const { data, loading, error } = usePostsQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */
-export function usePostsQuery(baseOptions?: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
+export function usePostsQuery(baseOptions: Apollo.QueryHookOptions<PostsQuery, PostsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, options);
       }

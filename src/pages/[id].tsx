@@ -1,23 +1,29 @@
 import { AddIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
-import { IconButton, Link } from '@chakra-ui/react';
+import { Button, IconButton, Link } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
 import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
 import { Layout } from '../components/Layout';
-import { useMeQuery, usePageQuery, usePostsQuery } from '../generated/graphql';
+import { PostsQuery, useMeQuery, usePageQuery, usePostsQuery } from '../generated/graphql';
 import { timeStamp } from '../utils/timeStamp';
 
 export const Page: React.FC<RouteComponentProps> = () => {
-    const { id }: any = useParams(); //get id
-    const getId = parseInt(id);
+    const { id }: any = useParams(); //get id from the url
+    const getId = parseInt(id); //convert the id to integer
 
+    const pageQuery = usePageQuery({ variables: { id: getId } }); //get the specific page
 
-    const pageQuery = usePageQuery({ variables: { id: getId } });
-    const { data: postData, error, loading: postLoading } = usePostsQuery();
+    const { data: postData, error, loading: postLoading, fetchMore, variables } = usePostsQuery(
+        {
+            variables: { limit: 5, cursor: null },
+            notifyOnNetworkStatusChange: true
+        });
+
     console.log(pageQuery);
+
     const { data, loading } = useMeQuery();
 
     const page = pageQuery.data?.page;
@@ -178,7 +184,9 @@ export const Page: React.FC<RouteComponentProps> = () => {
                 ) : (
                     <Stack display="block" spacing={8}>
                         {body}
-                        {postData?.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
+                        {/* .filter helps us distinguish which posts correlates with the page. Whether
+                         it is the same owner/user that posts it */}
+                        {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
                             <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
                                 <Box flex={1}>
                                     <Box ml="auto">
@@ -197,6 +205,37 @@ export const Page: React.FC<RouteComponentProps> = () => {
                         ))}
                     </Stack>
                 )}
+                {postData && postData.posts.hasMore ? (
+                    <Flex>
+                        <Button onClick={() => {
+                            fetchMore({
+                                variables: {
+                                    limit: variables?.limit,
+                                    cursor: postData.posts.posts[postData.posts.posts.length - 1].createdAt,
+                                },
+                                updateQuery: (prevValue, { fetchMoreResult }): PostsQuery => {
+                                    if (!fetchMoreResult) {
+                                        return prevValue as PostsQuery
+                                    }
+
+                                    return {
+                                        __typename: 'Query',
+                                        posts: {
+                                            __typename: 'PaginatedPosts',
+                                            hasMore: (fetchMoreResult as PostsQuery).posts.hasMore,
+                                            posts: [
+                                                ...(prevValue as PostsQuery).posts.posts,
+                                                ...(fetchMoreResult as PostsQuery).posts.posts
+                                            ]
+                                        }
+                                    }
+                                }
+                            })
+                        }} isLoading={postLoading} m="auto" my={8}>
+                            load more
+                        </Button>
+                    </Flex>
+                ) : null}
             </Layout>
         </>
     );
