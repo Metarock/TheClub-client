@@ -19,15 +19,7 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     console.log("Page ", data?.page.pageText);
     console.log("Page ", data?.page.aboutUs);
     const [updatePage] = useEditPageMutation();
-    if (loading) {
-        return (
-            <Layout>
-                <div>Loading....</div>
-            </Layout>
-        )
-    }
-
-    if (!data?.page) {
+    if (loading || !data?.page) {
         return (
             <Layout>
                 <div>Loading....</div>
@@ -80,7 +72,7 @@ export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
                             isLoading={isSubmitting}
                             colorScheme="teal"
                         >
-                            Update post
+                            Update page
                         </Button>
 
                     </Form>
