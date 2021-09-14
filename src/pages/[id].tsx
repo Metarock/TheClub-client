@@ -1,7 +1,6 @@
-import { AddIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Container, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
-import { Button, IconButton, Link } from '@chakra-ui/react';
+import { Button, Link } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
@@ -49,11 +48,10 @@ export const Page: React.FC<RouteComponentProps> = () => {
             <>
                 <Flex align='center'>
                     <Link href={`/create-post`}>
-                        <IconButton
-                            aria-label="Create Post"
-                            size={'sm'}
-                            icon={<AddIcon />}
-                        />
+                        <Button
+                            variant="unstyled">
+                            Create page
+                        </Button>
                     </Link>
                 </Flex>
             </>
@@ -80,6 +78,19 @@ export const Page: React.FC<RouteComponentProps> = () => {
                     >
                         <Text fontSize="xxx-large" fontWeight="bold">{page.pageTitle}</Text>
                     </Flex>
+                    <Box>
+                        <Text
+                            textTransform={'uppercase'}
+                            color={'blue.400'}
+                            fontWeight={600}
+                            fontSize={'sm'}
+                            bg={useColorModeValue('blue.50', 'blue.900')}
+                            p={2}
+                            alignSelf={'center'}
+                            rounded={'md'}>
+                            University: {page.creator.university}
+                        </Text>
+                    </Box>
                     <Box>
                         <Image
                             size="150px"
@@ -117,7 +128,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                 textTransform={'uppercase'}
                                 color={'teal.300'}
                                 fontWeight={500}
-                                fontSize="50px"
+                                fontSize="38px"
                                 bg={useColorModeValue('blue.50', 'blue.900')}
                                 p={2}
                                 alignSelf={'flex-start'}
@@ -156,7 +167,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                     textTransform={'uppercase'}
                                     color={'teal.300'}
                                     fontWeight={500}
-                                    fontSize="50px"
+                                    fontSize="38px"
                                     bg={useColorModeValue('blue.50', 'blue.900')}
                                     p={2}
                                     alignSelf={'flex-start'}
@@ -173,7 +184,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                         textTransform={'uppercase'}
                         color={'teal.300'}
                         fontWeight={500}
-                        fontSize="50px"
+                        fontSize="38px"
                         bg={useColorModeValue('blue.50', 'blue.900')}
                         p={2}
                         alignSelf={'flex-start'}
@@ -190,14 +201,14 @@ export const Page: React.FC<RouteComponentProps> = () => {
                             {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
                                 <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
                                     <Box flex={1}>
-                                        <Box ml="auto">
-                                            <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
-                                        </Box>
                                         <Heading fontSize="xl">
                                             {p.title}
                                         </Heading>
                                         <Text>Creator: {p.postCreator.creator.clubName}, {timeStamp(p.createdAt)}</Text>
                                         <Text>{p.text}</Text>
+                                        <Box ml="auto">
+                                            <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
+                                        </Box>
                                         {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
                                     </Box>
                                     <Flex align="center">
@@ -206,6 +217,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                             ))}
                         </Stack>
                     )}
+                    {/* This is for pagination for posts */}
                     {postData && postData.posts.hasMore ? (
                         <Flex>
                             <Button onClick={() => {

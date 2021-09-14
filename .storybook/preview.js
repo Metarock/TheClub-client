@@ -24,8 +24,3 @@ addDecorator(storyFn => (
   </ApolloProvider>
 ))
 
-export const parameters = {
-  apolloClient: {
-    MockedProvider,
-  }
-}

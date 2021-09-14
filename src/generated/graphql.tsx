@@ -261,19 +261,19 @@ export type PageQueryVariables = Exact<{
 }>;
 
 
-export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string } }> };
+export type PageQuery = { __typename?: 'Query', page?: Maybe<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, pageimgUrl?: Maybe<string>, aboutUs: string, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string, university: string } }> };
 
 export type PagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } }> };
+export type PagesQuery = { __typename?: 'Query', pages: Array<{ __typename?: 'Page', id: number, pageTitle: string, pageText: string, aboutUs: string, pageimgUrl?: Maybe<string>, creatorId: number, createdAt: string, updatedAt: string, creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string, university: string } }> };
 
 export type PostQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, text: string, title: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string, university: string } } }> };
+export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: number, createdAt: string, updatedAt: string, text: string, title: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } } }> };
 
 export type PostsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -281,7 +281,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, text: string, createdAt: string, updatedAt: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string, university: string } } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, text: string, createdAt: string, updatedAt: string, postimgUrl?: Maybe<string>, postCreatorId: number, postCreator: { __typename?: 'Page', creator: { __typename?: 'User', id: number, clubName: string, clubUsername: string, email: string } } }> } };
 
 export const ErrorFragmentDoc = gql`
     fragment Error on FieldError {
@@ -680,6 +680,8 @@ export const PageDocument = gql`
       id
       clubName
       clubUsername
+      email
+      university
     }
     createdAt
     updatedAt
@@ -727,6 +729,7 @@ export const PagesDocument = gql`
       clubName
       clubUsername
       email
+      university
     }
     creatorId
     createdAt
@@ -777,7 +780,6 @@ export const PostDocument = gql`
         clubName
         clubUsername
         email
-        university
       }
     }
   }
@@ -829,7 +831,6 @@ export const PostsDocument = gql`
           clubName
           clubUsername
           email
-          university
         }
       }
     }

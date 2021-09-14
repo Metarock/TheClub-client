@@ -1,9 +1,7 @@
+import { Story } from '@storybook/react';
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
-import { PageIconProps, PageIcon } from './PageIcon';
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
-import { IconType } from 'react-icons';
+import { PageIcon, PageIconProps } from './PageIcon';
 
 export default {
     title: "Example/Icon",

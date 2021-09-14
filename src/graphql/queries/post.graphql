@@ -13,7 +13,6 @@ query Post($id: Int!) {
         clubName
         clubUsername
         email
-        university
       }
     }
   }

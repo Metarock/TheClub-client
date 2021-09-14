@@ -21,6 +21,7 @@ export const EditDeletePostButtons: React.FC<EditDeletePostButtonsProps> = ({ id
             <Link href={`/pages/editPost/${encodeURIComponent(id)}`}>
                 <IconButton
                     mr={4}
+                    size="sm"
                     aria-label="Edit Post"
                     icon={<EditIcon />}
                 />
@@ -28,6 +29,7 @@ export const EditDeletePostButtons: React.FC<EditDeletePostButtonsProps> = ({ id
             <IconButton
                 mr={4}
                 aria-label="Edit Post"
+                size="sm"
                 icon={<DeleteIcon />}
                 onClick={async () => {
                     await deletePost({
