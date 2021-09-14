@@ -36,13 +36,25 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "gen": "graphql-codegen --config codegen.yml"
+    "gen": "graphql-codegen --config codegen.yml",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
       "react-hooks/rules-of-hooks": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
   },
   "browserslist": {
     "production": [
@@ -61,7 +73,14 @@
     "@graphql-codegen/typescript": "2.1.2",
     "@graphql-codegen/typescript-operations": "2.1.2",
     "@graphql-codegen/typescript-react-apollo": "3.1.2",
+    "@storybook/addon-actions": "^6.3.8",
+    "@storybook/addon-essentials": "^6.3.8",
+    "@storybook/addon-links": "^6.3.8",
+    "@storybook/node-logger": "^6.3.8",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.3.8",
     "@types/react-router-dom": "^5.1.8",
-    "@types/uuid": "^8.3.1"
+    "@types/uuid": "^8.3.1",
+    "storybook-addon-apollo-client": "^4.0.9"
   }
 }

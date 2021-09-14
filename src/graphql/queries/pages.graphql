@@ -10,6 +10,7 @@ query Pages {
             clubName
             clubUsername
             email
+            university
         }
         creatorId
         createdAt

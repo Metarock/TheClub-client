@@ -1,7 +1,7 @@
 
 import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
-import { Heading, Link, Text } from '@chakra-ui/react';
+import { Heading, Link, Text, useToast } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -14,6 +14,7 @@ import { toErrorMap } from '../utils/toErrorMap';
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
     const [login] = useLoginMutation();
+    const toast = useToast()
 
     return (
         <Responsive variant="small">
@@ -71,6 +72,16 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         <Button
                             mt={4}
                             type="submit"
+                            onClick={() => {
+                                toast({
+                                    position: 'bottom-right',
+                                    title: "Logged in",
+                                    description: "You have successfully logged in",
+                                    status: "success",
+                                    duration: 2000,
+                                    isClosable: true,
+                                })
+                            }}
                             isLoading={isSubmitting}
                             colorScheme="teal"
                         >

@@ -1,7 +1,6 @@
-import { AddIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
-import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
-import { Button, IconButton, Link } from '@chakra-ui/react';
+import { Box, Container, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
+import { Button, Link } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
@@ -49,11 +48,10 @@ export const Page: React.FC<RouteComponentProps> = () => {
             <>
                 <Flex align='center'>
                     <Link href={`/create-post`}>
-                        <IconButton
-                            aria-label="Create Post"
-                            size={'sm'}
-                            icon={<AddIcon />}
-                        />
+                        <Button
+                            variant="unstyled">
+                            Create page
+                        </Button>
                     </Link>
                 </Flex>
             </>
@@ -63,79 +61,54 @@ export const Page: React.FC<RouteComponentProps> = () => {
 
     return (
         <>
-            <Flex
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                textAlign="center"
-                mt={4}
-            >
-                <Flex
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="flex-start"
-                    justifyContent="flex-start"
-                >
-                    <Text fontSize="xxx-large" fontWeight="bold">{page.pageTitle}</Text>
-                </Flex>
-                <Box>
-                    <Image
-                        size="150px"
-                        src={page.pageimgUrl}
-                        width="150%"
-                        height="auto"
-                        minHeight="250px"
-                    />
-                </Box>
-            </Flex>
-            <Box
-                borderRadius="lg"
-                pl={3}
-                pr={3}
-                pt={5}
-                pb={5}
-                display="inherit"
-                boxShadow="sm"
-            >
+            <Container maxW={'5xl'} py={12}>
                 <Flex
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
                     justifyContent="center"
                     textAlign="center"
-                    mt={4}>
+                    mt={4}
+                >
                     <Flex
                         display="flex"
                         flexDirection="row"
-                        alignItems="center"
+                        alignItems="flex-start"
                         justifyContent="flex-start"
-                        mb={7}
                     >
+                        <Text fontSize="xxx-large" fontWeight="bold">{page.pageTitle}</Text>
+                    </Flex>
+                    <Box>
                         <Text
                             textTransform={'uppercase'}
-                            color={'teal.300'}
-                            fontWeight={500}
-                            fontSize="50px"
+                            color={'blue.400'}
+                            fontWeight={600}
+                            fontSize={'sm'}
                             bg={useColorModeValue('blue.50', 'blue.900')}
                             p={2}
-                            alignSelf={'flex-start'}
+                            alignSelf={'center'}
                             rounded={'md'}>
-                            About us
+                            University: {page.creator.university}
                         </Text>
-                    </Flex>
-                    <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
+                    </Box>
+                    <Box>
+                        <Image
+                            size="150px"
+                            src={page.pageimgUrl}
+                            width="150%"
+                            height="auto"
+                            minHeight="250px"
+                        />
+                    </Box>
                 </Flex>
-            </Box>
-            <Box>
                 <Box
                     borderRadius="lg"
-                    boxShadow="sm"
                     pl={3}
                     pr={3}
                     pt={5}
                     pb={5}
-                    display="block"
+                    display="inherit"
+                    boxShadow="sm"
                 >
                     <Flex
                         display="flex"
@@ -155,88 +128,129 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                 textTransform={'uppercase'}
                                 color={'teal.300'}
                                 fontWeight={500}
-                                fontSize="50px"
+                                fontSize="38px"
                                 bg={useColorModeValue('blue.50', 'blue.900')}
                                 p={2}
                                 alignSelf={'flex-start'}
                                 rounded={'md'}>
-                                Description
+                                About us
                             </Text>
                         </Flex>
-                        <Text fontWeight={600} fontSize="22px">{page.pageText}</Text>
+                        <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
                     </Flex>
                 </Box>
-            </Box>
-            <Layout>
-                <Text
-                    textTransform={'uppercase'}
-                    color={'teal.300'}
-                    fontWeight={500}
-                    fontSize="50px"
-                    bg={useColorModeValue('blue.50', 'blue.900')}
-                    p={2}
-                    alignSelf={'flex-start'}
-                    rounded={'md'}>
-                    Posts
-                </Text>
-                {!postData && postLoading ? (
-                    <div>Loading....</div>
-                ) : (
-                    <Stack display="block" spacing={8}>
-                        {body}
-                        {/* .filter helps us distinguish which posts correlates with the page. Whether
-                         it is the same owner/user that posts it */}
-                        {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
-                            <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
-                                <Box flex={1}>
-                                    <Box ml="auto">
-                                        <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
-                                    </Box>
-                                    <Heading fontSize="xl">
-                                        {p.title}
-                                    </Heading>
-                                    <Text>Creator: {p.postCreator.creator.clubName}, {timeStamp(p.createdAt)}</Text>
-                                    <Text>{p.text}</Text>
-                                    {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
-                                </Box>
-                                <Flex align="center">
-                                </Flex>
+                <Box>
+                    <Box
+                        borderRadius="lg"
+                        boxShadow="sm"
+                        pl={3}
+                        pr={3}
+                        pt={5}
+                        pb={5}
+                        display="block"
+                    >
+                        <Flex
+                            display="flex"
+                            flexDirection="column"
+                            alignItems="center"
+                            justifyContent="center"
+                            textAlign="center"
+                            mt={4}>
+                            <Flex
+                                display="flex"
+                                flexDirection="row"
+                                alignItems="center"
+                                justifyContent="flex-start"
+                                mb={7}
+                            >
+                                <Text
+                                    textTransform={'uppercase'}
+                                    color={'teal.300'}
+                                    fontWeight={500}
+                                    fontSize="38px"
+                                    bg={useColorModeValue('blue.50', 'blue.900')}
+                                    p={2}
+                                    alignSelf={'flex-start'}
+                                    rounded={'md'}>
+                                    Description
+                                </Text>
                             </Flex>
-                        ))}
-                    </Stack>
-                )}
-                {postData && postData.posts.hasMore ? (
-                    <Flex>
-                        <Button onClick={() => {
-                            fetchMore({
-                                variables: {
-                                    limit: variables?.limit,
-                                    cursor: postData.posts.posts[postData.posts.posts.length - 1].createdAt,
-                                },
-                                updateQuery: (prevValue, { fetchMoreResult }): PostsQuery => {
-                                    if (!fetchMoreResult) {
-                                        return prevValue as PostsQuery
-                                    }
+                            <Text fontWeight={600} fontSize="22px">{page.pageText}</Text>
+                        </Flex>
+                    </Box>
+                </Box>
+                <Layout>
+                    <Text
+                        textTransform={'uppercase'}
+                        color={'teal.300'}
+                        fontWeight={500}
+                        fontSize="38px"
+                        bg={useColorModeValue('blue.50', 'blue.900')}
+                        p={2}
+                        alignSelf={'flex-start'}
+                        rounded={'md'}>
+                        Posts
+                    </Text>
+                    {!postData && postLoading ? (
+                        <div>Loading....</div>
+                    ) : (
+                        <Stack display="block" spacing={8}>
+                            {body}
+                            {/* .filter helps us distinguish which posts correlates with the page. Whether
+                         it is the same owner/user that posts it */}
+                            {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
+                                <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
+                                    <Box flex={1}>
+                                        <Heading fontSize="xl">
+                                            {p.title}
+                                        </Heading>
+                                        <Text>Creator: {p.postCreator.creator.clubName}, {timeStamp(p.createdAt)}</Text>
+                                        <Text>{p.text}</Text>
+                                        <Box ml="auto">
+                                            <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
+                                        </Box>
+                                        {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
+                                    </Box>
+                                    <Flex align="center">
+                                    </Flex>
+                                </Flex>
+                            ))}
+                        </Stack>
+                    )}
+                    {/* This is for pagination for posts */}
+                    {postData && postData.posts.hasMore ? (
+                        <Flex>
+                            <Button onClick={() => {
+                                fetchMore({
+                                    variables: {
+                                        limit: variables?.limit,
+                                        cursor: postData.posts.posts[postData.posts.posts.length - 1].createdAt,
+                                    },
+                                    updateQuery: (prevValue, { fetchMoreResult }): PostsQuery => {
+                                        if (!fetchMoreResult) {
+                                            return prevValue as PostsQuery
+                                        }
 
-                                    return {
-                                        __typename: 'Query',
-                                        posts: {
-                                            __typename: 'PaginatedPosts',
-                                            hasMore: (fetchMoreResult as PostsQuery).posts.hasMore,
-                                            posts: [
-                                                ...(prevValue as PostsQuery).posts.posts,
-                                                ...(fetchMoreResult as PostsQuery).posts.posts
-                                            ]
+                                        return {
+                                            __typename: 'Query',
+                                            posts: {
+                                                __typename: 'PaginatedPosts',
+                                                hasMore: (fetchMoreResult as PostsQuery).posts.hasMore,
+                                                posts: [
+                                                    ...(prevValue as PostsQuery).posts.posts,
+                                                    ...(fetchMoreResult as PostsQuery).posts.posts
+                                                ]
+                                            }
                                         }
                                     }
-                                }
-                            })
-                        }} isLoading={postLoading} m="auto" my={8}>
-                            load more
-                        </Button>
-                    </Flex>
-                ) : null}
-            </Layout>
+                                })
+                            }} isLoading={postLoading} m="auto" my={8}>
+                                load more
+                            </Button>
+                        </Flex>
+                    ) : null}
+                </Layout>
+            </Container>
         </>
     );
 }

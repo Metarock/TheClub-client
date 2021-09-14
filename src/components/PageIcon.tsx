@@ -3,13 +3,13 @@ import { Spinner } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
 
-export interface PostIconProps {
+export interface PageIconProps {
     Icon: IconType;
     onClick?: () => void;
     loading?: boolean;
 }
 
-const PageIcon: React.FC<PostIconProps> = ({
+export const PageIcon: React.FC<PageIconProps> = ({
     Icon,
     onClick,
     loading = false,
@@ -20,5 +20,3 @@ const PageIcon: React.FC<PostIconProps> = ({
         <Icon size={18} style={{ marginLeft: 8 }} onClick={onClick} />
     );
 };
-
-export default PageIcon;

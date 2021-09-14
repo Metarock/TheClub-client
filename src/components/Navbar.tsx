@@ -1,6 +1,6 @@
 
 import { useApolloClient } from '@apollo/client';
-import { Box, Button, Flex, Link, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, useColorMode, useToast } from "@chakra-ui/react";
 import React from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
@@ -16,7 +16,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     const { data, loading } = useMeQuery();
     const apolloClient = useApolloClient();
     const [logout, { loading: logoutFetching }] = useLogoutMutation();
-
+    const toast = useToast()
 
     let body = null;
 
@@ -62,12 +62,21 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <Box mr={2}>Welcome: {data.me.clubUsername}</Box>
                 <Button onClick={async () => {
                     await logout();
-                    await apolloClient.resetStore()
+                    await apolloClient.resetStore();
+                    await toast({
+                        position: "bottom-right",
+                        title: "Logged out",
+                        description: "Looking forward to see you again!",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                    })
                 }}
                     bg={colorMode === "dark" ? "black" : "teal.500"}
                     color={primaryColor}
                     isLoading={logoutFetching}
-                    varaint="link">logout</Button>
+                    varaint="link">logout
+                </Button>
             </Flex>)
     }
     return (
