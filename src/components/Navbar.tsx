@@ -67,7 +67,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
                     bg={colorMode === "dark" ? "black" : "teal.500"}
                     color={primaryColor}
                     isLoading={logoutFetching}
-                    varaint="link">logout</Button>
+                    varaint="link">logout
+                </Button>
             </Flex>)
     }
     return (
