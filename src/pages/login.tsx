@@ -10,12 +10,17 @@ import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
+import { facebookProvider, googleProvider, githubProvider } from '../utils/firebase-authmethod';
+import socialMediaAuth from '../utils/firebase-auth';
 
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
     const [login] = useLoginMutation();
     const toast = useToast()
-
+    const handleClick = async (provider: any) => {
+        const res = await socialMediaAuth(provider);
+        console.log("worked social media: ", res);
+    }
     return (
         <Responsive variant="small">
             <Box>
@@ -86,6 +91,21 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                             colorScheme="teal"
                         >
                             Login
+                        </Button>
+                        <Button onClick={() => {
+                            handleClick(facebookProvider);
+                        }}>
+                            Facebook
+                        </Button>
+                        <Button onClick={() => {
+                            handleClick(googleProvider);
+                        }}>
+                            Google
+                        </Button>
+                        <Button onClick={() => {
+                            handleClick(githubProvider);
+                        }}>
+                            Github
                         </Button>
                     </Form>
                 )}
