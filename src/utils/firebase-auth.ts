@@ -2,7 +2,7 @@ import firebase from "./firebase-config";
 
 const socialMediaAuth = (provider: any) => {
     return firebase.auth().signInWithPopup(provider).then((res) => {
-        return res.user;
+        return res.user; //user info
     })
         .catch((err) => {
             console.log("There is an error");

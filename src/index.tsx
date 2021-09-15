@@ -8,7 +8,7 @@ import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
 import client from "./utils/withApollo"
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <ChakraProvider theme={theme}>
     <BrowserRouter>
       <ApolloProvider client={client}>

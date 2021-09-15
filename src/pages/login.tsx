@@ -1,8 +1,8 @@
 
 import { Button } from '@chakra-ui/button';
+import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Box } from '@chakra-ui/layout';
 import { Heading, Link, Text, useToast } from '@chakra-ui/react';
-import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -10,17 +10,14 @@ import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
 import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
-import { facebookProvider, googleProvider, githubProvider } from '../utils/firebase-authmethod';
-import socialMediaAuth from '../utils/firebase-auth';
 
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
-
+    /**
+     * TO DO: 
+     * Able to distinguish whether if the user is logging in via social media or theclub's own authentication
+     */
     const [login] = useLoginMutation();
     const toast = useToast()
-    const handleClick = async (provider: any) => {
-        const res = await socialMediaAuth(provider);
-        console.log("worked social media: ", res);
-    }
     return (
         <Responsive variant="small">
             <Box>
@@ -91,21 +88,6 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                             colorScheme="teal"
                         >
                             Login
-                        </Button>
-                        <Button onClick={() => {
-                            handleClick(facebookProvider);
-                        }}>
-                            Facebook
-                        </Button>
-                        <Button onClick={() => {
-                            handleClick(googleProvider);
-                        }}>
-                            Google
-                        </Button>
-                        <Button onClick={() => {
-                            handleClick(githubProvider);
-                        }}>
-                            Github
                         </Button>
                     </Form>
                 )}
