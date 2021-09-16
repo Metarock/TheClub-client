@@ -1,11 +1,19 @@
-import { Box, Container, Divider, Flex, Heading, Image, SimpleGrid, Stack, StackDivider, Text } from '@chakra-ui/react';
+import { Box, Container, Divider, Flex, Heading, Image, Input, SimpleGrid, Stack, StackDivider, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
 import { Card } from '../components/Card';
-import { useMeQuery, usePagesQuery } from '../generated/graphql';
+import { Clublist } from '../components/Clublist';
+import { InputField } from '../components/InputField';
+import { Search } from '../components/Search';
+import { PagesQuery, useMeQuery, usePagesQuery } from '../generated/graphql';
 
+/**
+ * TO DO 
+ * 
+ * Add a filter search
+ */
 interface FeatureProps {
     text: string;
     iconBg: string;
@@ -33,83 +41,113 @@ const Feature = ({ text, icon, iconBg }: FeatureProps) => {
 export const Home: React.FC<RouteComponentProps> = () => {
     const { data } = usePagesQuery();
     const { data: meData } = useMeQuery();
-    return (
-        <Container maxW={'5xl'} py={12}>
-            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                <Stack spacing={4}>
-                    <Text
-                        textTransform={'uppercase'}
-                        color={'blue.400'}
-                        fontWeight={600}
-                        fontSize={'sm'}
-                        bg={useColorModeValue('blue.50', 'blue.900')}
-                        p={2}
-                        alignSelf={'flex-start'}
-                        rounded={'md'}>
-                        Our Story: Prove this is working
-                    </Text>
-                    <Heading>A platform for all University Clubs</Heading>
-                    <Text color={'gray.500'} fontSize={'lg'}>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                        nonumy eirmod tempor invidunt ut labore
-                    </Text>
-                    <Stack
-                        spacing={4}
-                        divider={
-                            <StackDivider
-                                borderColor={useColorModeValue('gray.100', 'gray.700')}
+    const [searchQuery, setSearchQuery] = useState('');
+    const [clubListDefault, setClubListDefault] = useState([]);
+    const [clubList, setClubList] = useState([]);
+    const [isLoad, setIsLoaded] = useState(false);
+
+    if (!data) {
+        <div>Something wrong</div>
+    }
+
+
+    const updateInput = async (input: any) => {
+        const filtered = clubListDefault.filter((club) => {
+            return club.creator.clubName === input
+        })
+        console.log('setClubList ', clubList);
+        console.log('setClubListDefault ', clubListDefault);
+        console.log('input', input);
+        setSearchQuery(input)
+        setClubList(filtered);
+        console.log('filtered', filtered)
+    }
+
+
+    useEffect(() => {
+        if (!data) {
+            console.log('error in data');
+        } else {
+            setClubListDefault(data!.pages)
+            setClubList(data!.pages);
+            setIsLoaded(true);
+        }
+    }, [data])
+
+    if (!isLoad) {
+        return <>loading...</>
+    }
+    else {
+        return (
+            <Container maxW={'5xl'} py={12}>
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                    <Stack spacing={4}>
+                        <Text
+                            textTransform={'uppercase'}
+                            color={'blue.400'}
+                            fontWeight={600}
+                            fontSize={'sm'}
+                            bg={useColorModeValue('blue.50', 'blue.900')}
+                            p={2}
+                            alignSelf={'flex-start'}
+                            rounded={'md'}>
+                            Our Story: Prove this is working
+                        </Text>
+                        <Heading>A platform for all University Clubs</Heading>
+                        <Text color={'gray.500'} fontSize={'lg'}>
+                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                            nonumy eirmod tempor invidunt ut labore
+                        </Text>
+                        <Stack
+                            spacing={4}
+                            divider={
+                                <StackDivider
+                                    borderColor={useColorModeValue('gray.100', 'gray.700')}
+                                />
+                            }>
+                            <Feature
+                                icon={
+                                    <FaOldRepublic />
+                                }
+                                iconBg={useColorModeValue('yellow.100', 'yellow.900')}
+                                text={'Business Planning'}
                             />
-                        }>
-                        <Feature
-                            icon={
-                                <FaOldRepublic />
-                            }
-                            iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-                            text={'Business Planning'}
-                        />
-                        <Feature
-                            icon={<FaMoneyBill />}
-                            iconBg={useColorModeValue('green.100', 'green.900')}
-                            text={'Financial Planning'}
-                        />
-                        <Feature
-                            icon={
-                                <FaMapMarkedAlt />
-                            }
-                            iconBg={useColorModeValue('purple.100', 'purple.900')}
-                            text={'Market Analysis'}
-                        />
+                            <Feature
+                                icon={<FaMoneyBill />}
+                                iconBg={useColorModeValue('green.100', 'green.900')}
+                                text={'Financial Planning'}
+                            />
+                            <Feature
+                                icon={
+                                    <FaMapMarkedAlt />
+                                }
+                                iconBg={useColorModeValue('purple.100', 'purple.900')}
+                                text={'Market Analysis'}
+                            />
+                        </Stack>
                     </Stack>
-                </Stack>
-                <Flex>
-                    <Image
-                        rounded={'md'}
-                        alt={'feature image'}
-                        src={
-                            'https://cdn.dribbble.com/users/822403/screenshots/14780543/media/afaded68aacf0f9962938f80a5f74317.png?compress=1&resize=1200x900'
-                        }
-                        objectFit={'cover'}
-                    />
-                </Flex>
-            </SimpleGrid>
-            <Box direction="row" h="50px" p={10}>
-                <Divider orientation="horizontal" />
-            </Box>
-            {!data ? (
-                <Text fontWeight="medium">This is where the card will be</Text>
-            ) : (
-                <>
-                    {data!.pages.map((p) => !p ? null : (
-                        <Card
-                            key={p.id}
-                            creatorName={p.creator.clubName}
-                            userIsOwner={!!meData?.me && meData?.me.id === p.creator.id}
-                            {...p}
-                            headerLink
+                    <Flex>
+                        <Image
+                            rounded={'md'}
+                            alt={'feature image'}
+                            src={
+                                'https://cdn.dribbble.com/users/822403/screenshots/14780543/media/afaded68aacf0f9962938f80a5f74317.png?compress=1&resize=1200x900'
+                            }
+                            objectFit={'cover'}
                         />
-                    ))}
-                </>
-            )}
-        </Container>
-    );
+                    </Flex>
+                </SimpleGrid>
+                <Box direction="row" h="50px" p={10}>
+                    <Divider orientation="horizontal" />
+                </Box>
+                <Box>
+                    <Search searchQuery={searchQuery} setSearchQuery={updateInput} />
+                </Box>
+                <Box direction="row" h="50px" p={10}>
+                    <Divider orientation="horizontal" />
+                </Box>
+                <Clublist data={clubList} meData={meData} />
+            </Container>
+        );
+    }
 }

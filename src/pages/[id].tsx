@@ -50,7 +50,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                     <Link href={`/create-post`}>
                         <Button
                             variant="unstyled">
-                            Create page
+                            Create post
                         </Button>
                     </Link>
                 </Flex>

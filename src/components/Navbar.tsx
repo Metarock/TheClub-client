@@ -1,6 +1,6 @@
 
 import { useApolloClient } from '@apollo/client';
-import { Box, Button, Flex, Link, useColorMode, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Link, useColorMode, useToast } from "@chakra-ui/react";
 import React from 'react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
