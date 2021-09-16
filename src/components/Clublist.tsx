@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { MeQuery, PagesQuery } from '../generated/graphql';
 import { Text } from '@chakra-ui/react';
-
+import React from 'react';
+import { MeQuery } from '../generated/graphql';
 import { Card } from './Card';
+
 interface ClublistProps {
     data: any[];
     meData: MeQuery;
