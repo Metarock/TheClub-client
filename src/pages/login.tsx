@@ -1,7 +1,7 @@
 
 import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
-import { Heading, Link, Text, useToast } from '@chakra-ui/react';
+import { Flex, Heading, Link, Text, useToast } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -69,6 +69,11 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                                 type="password"
                             />
                         </Box>
+                        <Flex mt={2}>
+                            <Link href="/forgot-password">
+                                <Text ml="auto">Forgot password?</Text>
+                            </Link>
+                        </Flex>
                         <Button
                             mt={4}
                             type="submit"
