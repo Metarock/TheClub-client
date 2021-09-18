@@ -10,6 +10,7 @@ import { Login } from "./pages/login";
 import { EditPost } from "./pages/editPost/[id]";
 import { Register } from "./pages/register";
 import { Page } from "./pages/[id]";
+import ChangePassword from "./pages/changePassword/[token]";
 
 export const App = () => (
   <>
@@ -18,6 +19,7 @@ export const App = () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
+      <Route exact path="/change-password/:token" component={ChangePassword} />
       <Route exact path="/create-page" component={CreatePage} />
       <Route exact path="/create-post" component={CreatePost} />
       <Route exact path="/pages/:id" component={Page} />

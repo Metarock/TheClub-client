@@ -5,6 +5,7 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
 import { Clublist } from '../components/Clublist';
+import { Responsive } from '../components/Responsive';
 import { Search } from '../components/Search';
 import { useMeQuery, usePagesQuery } from '../generated/graphql';
 
@@ -12,6 +13,7 @@ import { useMeQuery, usePagesQuery } from '../generated/graphql';
  * TO DO 
  * 
  * Add a filter search
+ * Add a filter saerch for title, university, clubname
  */
 interface FeatureProps {
     text: string;
@@ -51,6 +53,8 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
         console.log('setClubList ', clubList);
         console.log('setClubListDefault ', clubListDefault);
         console.log('input', input);
+
+        //if the input is empty reload the data
         if (input === '') {
             console.log("empty");
             setSearchQuery(input)
@@ -64,7 +68,7 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
 
     const fetchData = () => {
         if (!data) {
-
+            //dont do anything
         } else {
             setClubListDefault(data!.pages)
             setClubList(data!.pages);
@@ -110,19 +114,19 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
                                 <FaOldRepublic />
                             }
                             iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-                            text={'Business Planning'}
+                            text={'Connect'}
                         />
                         <Feature
                             icon={<FaMoneyBill />}
                             iconBg={useColorModeValue('green.100', 'green.900')}
-                            text={'Financial Planning'}
+                            text={'Utilise Skills'}
                         />
                         <Feature
                             icon={
                                 <FaMapMarkedAlt />
                             }
                             iconBg={useColorModeValue('purple.100', 'purple.900')}
-                            text={'Market Analysis'}
+                            text={'Manage'}
                         />
                     </Stack>
                 </Stack>
@@ -143,10 +147,9 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
             <Box>
                 <Search searchQuery={searchQuery} setSearchQuery={updateInput} />
             </Box>
-            <Box direction="row" h="50px" p={10}>
-                <Divider orientation="horizontal" />
-            </Box>
-            <Clublist data={clubList} meData={meData} />
+            <Responsive variant="regular">
+                <Clublist data={clubList} meData={meData} />
+            </Responsive>
         </Container>
     );
 }

@@ -16,7 +16,7 @@ export const Register: React.FC<RouteComponentProps> = ({ history }) => {
         <Responsive variant="small">
             <Box>
                 <Heading textAlign="center" size="xl" fontWeight="extrabold">
-                    Sign in to your account
+                    Sign up! It's for free!!
                 </Heading>
                 <Text mt="4" mb="8" align="center" maxW="md" fontWeight="medium">
                     <Text as="span">Already have an account</Text>
