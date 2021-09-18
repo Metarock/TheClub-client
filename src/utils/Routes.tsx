@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Route, RouteComponentProps } from 'react-router-dom';
+import React from 'react';
+import { Route } from 'react-router-dom';
 import ChangePassword from '../pages/changePassword/[token]';
 import { CreatePage } from '../pages/create-page';
 import { CreatePost } from '../pages/create-post';

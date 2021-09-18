@@ -1,6 +1,6 @@
 import { Box, Button } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { InputField } from '../components/InputField';
 import { Responsive } from '../components/Responsive';
@@ -8,7 +8,7 @@ import { useForgotPasswordMutation } from '../generated/graphql';
 
 
 
-const ForgotPassword: React.FC<RouteComponentProps> = ({ }) => {
+const ForgotPassword: React.FC<RouteComponentProps> = () => {
     const [complete, setComplete] = useState(false);
     const [forgotPassword] = useForgotPasswordMutation();
 
