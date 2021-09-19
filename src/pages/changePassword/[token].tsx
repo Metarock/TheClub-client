@@ -2,11 +2,13 @@ import { Button } from '@chakra-ui/button';
 import { Flex, Box, Link, Text } from '@chakra-ui/layout';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react'
-import { RouteComponentProps, useParams } from 'react-router-dom';
+import { RouteComponentProps, useParams } from 'react-router';
 import { InputField } from '../../components/InputField';
 import { Responsive } from '../../components/Responsive';
 import { MeDocument, MeQuery, useChangePasswordMutation } from '../../generated/graphql';
 import { toErrorMap } from '../../utils/toErrorMap';
+import * as Yup from 'yup';
+
 
 
 const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
@@ -17,6 +19,9 @@ const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
         <Responsive variant="small">
             <Formik
                 initialValues={{ newPassword: '' }}
+                validationSchema={Yup.object({
+                    newPassword: Yup.string().min(6, "Must be more than 5").required("Password required")
+                })}
                 onSubmit={async (values, { setErrors }) => {
                     const response = await changePassword({
                         variables: {

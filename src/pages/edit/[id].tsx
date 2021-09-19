@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { Box } from "@chakra-ui/layout";
 import { Form, Formik } from "formik";
 import React from "react";
-import { RouteComponentProps, useParams } from "react-router-dom";
+import { RouteComponentProps, useParams } from "react-router";
 import { InputField } from "../../components/InputField";
 import { Layout } from "../../components/Layout";
 import { Responsive } from "../../components/Responsive";

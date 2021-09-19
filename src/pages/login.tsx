@@ -46,12 +46,23 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
                     console.log("login response: ", response.data?.login.user?.id);
                     if (response.data?.login.errors) {
+                        console.log("error in login", response.data.login.errors);
                         setErrors(toErrorMap(response.data.login.errors));
                     } else if (!response.data?.login.user) {
+                        console.log("error in login part 2", response.data.login.errors);
+
                         setErrors(toErrorMap(response.data.login.errors));
                     }
                     else {
                         // history.push(`/page/edit/${response.data.login.user.id}`)
+                        toast({
+                            position: 'bottom-right',
+                            title: "Logged in",
+                            description: "You have successfully logged in",
+                            status: "success",
+                            duration: 2000,
+                            isClosable: true,
+                        })
                         history.push('/'); // if it work
                     }
                 }}>
@@ -59,7 +70,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                     <Form>
                         <InputField
                             name="usernameOrEmail"
-                            placeholder="username or email"
+                            placeholder="usernameOrEmail"
                             label="Username or Email" />
                         <Box mt={4}>
                             <InputField
@@ -77,16 +88,6 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         <Button
                             mt={4}
                             type="submit"
-                            onClick={() => {
-                                toast({
-                                    position: 'bottom-right',
-                                    title: "Logged in",
-                                    description: "You have successfully logged in",
-                                    status: "success",
-                                    duration: 2000,
-                                    isClosable: true,
-                                })
-                            }}
                             isLoading={isSubmitting}
                             colorScheme="teal"
                         >
