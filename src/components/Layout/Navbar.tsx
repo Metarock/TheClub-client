@@ -21,7 +21,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
     const toast = useToast()
 
     let body = null;
-
     //data is loading
     if (loading) {
         //user not logged in
@@ -94,6 +93,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             </Flex>
         )
     } else { //user logged
+        const avatarImg = data?.me.userAvatar ? data?.me.userAvatar : 'https://source.unsplash.com/random';
         body = (
             <Flex align='center'>
                 <Menu>
@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                         <Avatar
                             size={'sm'}
                             src={
-                                'https://source.unsplash.com/random'
+                                avatarImg
                             }
                         />
                     </MenuButton>
