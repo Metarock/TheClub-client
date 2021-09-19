@@ -3,10 +3,8 @@ import { Box } from "@chakra-ui/layout";
 import { Form, Formik } from "formik";
 import React from "react";
 import { RouteComponentProps, useParams } from "react-router";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
-import { Responsive } from "../../components/Responsive";
-import { useEditPageMutation, usePageQuery } from "../../generated/graphql";
+import { Layout, Responsive, InputField } from "../../../../components/exportComponents";
+import { useEditPageMutation, usePageQuery } from "../../../../generated/graphql";
 
 export const EditPage: React.FC<RouteComponentProps> = ({ history }) => {
     const { id }: any = useParams();

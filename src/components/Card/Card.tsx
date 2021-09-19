@@ -4,7 +4,7 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
 import { IconButton } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { useDeletePageMutation } from '../generated/graphql';
+import { useDeletePageMutation } from '../../generated/graphql';
 
 interface CardProps {
     id: number,

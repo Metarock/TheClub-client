@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import React from 'react';
-import { MeQuery } from '../generated/graphql';
+import { MeQuery } from '../../generated/graphql';
 import { Card } from './Card';
 
 interface ClublistProps {

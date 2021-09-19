@@ -6,10 +6,9 @@ import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { InputField } from '../components/InputField';
-import { Responsive } from '../components/Responsive';
-import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
-import { toErrorMap } from '../utils/toErrorMap';
+import { MeDocument, MeQuery, useLoginMutation } from '../../generated/graphql';
+import { toErrorMap } from '../../utils/toErrorMap';
+import { Responsive, InputField } from '../../components/exportComponents';
 
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 

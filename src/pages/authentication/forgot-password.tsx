@@ -1,17 +1,17 @@
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text, useToast } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { InputField } from '../components/InputField';
-import { Responsive } from '../components/Responsive';
-import { useForgotPasswordMutation } from '../generated/graphql';
+import { useForgotPasswordMutation } from '../../generated/graphql';
 import * as Yup from 'yup';
-import { toErrorMap } from '../utils/toErrorMap';
+import { toErrorMap } from '../../utils/toErrorMap';
+import { Responsive, InputField } from '../../components/exportComponents';
 
 
-const ForgotPassword: React.FC<RouteComponentProps> = () => {
+export const ForgotPassword: React.FC<RouteComponentProps> = () => {
     const [complete, setComplete] = useState(false);
     const [forgotPassword] = useForgotPasswordMutation();
+    const toast = useToast();
 
     return (
         <Responsive variant="small">
@@ -30,7 +30,14 @@ const ForgotPassword: React.FC<RouteComponentProps> = () => {
                         setErrors(toErrorMap(response.data.forgotPassword.errors));
                         return;
                     }
-
+                    toast({
+                        position: 'bottom-right',
+                        title: "Logged in",
+                        description: "You have successfully logged in",
+                        status: "success",
+                        duration: 2000,
+                        isClosable: true,
+                    })
                     setComplete(true);
 
                 }}
@@ -61,6 +68,3 @@ const ForgotPassword: React.FC<RouteComponentProps> = () => {
         </Responsive>
     );
 }
-
-
-export default ForgotPassword;

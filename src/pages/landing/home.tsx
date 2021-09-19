@@ -4,10 +4,8 @@ import { useColorModeValue } from '@chakra-ui/system';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
-import { Clublist } from '../components/Clublist';
-import { Responsive } from '../components/Responsive';
-import { Search } from '../components/Search';
-import { useMeQuery, usePagesQuery } from '../generated/graphql';
+import { Search, Responsive, Clublist } from '../../components/exportComponents';
+import { useMeQuery, usePagesQuery } from '../../generated/graphql';
 
 /**
  * TO DO 

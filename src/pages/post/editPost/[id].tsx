@@ -2,10 +2,9 @@ import { Button } from "@chakra-ui/button";
 import { Form, Formik } from "formik";
 import React from "react";
 import { RouteComponentProps, useParams } from "react-router";
-import { InputField } from "../../components/InputField";
-import { Layout } from "../../components/Layout";
-import { Responsive } from "../../components/Responsive";
-import { usePostQuery, useUpdatePostMutation } from "../../generated/graphql";
+import { Layout, Responsive, InputField } from "../../../components/exportComponents";
+
+import { usePostQuery, useUpdatePostMutation } from "../../../generated/graphql";
 
 export const EditPost: React.FC<RouteComponentProps> = ({ history }) => {
     const { id }: any = useParams(); //get id

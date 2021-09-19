@@ -1,15 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import ChangePassword from '../pages/changePassword/[token]';
-import { CreatePage } from '../pages/create-page';
-import { CreatePost } from '../pages/create-post';
-import { EditPage } from '../pages/edit/[id]';
-import { EditPost } from '../pages/editPost/[id]';
-import ForgotPassword from '../pages/forgot-password';
-import { Home } from '../pages/home';
-import { Login } from '../pages/login';
-import { Register } from '../pages/register';
-import { Page } from '../pages/[id]';
+import { Home, Login, Register, ChangePassword, ForgotPassword, CreatePage, CreatePost, Page, EditPage, EditPost } from '../pages/exportPage';
 
 
 export const Routes: React.FC = () => {

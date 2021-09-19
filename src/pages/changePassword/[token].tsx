@@ -3,15 +3,14 @@ import { Flex, Box, Link, Text } from '@chakra-ui/layout';
 import { Form, Formik } from 'formik';
 import React, { useState } from 'react'
 import { RouteComponentProps, useParams } from 'react-router';
-import { InputField } from '../../components/InputField';
-import { Responsive } from '../../components/Responsive';
+import { InputField, Responsive } from '../../components/exportComponents';
 import { MeDocument, MeQuery, useChangePasswordMutation } from '../../generated/graphql';
 import { toErrorMap } from '../../utils/toErrorMap';
 import * as Yup from 'yup';
 
 
 
-const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
+export const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
     const { token }: any = useParams(); //get id from the url
     const [changePassword] = useChangePasswordMutation();
     const [tokenError, setTokenError] = useState('');
@@ -82,6 +81,3 @@ const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
         </Responsive>
     );
 }
-
-
-export default ChangePassword;

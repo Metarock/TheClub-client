@@ -2,7 +2,7 @@ import { IconButton } from '@chakra-ui/button';
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Box, Link } from '@chakra-ui/layout';
 import React from 'react';
-import { useDeletePostMutation, useMeQuery } from '../generated/graphql';
+import { useDeletePostMutation, useMeQuery } from '../../generated/graphql';
 
 interface EditDeletePostButtonsProps {
     id: number
