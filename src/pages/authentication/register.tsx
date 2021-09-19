@@ -1,19 +1,28 @@
 import { Button } from '@chakra-ui/button';
-import { Box } from '@chakra-ui/react';
+import { Box, Heading, Link, useColorModeValue, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { InputField } from '../components/InputField';
-import { Responsive } from '../components/Responsive';
-import { MeDocument, MeQuery, useRegisterMutation } from '../generated/graphql';
-import { toErrorMap } from '../utils/toErrorMap';
+import { Responsive, InputField } from '../../components/exportComponents';
+import { MeDocument, MeQuery, useRegisterMutation } from '../../generated/graphql';
+import { toErrorMap } from '../../utils/toErrorMap';
 
 
 export const Register: React.FC<RouteComponentProps> = ({ history }) => {
     const [register] = useRegisterMutation();
     return (
 
-        <Responsive variant="regular">
+        <Responsive variant="small">
+            <Box>
+                <Heading textAlign="center" size="xl" fontWeight="extrabold">
+                    Sign up! It's for free!!
+                </Heading>
+                <Text mt="4" mb="8" align="center" maxW="md" fontWeight="medium">
+                    <Text as="span">Already have an account</Text>
+                    <Link marginStart="1" display={{ base: 'block', sm: 'inline' }} color={useColorModeValue('blue.500', 'blue.200')}
+                        _hover={{ color: useColorModeValue('blue.600', 'blue.300') }} href="/login">Log in</Link>
+                </Text>
+            </Box>
             <Formik
                 initialValues={{ email: '', clubUsername: '', password: '', university: '', clubName: '' }}
                 onSubmit={async (values, { setErrors }) => {

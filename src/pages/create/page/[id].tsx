@@ -4,10 +4,9 @@ import { Button, Link } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { RouteComponentProps, useParams } from "react-router-dom";
-import { EditDeletePostButtons } from '../components/EditDeletePostButtons';
-import { Layout } from '../components/Layout';
-import { PostsQuery, useMeQuery, usePageQuery, usePostsQuery } from '../generated/graphql';
-import { timeStamp } from '../utils/timeStamp';
+import { Layout, EditDeletePostButtons } from '../../../components/exportComponents';
+import { PostsQuery, useMeQuery, usePageQuery, usePostsQuery } from '../../../generated/graphql';
+import { timeStamp } from '../../../utils/timeStamp';
 
 export const Page: React.FC<RouteComponentProps> = () => {
     const { id }: any = useParams(); //get id from the url
@@ -50,7 +49,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                     <Link href={`/create-post`}>
                         <Button
                             variant="unstyled">
-                            Create page
+                            Create post
                         </Button>
                     </Link>
                 </Flex>

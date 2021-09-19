@@ -1,15 +1,14 @@
 
 import { Button } from '@chakra-ui/button';
 import { Box } from '@chakra-ui/layout';
-import { Heading, Link, Text, useToast } from '@chakra-ui/react';
+import { Flex, Heading, Link, Text, useToast } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { InputField } from '../components/InputField';
-import { Responsive } from '../components/Responsive';
-import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
-import { toErrorMap } from '../utils/toErrorMap';
+import { MeDocument, MeQuery, useLoginMutation } from '../../generated/graphql';
+import { toErrorMap } from '../../utils/toErrorMap';
+import { Responsive, InputField } from '../../components/exportComponents';
 
 export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
@@ -46,12 +45,23 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
                     console.log("login response: ", response.data?.login.user?.id);
                     if (response.data?.login.errors) {
+                        console.log("error in login", response.data.login.errors);
                         setErrors(toErrorMap(response.data.login.errors));
                     } else if (!response.data?.login.user) {
+                        console.log("error in login part 2", response.data.login.errors);
+
                         setErrors(toErrorMap(response.data.login.errors));
                     }
                     else {
                         // history.push(`/page/edit/${response.data.login.user.id}`)
+                        toast({
+                            position: 'bottom-right',
+                            title: "Logged in",
+                            description: `Welcome back, ${response.data?.login.user.clubUsername}`,
+                            status: "success",
+                            duration: 2000,
+                            isClosable: true,
+                        })
                         history.push('/'); // if it work
                     }
                 }}>
@@ -59,7 +69,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                     <Form>
                         <InputField
                             name="usernameOrEmail"
-                            placeholder="username or email"
+                            placeholder="usernameOrEmail"
                             label="Username or Email" />
                         <Box mt={4}>
                             <InputField
@@ -69,19 +79,14 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                                 type="password"
                             />
                         </Box>
+                        <Flex mt={2}>
+                            <Link href="/forgot-password">
+                                <Text ml="auto">Forgot password?</Text>
+                            </Link>
+                        </Flex>
                         <Button
                             mt={4}
                             type="submit"
-                            onClick={() => {
-                                toast({
-                                    position: 'bottom-right',
-                                    title: "Logged in",
-                                    description: "You have successfully logged in",
-                                    status: "success",
-                                    duration: 2000,
-                                    isClosable: true,
-                                })
-                            }}
                             isLoading={isSubmitting}
                             colorScheme="teal"
                         >

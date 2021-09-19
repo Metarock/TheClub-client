@@ -1,11 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Container, Divider, Flex, Heading, Image, SimpleGrid, Stack, StackDivider, Text } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
-import { Card } from '../components/Card';
-import { useMeQuery, usePagesQuery } from '../generated/graphql';
+import { Search, Responsive, Clublist } from '../../components/exportComponents';
+import { useMeQuery, usePagesQuery } from '../../generated/graphql';
 
+/**
+ * TO DO 
+ * 
+ * Add a filter search
+ * Add a filter saerch for title, university, clubname
+ */
 interface FeatureProps {
     text: string;
     iconBg: string;
@@ -30,9 +37,49 @@ const Feature = ({ text, icon, iconBg }: FeatureProps) => {
 };
 
 
-export const Home: React.FC<RouteComponentProps> = () => {
+export const Home: React.FC<RouteComponentProps | React.Component> = () => {
     const { data } = usePagesQuery();
     const { data: meData } = useMeQuery();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [clubListDefault, setClubListDefault] = useState([]);
+    const [clubList, setClubList] = useState([]);
+
+    const updateInput = async (input: any) => {
+        const filtered = clubListDefault.filter((club) => {
+            return club.creator.clubName.toLowerCase() === input.toLowerCase() || club.pageTitle.toLowerCase() === input.toLowerCase();
+        })
+        console.log('setClubList ', clubList);
+        console.log('setClubListDefault ', clubListDefault);
+        console.log('input', input);
+
+        //if the input is empty reload the data
+        if (input === '') {
+            console.log("empty");
+            setSearchQuery(input)
+            setClubList(data!.pages);
+            return;
+        }
+        setSearchQuery(input)
+        setClubList(filtered);
+        console.log('filtered', filtered)
+    }
+
+    const fetchData = () => {
+        if (!data) {
+            //dont do anything
+        } else {
+            setClubListDefault(data!.pages)
+            setClubList(data!.pages);
+        }
+
+    }
+
+
+
+    useEffect(() => {
+        fetchData()
+    }, [data])
+
     return (
         <Container maxW={'5xl'} py={12}>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
@@ -65,19 +112,19 @@ export const Home: React.FC<RouteComponentProps> = () => {
                                 <FaOldRepublic />
                             }
                             iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-                            text={'Business Planning'}
+                            text={'Connect'}
                         />
                         <Feature
                             icon={<FaMoneyBill />}
                             iconBg={useColorModeValue('green.100', 'green.900')}
-                            text={'Financial Planning'}
+                            text={'Utilise Skills'}
                         />
                         <Feature
                             icon={
                                 <FaMapMarkedAlt />
                             }
                             iconBg={useColorModeValue('purple.100', 'purple.900')}
-                            text={'Market Analysis'}
+                            text={'Manage'}
                         />
                     </Stack>
                 </Stack>
@@ -95,21 +142,12 @@ export const Home: React.FC<RouteComponentProps> = () => {
             <Box direction="row" h="50px" p={10}>
                 <Divider orientation="horizontal" />
             </Box>
-            {!data ? (
-                <Text fontWeight="medium">This is where the card will be</Text>
-            ) : (
-                <>
-                    {data!.pages.map((p) => !p ? null : (
-                        <Card
-                            key={p.id}
-                            creatorName={p.creator.clubName}
-                            userIsOwner={!!meData?.me && meData?.me.id === p.creator.id}
-                            {...p}
-                            headerLink
-                        />
-                    ))}
-                </>
-            )}
+            <Box>
+                <Search searchQuery={searchQuery} setSearchQuery={updateInput} />
+            </Box>
+            <Responsive variant="regular">
+                <Clublist data={clubList} meData={meData} />
+            </Responsive>
         </Container>
     );
 }

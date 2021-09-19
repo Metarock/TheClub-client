@@ -1,0 +1,17 @@
+mutation EditProfile(
+  $id: Int!
+  $email: String!
+  $clubName: String!
+  $clubUsername: String!
+  $university: String!
+) {
+  editProfile(
+    id: $id
+    email: $email
+    clubName: $clubName
+    clubUsername: $clubUsername
+    university: $university
+  ) {
+      ...RegularUser
+  }
+}
