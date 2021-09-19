@@ -1,6 +1,6 @@
 
 import { useApolloClient } from '@apollo/client';
-import { Box, Button, Flex, Link, useColorMode, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, useColorMode, useToast, Image } from "@chakra-ui/react";
 import React from 'react';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
@@ -83,7 +83,10 @@ export const Navbar: React.FC<NavbarProps> = () => {
         <Flex zIndex={1} position="sticky" top={0} p={4} bg={colorMode === "dark" ? "black" : "teal.500"} color={primaryColor}>
             <Flex flex={1} m="auto" maxW={800} align='center'>
                 <Link href="/">
-                    TheClub
+                    <Image rounded="full"
+                        w={[6, 8]}
+                        h={[6, 8]}
+                        objectFit="cover" fallbackSrc={'/images/club.png'} />
                 </Link>
                 <Box ml={"auto"}>
                     {body}
