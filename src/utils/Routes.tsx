@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Home, Login, Register, ChangePassword, ForgotPassword, CreatePage, CreatePost, Page, EditPage, EditPost } from '../pages/exportPage';
+import { Home, Login, Register, ChangePassword, ForgotPassword, CreatePage, CreatePost, Page, EditPage, EditPost, EditProfile } from '../pages/exportPage';
 
 
 export const Routes: React.FC = () => {
@@ -15,6 +15,7 @@ export const Routes: React.FC = () => {
                         <Route exact path="/pages/:id" component={Page} />
                         <Route exact path="/pages/edit/:id" component={EditPage} />
                         <Route exact path="/pages/editPost/:id" component={EditPost} />
+                        <Route exact path="/edit-profile" component={EditProfile} />
                 </>
         );
 }

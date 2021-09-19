@@ -1,7 +1,9 @@
 
 import { useApolloClient } from '@apollo/client';
-import { Box, Button, Flex, Link, useColorMode, useToast, Image } from "@chakra-ui/react";
+import { EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuList, useColorMode, useToast } from "@chakra-ui/react";
 import React from 'react';
+import { FiLogIn } from 'react-icons/fi';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 
@@ -25,8 +27,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
         //user not logged in
     } else if (!data?.me) {
         body = (
-            <>
-                <Link mr={2} href="/login">
+            <Flex align='center'>
+                {/* <Link mr={2} href="/login">
                     <Button
                         bg={colorMode === "dark" ? "black" : "teal.500"}
                         color={primaryColor}
@@ -45,39 +47,104 @@ export const Navbar: React.FC<NavbarProps> = () => {
                     >
                         Register
                     </Button>
-                </Link>
-            </>
+                </Link> */}
+                <Menu >
+                    <MenuButton
+                        as={IconButton}
+                        aria-label="Options"
+                        icon={<HamburgerIcon />}
+                        variant="outline"
+                    />
+                    <MenuList
+                        bg={colorMode === "dark" ? "black" : "teal.400"}
+                        color={primaryColor}
+                        borderColor={colorMode === "dark" ? "black" : "teal.400"}
+                    >
+                        <Link href="/login">
+                            <MenuItem
+                                icon={<FiLogIn />}
+                                color={primaryColor}
+                            >
+                                Login
+                            </MenuItem>
+                        </Link>
+                        <Link href="/register">
+                            <MenuItem
+                                icon={<ExternalLinkIcon />}
+                                ringColor={colorMode === "dark" ? "black" : "teal.400"}
+                                color={primaryColor}
+                            >
+                                Register
+                            </MenuItem>
+                        </Link>
+                        <MenuItem
+                            icon={<RepeatIcon />}
+                            color={primaryColor}
+                        >
+                            Open Closed Tab
+                        </MenuItem>
+                        <MenuItem
+                            icon={<EditIcon />}
+                            color={primaryColor}
+                        >
+                            Open File...
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+            </Flex>
         )
     } else { //user logged
         body = (
             <Flex align='center'>
-                <Link href="/create-page">
-                    <Button
-                        bg={colorMode === "dark" ? "black" : "teal.500"}
-                        color={primaryColor} mr={4}
-                        variant="outline">
-                        Create page
-                    </Button>
-                </Link>
-                <Box mr={2}>Welcome: {data.me.clubUsername}</Box>
-                <Button onClick={async () => {
-                    await logout();
-                    await apolloClient.resetStore();
-                    await toast({
-                        position: "bottom-right",
-                        title: "Logged out",
-                        description: "Looking forward to see you again!",
-                        status: "success",
-                        duration: 9000,
-                        isClosable: true,
-                    })
-                }}
-                    bg={colorMode === "dark" ? "black" : "teal.500"}
-                    color={primaryColor}
-                    isLoading={logoutFetching}
-                    varaint="link">logout
-                </Button>
-            </Flex>)
+                <Menu>
+                    <MenuButton
+                        as={Button}
+                        rounded={'full'}
+                        variant={'link'}
+                        cursor={'pointer'}
+                        minW={0}>
+                        <Avatar
+                            size={'sm'}
+                            src={
+                                'https://source.unsplash.com/random'
+                            }
+                        />
+                    </MenuButton>
+                    <MenuList
+                        bg={colorMode === "dark" ? "black" : "teal.400"}
+                        color={primaryColor}
+                        borderColor={colorMode === "dark" ? "black" : "teal.400"}
+                    >
+                        <Link href="/create-page">
+                            <MenuItem>
+                                Create page
+                            </MenuItem>
+                        </Link>
+                        <Link href="/edit-profile">
+                            <MenuItem>
+                                Settings
+                            </MenuItem>
+                        </Link>
+                        <MenuItem onClick={async () => {
+                            await logout();
+                            await apolloClient.resetStore();
+                            await toast({
+                                position: "bottom-right",
+                                title: "Logged out",
+                                description: "Looking forward to see you again!",
+                                status: "info",
+                                duration: 9000,
+                                isClosable: true,
+                            })
+                        }}
+                            color={primaryColor}
+                            isLoading={logoutFetching}
+                        >
+                            Logout</MenuItem>
+                    </MenuList>
+                </Menu>
+            </Flex>
+        )
     }
     return (
         <Flex zIndex={1} position="sticky" top={0} p={4} bg={colorMode === "dark" ? "black" : "teal.500"} color={primaryColor}>

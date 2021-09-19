@@ -1,10 +1,11 @@
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
-import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
-import { IconButton } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/layout';
+import { IconButton, Link } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDeletePageMutation } from '../../generated/graphql';
+import { useColorModeValue } from '@chakra-ui/system';
 
 interface CardProps {
     id: number,
@@ -59,24 +60,50 @@ export const Card: React.FC<CardProps> = ({
             p={4}
             mb={6}
         >
-            <Box display="block" textAlign="center" ml="auto">
-                {userIsOwner ? (
-                    <Flex direction="column" align="flex-end">
-                        <Flex>
-                            <IconButton aria-label="edit page" onClick={handleEditPage} icon={<EditIcon />} isloading={`${editLoading}`} />
-                            <IconButton aria-label="delete page" onClick={handleDeletePage} icon={<DeleteIcon isloading={`${deleteLoading}`} />} />
-                        </Flex>
+            {userIsOwner ? (
+                <Flex direction="column" align="flex-end">
+                    <Flex>
+                        <IconButton aria-label="edit page" onClick={handleEditPage} icon={<EditIcon />} isloading={`${editLoading}`} />
+                        <IconButton aria-label="delete page" onClick={handleDeletePage} icon={<DeleteIcon isloading={`${deleteLoading}`} />} />
                     </Flex>
-                ) : null}
-                <Heading as={headerLink ? "a" : undefined} size="xl" fontWeight="extrabold" href={`/pages/${id}`}>{pageTitle}</Heading>
-                <Text fontWeight="medium" display="block" fontSize={16} suppressHydrationWarning>
-                    by {creatorName}
-                </Text>
-                <Text display="block" fontWeight="medium">About us:</Text>
-                <Text>{aboutUs}</Text>
-                <Text mt={3} whiteSpace="break-spaces">Description:</Text>
-                <Text fontWeight="medium">{pageText}</Text>
-                {pageimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={pageimgUrl} mt={3} maxH={600} /> : null}
+                </Flex>
+            ) : null}
+            <Box p={4} display={{ md: "flex" }}>
+                <Box flexShrink={0}>
+                    {pageimgUrl ?
+                        <Image
+                            borderRadius="lg"
+                            width={{ md: 40 }}
+                            src={pageimgUrl}
+                            alt={`image of ${creatorName}`}
+                        />
+                        : null}
+                </Box>
+                <Box mt={{ base: 4, md: 0 }} ml={{ md: 6 }}>
+                    <Link
+                        as={headerLink ? "a" : undefined}
+                        fontWeight="bold"
+                        textTransform="uppercase"
+                        fontSize="xl"
+                        letterSpacing="wide"
+                        color={useColorModeValue("teal.600", "teal.300")}
+                        href={`/pages/${id}`}
+                    >
+                        {pageTitle}
+                    </Link>
+                    <Text
+                        mt={1}
+                        display="block"
+                        fontSize="md"
+                        lineHeight="normal"
+                        fontWeight="normal"
+                    >
+                        {aboutUs}
+                    </Text>
+                    <Text mt={2} color={useColorModeValue("grey.600", "gray.500")}>
+                        {pageText}
+                    </Text>
+                </Box>
             </Box>
         </Box>
     );

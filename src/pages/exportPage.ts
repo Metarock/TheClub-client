@@ -1,6 +1,7 @@
 export * from './authentication/forgot-password';
 export * from './authentication/login';
 export * from './authentication/register';
+export * from './authentication/edit-profile';
 export * from './changePassword/[token]';
 export * from './create/page/[id]';
 export * from './create/page/create-page';

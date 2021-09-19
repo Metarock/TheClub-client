@@ -57,7 +57,7 @@ export const Login: React.FC<RouteComponentProps> = ({ history }) => {
                         toast({
                             position: 'bottom-right',
                             title: "Logged in",
-                            description: "You have successfully logged in",
+                            description: `Welcome back, ${response.data?.login.user.clubUsername}`,
                             status: "success",
                             duration: 2000,
                             isClosable: true,
