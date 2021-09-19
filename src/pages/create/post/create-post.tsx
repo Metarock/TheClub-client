@@ -56,6 +56,9 @@ export const CreatePost: React.FC<RouteComponentProps> = ({ history }) => {
         return { success: true, url };
 
     }
+    // const publicId = uuidv4();
+
+    // const uploadImage = postImage(file, uuidv4(), process.env.REACT_APP_CLOUDINARY_SECRET, process.env.REACT_APP_CLOUDINARY_KEY, "https://api.cloudinary.com/v1_1/ddvlxmcb5/image/upload");
 
     const handleSetImage = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newFile = event.currentTarget.files?.[0];

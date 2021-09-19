@@ -4,6 +4,7 @@ mutation EditProfile(
   $clubName: String!
   $clubUsername: String!
   $university: String!
+  $userAvatar: String
 ) {
   editProfile(
     id: $id
@@ -11,6 +12,7 @@ mutation EditProfile(
     clubName: $clubName
     clubUsername: $clubUsername
     university: $university
+    userAvatar: $userAvatar
   ) {
       ...RegularUser
   }

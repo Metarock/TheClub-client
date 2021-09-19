@@ -4,6 +4,7 @@ fragment RegularUser on User {
     university
     clubUsername
     clubName
+    userAvatar
     createdAt
     updatedAt
 }
