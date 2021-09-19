@@ -6,7 +6,7 @@ import { Responsive } from '../../components/exportComponents';
 export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
     return (
         <Responsive variant="regular">
-            This is the edit profile, still needs to be implemented
+            This is the edit profile, why action fail but pushed my website?
         </Responsive>
     );
 }
