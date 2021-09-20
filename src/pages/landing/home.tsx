@@ -4,7 +4,8 @@ import { useColorModeValue } from '@chakra-ui/system';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { FaMapMarkedAlt, FaMoneyBill, FaOldRepublic } from 'react-icons/fa';
 import { RouteComponentProps } from 'react-router';
-import { Search, Responsive, Clublist } from '../../components/exportComponents';
+import { Clublist, Responsive, Search } from '../../components/exportComponents';
+import { MotionBox } from '../../components/ui/Motion';
 import { useMeQuery, usePagesQuery } from '../../generated/graphql';
 
 /**
@@ -44,6 +45,7 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
     const [clubListDefault, setClubListDefault] = useState([]);
     const [clubList, setClubList] = useState([]);
 
+
     const updateInput = async (input: any) => {
         const filtered = clubListDefault.filter((club) => {
             return club.creator.clubName.toLowerCase() === input.toLowerCase() || club.pageTitle.toLowerCase() === input.toLowerCase();
@@ -53,12 +55,12 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
         console.log('input', input);
 
         //if the input is empty reload the data
-        if (input === '') {
-            console.log("empty");
-            setSearchQuery(input)
-            setClubList(data!.pages);
-            return;
-        }
+        // if (input === '') {
+        //     console.log("empty");
+        //     setSearchQuery(input)
+        //     setClubList(data!.pages);
+        //     return;
+        // }
         setSearchQuery(input)
         setClubList(filtered);
         console.log('filtered', filtered)
@@ -73,8 +75,6 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
         }
 
     }
-
-
 
     useEffect(() => {
         fetchData()
@@ -129,14 +129,31 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
                     </Stack>
                 </Stack>
                 <Flex>
-                    <Image
-                        rounded={'md'}
-                        alt={'feature image'}
-                        src={
-                            'https://cdn.dribbble.com/users/822403/screenshots/14780543/media/afaded68aacf0f9962938f80a5f74317.png?compress=1&resize=1200x900'
-                        }
-                        objectFit={'cover'}
-                    />
+                    <MotionBox
+                        opacity="0"
+                        initial={{
+                            translateX: 150,
+                            opacity: 0
+                        }}
+                        animate={{
+                            translateX: 0,
+                            opacity: 1,
+                            transition: {
+                                duration: 0.5
+                            }
+                        }}
+                        m="auto"
+                        mb={[16, 16, "auto"]}
+                    >
+                        <Image
+                            rounded={'md'}
+                            alt={'feature image'}
+                            src={
+                                'https://cdn.dribbble.com/users/822403/screenshots/14780543/media/afaded68aacf0f9962938f80a5f74317.png?compress=1&resize=1200x900'
+                            }
+                            objectFit={'cover'}
+                        />
+                    </MotionBox>
                 </Flex>
             </SimpleGrid>
             <Box direction="row" h="50px" p={10}>

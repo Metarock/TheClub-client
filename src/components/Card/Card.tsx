@@ -2,10 +2,12 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { IconButton, Link } from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/system';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import { useDeletePageMutation } from '../../generated/graphql';
-import { useColorModeValue } from '@chakra-ui/system';
+import { MotionBox } from '../ui/Motion';
+import { PageSlideFade } from '../ui/Transitions';
 
 interface CardProps {
     id: number,
@@ -50,61 +52,66 @@ export const Card: React.FC<CardProps> = ({
     }
 
     return (
-        <Box
-            borderWidth={1}
-            borderRadius={2}
-            alignItems="center"
-            textAlign="center"
-            display="inline-block"
-            w="100%"
-            p={4}
-            mb={6}
-        >
-            {userIsOwner ? (
-                <Flex direction="column" align="flex-end">
-                    <Flex>
-                        <IconButton aria-label="edit page" onClick={handleEditPage} icon={<EditIcon />} isloading={`${editLoading}`} />
-                        <IconButton aria-label="delete page" onClick={handleDeletePage} icon={<DeleteIcon isloading={`${deleteLoading}`} />} />
-                    </Flex>
-                </Flex>
-            ) : null}
-            <Box p={4} display={{ md: "flex" }}>
-                <Box flexShrink={0}>
-                    {pageimgUrl ?
-                        <Image
-                            borderRadius="lg"
-                            width={{ md: 40 }}
-                            src={pageimgUrl}
-                            alt={`image of ${creatorName}`}
-                        />
-                        : null}
+        <PageSlideFade>
+            <MotionBox whileHover={{ y: -5 }}>
+                <Box
+                    borderWidth="1px"
+                    alignItems="center"
+                    _hover={{ shadow: "lg" }}
+                    rounded="md"
+                    textAlign="center"
+                    display="inline-block"
+                    w="100%"
+                    p={4}
+                    mb={6}
+                >
+                    {userIsOwner ? (
+                        <Flex direction="column" align="flex-end">
+                            <Flex>
+                                <IconButton aria-label="edit page" onClick={handleEditPage} icon={<EditIcon />} isloading={`${editLoading}`} />
+                                <IconButton aria-label="delete page" onClick={handleDeletePage} icon={<DeleteIcon />} isloading={`${deleteLoading}`} />
+                            </Flex>
+                        </Flex>
+                    ) : null}
+                    <Box p={4} display={{ md: "flex" }}>
+                        <Box flexShrink={0}>
+                            {pageimgUrl ?
+                                <Image
+                                    borderRadius="lg"
+                                    width={{ md: 40 }}
+                                    src={pageimgUrl}
+                                    alt={`image of ${creatorName}`}
+                                />
+                                : null}
+                        </Box>
+                        <Box mt={{ base: 4, md: 0 }} ml={{ md: 6 }}>
+                            <Link
+                                as={headerLink ? "a" : undefined}
+                                fontWeight="bold"
+                                textTransform="uppercase"
+                                fontSize="xl"
+                                letterSpacing="wide"
+                                color={useColorModeValue("teal.600", "teal.300")}
+                                href={`/pages/${id}`}
+                            >
+                                {pageTitle}
+                            </Link>
+                            <Text
+                                mt={1}
+                                display="block"
+                                fontSize="md"
+                                lineHeight="normal"
+                                fontWeight="normal"
+                            >
+                                {aboutUs}
+                            </Text>
+                            <Text mt={2} color={useColorModeValue("grey.600", "gray.500")}>
+                                {pageText}
+                            </Text>
+                        </Box>
+                    </Box>
                 </Box>
-                <Box mt={{ base: 4, md: 0 }} ml={{ md: 6 }}>
-                    <Link
-                        as={headerLink ? "a" : undefined}
-                        fontWeight="bold"
-                        textTransform="uppercase"
-                        fontSize="xl"
-                        letterSpacing="wide"
-                        color={useColorModeValue("teal.600", "teal.300")}
-                        href={`/pages/${id}`}
-                    >
-                        {pageTitle}
-                    </Link>
-                    <Text
-                        mt={1}
-                        display="block"
-                        fontSize="md"
-                        lineHeight="normal"
-                        fontWeight="normal"
-                    >
-                        {aboutUs}
-                    </Text>
-                    <Text mt={2} color={useColorModeValue("grey.600", "gray.500")}>
-                        {pageText}
-                    </Text>
-                </Box>
-            </Box>
-        </Box>
+            </MotionBox>
+        </PageSlideFade>
     );
 }
