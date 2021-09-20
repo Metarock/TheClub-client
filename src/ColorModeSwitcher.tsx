@@ -1,14 +1,11 @@
 import {
-  useColorMode,
-  useColorModeValue,
-  IconButtonProps,
-  IconButton
+  IconButton, IconButtonProps, useColorMode,
+  useColorModeValue
 } from "@chakra-ui/react";
+import { AnimatePresence } from "framer-motion";
+import React from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import useSound from "use-sound";
-import { AnimatePresence } from "framer-motion";
-import { MotionBox } from "./components/ui/Motion";
-import React from "react";
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
 
