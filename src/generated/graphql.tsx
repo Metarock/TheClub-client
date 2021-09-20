@@ -34,6 +34,7 @@ export type Mutation = {
   forgotPassword: UserResponse;
   changePassword: UserResponse;
   logout: Scalars['Boolean'];
+  deleteAccount: Scalars['Boolean'];
 };
 
 
@@ -106,6 +107,11 @@ export type MutationForgotPasswordArgs = {
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationDeleteAccountArgs = {
+  id: Scalars['Int'];
 };
 
 export type Page = {
@@ -231,6 +237,13 @@ export type CreatePostMutationVariables = Exact<{
 
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: number, title: string, text: string, postimgUrl?: Maybe<string>, createdAt: string, updatedAt: string, postCreatorId: number } };
+
+export type DeleteAccountMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteAccountMutation = { __typename?: 'Mutation', deleteAccount: boolean };
 
 export type DeletePageMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -485,6 +498,37 @@ export function useCreatePostMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export const DeleteAccountDocument = gql`
+    mutation DeleteAccount($id: Int!) {
+  deleteAccount(id: $id)
+}
+    `;
+export type DeleteAccountMutationFn = Apollo.MutationFunction<DeleteAccountMutation, DeleteAccountMutationVariables>;
+
+/**
+ * __useDeleteAccountMutation__
+ *
+ * To run a mutation, you first call `useDeleteAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAccountMutation, { data, loading, error }] = useDeleteAccountMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteAccountMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAccountMutation, DeleteAccountMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAccountMutation, DeleteAccountMutationVariables>(DeleteAccountDocument, options);
+      }
+export type DeleteAccountMutationHookResult = ReturnType<typeof useDeleteAccountMutation>;
+export type DeleteAccountMutationResult = Apollo.MutationResult<DeleteAccountMutation>;
+export type DeleteAccountMutationOptions = Apollo.BaseMutationOptions<DeleteAccountMutation, DeleteAccountMutationVariables>;
 export const DeletePageDocument = gql`
     mutation deletePage($id: Int!) {
   deletePage(id: $id)

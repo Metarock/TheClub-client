@@ -1,4 +1,4 @@
-import { Box, Button, Image } from '@chakra-ui/react';
+import { Avatar, Box, Button, Heading, Image } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -79,6 +79,24 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
 
     return (
         <Responsive variant="regular">
+            <Box
+                alignItems="center"
+                textAlign="center"
+                display="inline-block"
+                w="100%"
+                p={4}
+                mb={6}
+            >
+                <Heading textAlign="center" size="xl" fontWeight="extrabold">
+                    Profile settings
+                </Heading>
+                <Avatar
+                    size={'xl'}
+                    src={
+                        data?.me.userAvatar ? data?.me.userAvatar : ''
+                    }
+                />
+            </Box>
             <Formik
                 initialValues={{ email: data?.me.email, clubUsername: data?.me.clubUsername, clubName: data?.me.clubName, university: data?.me.university }}
                 onSubmit={async (values, { setErrors, resetForm }) => {
@@ -137,7 +155,7 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
                             Update Profile
                         </Button>
                         <label htmlFor="userAvatar">
-                            <Button mr={8} onClick={() => fileInputRef.current?.click()}>
+                            <Button ml={4} mt={4} mr={8} onClick={() => fileInputRef.current?.click()}>
                                 Upload Image
                             </Button>
                         </label>
