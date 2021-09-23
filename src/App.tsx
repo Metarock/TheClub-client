@@ -1,14 +1,18 @@
+import { AnimatePresence } from "framer-motion";
 import * as React from "react";
-import { Switch } from "react-router-dom";
-import { Navbar, Footer } from "./components/exportComponents";
+import { Footer, Navbar } from "./components/exportComponents";
 import { Routes } from "./utils/Routes";
 
 export const App = () => (
   <>
-    <Navbar />
-    <Switch>
+    <AnimatePresence
+      exitBeforeEnter
+      initial={false}
+      onExitComplete={() => window.scrollTo(0, 0)}
+    >
+      <Navbar />
       <Routes />
-    </Switch>
-    <Footer />
+      <Footer />
+    </AnimatePresence>
   </>
 )

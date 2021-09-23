@@ -1,10 +1,11 @@
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
 import { Image } from '@chakra-ui/image';
 import { Box, Flex, Text } from '@chakra-ui/layout';
-import { IconButton, Link } from '@chakra-ui/react';
+import { IconButton, Link as ChakraLink } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useDeletePageMutation } from '../../generated/graphql';
 import { MotionBox } from '../ui/Motion';
 import { PageSlideFade } from '../ui/Transitions';
@@ -46,8 +47,9 @@ export const Card: React.FC<CardProps> = ({
         setDeleteLoading(true);
 
         const deleted = await deletePage({ variables: { id } });
-        if (deleted.data?.deletePage) history.push("/");
-
+        if (deleted.data?.deletePage) {
+            history.push("/");
+        }
         setDeleteLoading(false);
     }
 
@@ -85,16 +87,18 @@ export const Card: React.FC<CardProps> = ({
                                 : null}
                         </Box>
                         <Box mt={{ base: 4, md: 0 }} ml={{ md: 6 }}>
-                            <Link
-                                as={headerLink ? "a" : undefined}
-                                fontWeight="bold"
-                                textTransform="uppercase"
-                                fontSize="xl"
-                                letterSpacing="wide"
-                                color={useColorModeValue("teal.600", "teal.300")}
-                                href={`/pages/${id}`}
-                            >
-                                {pageTitle}
+                            <Link to={`/pages/${id}`}>
+                                <ChakraLink
+                                    as={headerLink ? "a" : undefined}
+                                    fontWeight="bold"
+                                    textTransform="uppercase"
+                                    fontSize="xl"
+                                    letterSpacing="wide"
+                                    color={useColorModeValue("teal.600", "teal.300")}
+
+                                >
+                                    {pageTitle}
+                                </ChakraLink>
                             </Link>
                             <Text
                                 mt={1}

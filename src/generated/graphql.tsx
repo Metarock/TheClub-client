@@ -47,6 +47,7 @@ export type MutationCreatePageArgs = {
 
 
 export type MutationEditPageArgs = {
+  pageimgUrl?: Maybe<Scalars['String']>;
   aboutUs: Scalars['String'];
   pageText: Scalars['String'];
   pageTitle: Scalars['String'];
@@ -264,6 +265,7 @@ export type EditPageMutationVariables = Exact<{
   pageTitle: Scalars['String'];
   aboutUs: Scalars['String'];
   pageText: Scalars['String'];
+  pageimgUrl?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -592,8 +594,14 @@ export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutati
 export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
 export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
 export const EditPageDocument = gql`
-    mutation EditPage($id: Int!, $pageTitle: String!, $aboutUs: String!, $pageText: String!) {
-  editPage(id: $id, pageTitle: $pageTitle, aboutUs: $aboutUs, pageText: $pageText) {
+    mutation EditPage($id: Int!, $pageTitle: String!, $aboutUs: String!, $pageText: String!, $pageimgUrl: String) {
+  editPage(
+    id: $id
+    pageTitle: $pageTitle
+    aboutUs: $aboutUs
+    pageText: $pageText
+    pageimgUrl: $pageimgUrl
+  ) {
     id
     pageTitle
     pageText
@@ -622,6 +630,7 @@ export type EditPageMutationFn = Apollo.MutationFunction<EditPageMutation, EditP
  *      pageTitle: // value for 'pageTitle'
  *      aboutUs: // value for 'aboutUs'
  *      pageText: // value for 'pageText'
+ *      pageimgUrl: // value for 'pageimgUrl'
  *   },
  * });
  */

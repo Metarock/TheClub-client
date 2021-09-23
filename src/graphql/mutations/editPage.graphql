@@ -1,5 +1,5 @@
-mutation EditPage($id: Int!, $pageTitle: String!, $aboutUs:String!, $pageText:String!){
-  editPage(id: $id, pageTitle:$pageTitle, aboutUs:$aboutUs, pageText:$pageText){
+mutation EditPage($id: Int!, $pageTitle: String!, $aboutUs:String!, $pageText:String!, $pageimgUrl: String){
+  editPage(id: $id, pageTitle:$pageTitle, aboutUs:$aboutUs, pageText:$pageText, pageimgUrl: $pageimgUrl){
     id
     pageTitle
     pageText

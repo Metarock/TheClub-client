@@ -16,24 +16,28 @@ import { useMeQuery, usePagesQuery } from '../../generated/graphql';
  */
 interface FeatureProps {
     text: string;
+    desc: string;
     iconBg: string;
     icon?: ReactElement;
 }
 
-const Feature = ({ text, icon, iconBg }: FeatureProps) => {
+const Feature = ({ text, icon, iconBg, desc }: FeatureProps) => {
     return (
-        <Stack direction={'row'} align={'center'}>
-            <Flex
-                w={8}
-                h={8}
-                align={'center'}
-                justify={'center'}
-                rounded={'full'}
-                bg={iconBg}>
-                {icon}
-            </Flex>
-            <Text fontWeight={600}>{text}</Text>
-        </Stack>
+        <>
+            <Stack direction={'row'} align={'center'}>
+                <Flex
+                    w={8}
+                    h={8}
+                    align={'center'}
+                    justify={'center'}
+                    rounded={'full'}
+                    bg={iconBg}>
+                    {icon}
+                </Flex>
+                <Text fontWeight={600}>{text}</Text>
+            </Stack>
+            <Text color="gray.500" fontWeight={400} fontSize={'sm'}>{desc}</Text>
+        </>
     );
 };
 
@@ -55,12 +59,12 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
         console.log('input', input);
 
         //if the input is empty reload the data
-        // if (input === '') {
-        //     console.log("empty");
-        //     setSearchQuery(input)
-        //     setClubList(data!.pages);
-        //     return;
-        // }
+        if (input === '') {
+            console.log("empty");
+            setSearchQuery(input)
+            setClubList(data!.pages);
+            return;
+        }
         setSearchQuery(input)
         setClubList(filtered);
         console.log('filtered', filtered)
@@ -73,7 +77,6 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
             setClubListDefault(data!.pages)
             setClubList(data!.pages);
         }
-
     }
 
     useEffect(() => {
@@ -83,51 +86,70 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
     return (
         <Container maxW={'5xl'} py={12}>
             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                <Stack spacing={4}>
-                    <Text
-                        textTransform={'uppercase'}
-                        color={'blue.400'}
-                        fontWeight={600}
-                        fontSize={'sm'}
-                        bg={useColorModeValue('blue.50', 'blue.900')}
-                        p={2}
-                        alignSelf={'flex-start'}
-                        rounded={'md'}>
-                        Our Story: Prove this is working
-                    </Text>
-                    <Heading>A platform for all University Clubs</Heading>
-                    <Text color={'gray.500'} fontSize={'lg'}>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                        nonumy eirmod tempor invidunt ut labore
-                    </Text>
-                    <Stack
-                        spacing={4}
-                        divider={
-                            <StackDivider
-                                borderColor={useColorModeValue('gray.100', 'gray.700')}
+                <MotionBox
+                    opacity="0"
+                    initial={{
+                        translateX: -150,
+                        opacity: 0
+                    }}
+                    animate={{
+                        translateX: 0,
+                        opacity: 1,
+                        transition: {
+                            duration: 0.5
+                        }
+                    }}
+                >
+                    <Stack spacing={4}>
+                        <Text
+                            textTransform={'uppercase'}
+                            color={'blue.400'}
+                            fontWeight={600}
+                            fontSize={'sm'}
+                            bg={useColorModeValue('blue.50', 'blue.900')}
+                            p={2}
+                            alignSelf={'flex-start'}
+                            rounded={'md'}>
+                            Our Story
+                        </Text>
+                        <Heading>A platform for all University Clubs</Heading>
+                        <Text color={'gray.500'} fontSize={'lg'}>
+                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                            nonumy eirmod tempor invidunt ut labore
+                        </Text>
+                        <Stack
+                            spacing={4}
+                            divider={
+                                <StackDivider
+                                    borderColor={useColorModeValue('gray.100', 'gray.700')}
+                                />
+                            }>
+                            <Feature
+                                icon={
+                                    <FaOldRepublic />
+                                }
+                                iconBg={useColorModeValue('yellow.100', 'yellow.900')}
+                                text={'Associate'}
+                                desc={'Get to know people and build your connections'}
                             />
-                        }>
-                        <Feature
-                            icon={
-                                <FaOldRepublic />
-                            }
-                            iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-                            text={'Connect'}
-                        />
-                        <Feature
-                            icon={<FaMoneyBill />}
-                            iconBg={useColorModeValue('green.100', 'green.900')}
-                            text={'Utilise Skills'}
-                        />
-                        <Feature
-                            icon={
-                                <FaMapMarkedAlt />
-                            }
-                            iconBg={useColorModeValue('purple.100', 'purple.900')}
-                            text={'Manage'}
-                        />
+
+                            <Feature
+                                icon={<FaMoneyBill />}
+                                iconBg={useColorModeValue('green.100', 'green.900')}
+                                text={'Advance'}
+                                desc={'Upskill and outstand among your peers'}
+                            />
+                            <Feature
+                                icon={
+                                    <FaMapMarkedAlt />
+                                }
+                                iconBg={useColorModeValue('purple.100', 'purple.900')}
+                                text={'Organize'}
+                                desc={'Prepare yourself for the industry with the clubs provided'}
+                            />
+                        </Stack>
                     </Stack>
-                </Stack>
+                </MotionBox>
                 <Flex>
                     <MotionBox
                         opacity="0"
@@ -139,7 +161,7 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
                             translateX: 0,
                             opacity: 1,
                             transition: {
-                                duration: 0.5
+                                duration: 1.25
                             }
                         }}
                         m="auto"
