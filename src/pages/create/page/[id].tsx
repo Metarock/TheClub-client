@@ -245,7 +245,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                 {!postData && postLoading ? (
                                     <div>Loading....</div>
                                 ) : (
-                                    <Stack display="block" spacing={8}>
+                                    <Stack display="block" spacing={8} mt={4}>
                                         {body}
                                         {/* .filter helps us distinguish which posts correlates with the page. Whether
                          it is the same owner/user that posts it */}
