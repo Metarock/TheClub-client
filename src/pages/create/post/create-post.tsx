@@ -5,6 +5,7 @@ import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import { InputField, Responsive } from '../../../components/exportComponents';
+import { MotionBox } from '../../../components/ui/Motion';
 import { useCreatePostMutation } from '../../../generated/graphql';
 import { postImage } from '../../../utils/postImage';
 
@@ -29,65 +30,81 @@ export const CreatePost: React.FC<RouteComponentProps> = ({ history }) => {
 
     return (
         <Responsive variant="small">
-            <Formik
-                initialValues={{ title: '', text: '' }}
-                onSubmit={async (values, { setErrors, resetForm }) => {
-                    let imgUrl: string | undefined;
-
-                    if (file) {
-                        const upload = await uploadImage();
-                        if (!upload.success) return;
-
-                        imgUrl = upload.url;
+            <MotionBox
+                opacity="0"
+                initial={{
+                    translateY: -150,
+                    opacity: 0
+                }}
+                animate={{
+                    translateY: 0,
+                    opacity: 1,
+                    transition: {
+                        duration: 0.55
                     }
-
-                    const response = await createPost({ variables: { postimgUrl: imgUrl, input: values } });
-                    if (response.errors) {
-                        setErrors({ title: 'an error occured' });
-                        return;
-                    }
-                    resetForm();
-                    const post = response.data?.createPost.postCreatorId;
-                    history.push(`/pages/${post}`);
                 }}
             >
-                {({ isSubmitting }) => (
-                    <Form id="newpost" style={{ width: "100%" }}>
-                        <InputField
-                            name="title"
-                            placeholder="pageTitle"
-                            label="Title"
-                        />
-                        <Box mt={4}>
+
+                <Formik
+                    initialValues={{ title: '', text: '' }}
+                    onSubmit={async (values, { setErrors, resetForm }) => {
+                        let imgUrl: string | undefined;
+
+                        if (file) {
+                            const upload = await uploadImage();
+                            if (!upload.success) return;
+
+                            imgUrl = upload.url;
+                        }
+
+                        const response = await createPost({ variables: { postimgUrl: imgUrl, input: values } });
+                        if (response.errors) {
+                            setErrors({ title: 'an error occured' });
+                            return;
+                        }
+                        resetForm();
+                        const post = response.data?.createPost.postCreatorId;
+                        history.push(`/pages/${post}`);
+                    }}
+                >
+                    {({ isSubmitting }) => (
+                        <Form id="newpost" style={{ width: "100%" }}>
                             <InputField
-                                textarea
-                                name="text"
-                                placeholder="text..."
-                                label="Description"
+                                name="title"
+                                placeholder="pageTitle"
+                                label="Title"
                             />
-                        </Box>
-                        <Box mt={4}>
-                            <Button ml={12} type="submit" isLoading={isSubmitting}>
-                                Create Post
-                            </Button>
-                            <label htmlFor="postImage">
-                                <Button mr={8} onClick={() => fileInputRef.current?.click()}>
-                                    Upload Image
+                            <Box mt={4}>
+                                <InputField
+                                    textarea
+                                    name="text"
+                                    placeholder="text..."
+                                    label="Description"
+                                />
+                            </Box>
+                            <Box mt={4}>
+                                <Button ml={12} type="submit" isLoading={isSubmitting}>
+                                    Create Post
                                 </Button>
-                            </label>
-                            <input
-                                ref={fileInputRef}
-                                name="postImage"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleSetImage}
-                                style={{ display: "none" }}
-                            />
-                            <Image src={fileUrl} maxH={200} maxW={400} />
-                        </Box>
-                    </Form>
-                )}
-            </Formik>
+                                <label htmlFor="postImage">
+                                    <Button mr={8} onClick={() => fileInputRef.current?.click()}>
+                                        Upload Image
+                                    </Button>
+                                </label>
+                                <input
+                                    ref={fileInputRef}
+                                    name="postImage"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleSetImage}
+                                    style={{ display: "none" }}
+                                />
+                                <Image src={fileUrl} maxH={200} maxW={400} />
+                            </Box>
+                        </Form>
+                    )}
+                </Formik>
+            </MotionBox>
         </Responsive>
     );
 }
