@@ -4,8 +4,8 @@ import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import { InputField, Layout, Responsive } from '../../components/exportComponents';
-import { useEditProfileMutation, useMeQuery } from '../../generated/graphql';
-import { cloudinarySignature } from '../../utils/utilCloudinary';
+import { useDeleteAccountMutation, useEditProfileMutation, useMeQuery } from '../../generated/graphql';
+import { postImage } from '../../utils/postImage';
 
 
 export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
@@ -15,6 +15,8 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { data, loading } = useMeQuery();
     const [updateProfile] = useEditProfileMutation();
+    const [deleteAccount] = useDeleteAccountMutation();
+    const [deleteLoading, setDeleteLoading] = useState(false);
 
     if (loading || !data?.me) {
         return (
@@ -23,50 +25,10 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
             </Layout>
         )
     }
+
     const uploadImage = async () => {
-        if (!file) {
-            console.log("file not found");
-            return { success: false, url: "" };
-        }
-
-        const timestamp = Math.floor(Date.now() / 1000).toString();
-        const publicId = uuidv4();
-        const cloudinary_secret = process.env.REACT_APP_CLOUDINARY_SECRET_AVATAR ?? "";
-
-        const signature = await cloudinarySignature({
-            publicId,
-            timestamp,
-            cloudinary_secret
-        })
-
-        //post image
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("api_key", process.env.REACT_APP_CLOUDINARY_KEY_AVATAR ?? "");
-        formData.append("public_id", publicId);
-        formData.append("timestamp", timestamp);
-        formData.append("signature", signature);
-
-        const response = await fetch(
-            "https://api.cloudinary.com/v1_1/theclub/image/upload",
-            {
-                method: "POST",
-                body: formData,
-            }
-        );
-        if (!response.ok) {
-            console.log("no response");
-            return { success: false, url: "" }
-        }
-
-        const data = await response.json();
-        const url = data.secure_url as string;
-        console.log("upload image[this is the url]: ", url);
-        return { success: true, url };
-
+        return postImage(file, uuidv4(), process.env.REACT_APP_CLOUDINARY_SECRET_AVATAR, process.env.REACT_APP_CLOUDINARY_KEY_AVATAR, "https://api.cloudinary.com/v1_1/theclub/image/upload");
     }
-
-
     const handleSetImage = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newFile = event.currentTarget.files?.[0];
 
@@ -76,6 +38,16 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
         setFileUrl(URL.createObjectURL(newFile));
     }
 
+    const handleDeleteAccount = async () => {
+        setDeleteLoading(true);
+
+        const deletedAccount = await deleteAccount({
+            variables: { id: data?.me.id }
+        });
+        if (deletedAccount.data?.deleteAccount) history.push('/');
+
+        setDeleteLoading(false);
+    }
 
     return (
         <Responsive variant="regular">
@@ -153,6 +125,16 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
                             colorScheme="teal"
                         >
                             Update Profile
+                        </Button>
+                        <Button
+                            ml={4}
+                            mt={4}
+                            type="submit"
+                            isLoading={deleteLoading}
+                            onClick={handleDeleteAccount}
+                            colorScheme="red"
+                        >
+                            Delete Account
                         </Button>
                         <label htmlFor="userAvatar">
                             <Button ml={4} mt={4} mr={8} onClick={() => fileInputRef.current?.click()}>

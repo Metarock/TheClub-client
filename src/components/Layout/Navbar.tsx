@@ -1,9 +1,10 @@
 
 import { useApolloClient } from '@apollo/client';
-import { EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon } from '@chakra-ui/icons';
-import { Avatar, Box, Button, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuList, useColorMode, useToast } from "@chakra-ui/react";
+import { ExternalLinkIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Flex, IconButton, Image, Menu, MenuButton, MenuItem, MenuList, useColorMode, useToast } from "@chakra-ui/react";
 import React from 'react';
 import { FiLogIn } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 
@@ -59,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                         color={primaryColor}
                         borderColor={colorMode === "dark" ? "black" : "teal.400"}
                     >
-                        <Link href="/login">
+                        <Link to="/login">
                             <MenuItem
                                 icon={<FiLogIn />}
                                 color={primaryColor}
@@ -67,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                                 Login
                             </MenuItem>
                         </Link>
-                        <Link href="/register">
+                        <Link to="/register">
                             <MenuItem
                                 icon={<ExternalLinkIcon />}
                                 ringColor={colorMode === "dark" ? "black" : "teal.400"}
@@ -76,18 +77,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
                                 Register
                             </MenuItem>
                         </Link>
-                        <MenuItem
-                            icon={<RepeatIcon />}
-                            color={primaryColor}
-                        >
-                            Open Closed Tab
-                        </MenuItem>
-                        <MenuItem
-                            icon={<EditIcon />}
-                            color={primaryColor}
-                        >
-                            Open File...
-                        </MenuItem>
                     </MenuList>
                 </Menu>
             </Flex>
@@ -115,12 +104,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
                         color={primaryColor}
                         borderColor={colorMode === "dark" ? "black" : "teal.400"}
                     >
-                        <Link href="/create-page">
+                        <Link to="/create-page">
                             <MenuItem>
                                 Create page
                             </MenuItem>
                         </Link>
-                        <Link href="/edit-profile">
+                        <Link to="/edit-profile">
                             <MenuItem>
                                 Settings
                             </MenuItem>
@@ -149,11 +138,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
     return (
         <Flex zIndex={1} position="sticky" top={0} p={4} bg={colorMode === "dark" ? "black" : "teal.500"} color={primaryColor}>
             <Flex flex={1} m="auto" maxW={800} align='center'>
-                <Link href="/">
+                <Link to="/">
                     <Image rounded="full"
-                        w={[6, 8]}
-                        h={[6, 8]}
-                        objectFit="cover" fallbackSrc={'/images/club.png'} />
+                        w={[10, 12]}
+                        h={[10, 12]}
+                        objectFit="cover" fallbackSrc={'/images/club.png'}
+                    />
                 </Link>
                 <Box ml={"auto"}>
                     {body}

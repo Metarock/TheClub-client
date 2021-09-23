@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Heading, Link, useColorModeValue, Text } from '@chakra-ui/react';
+import { Box, Heading, Link, useColorModeValue, Text, useToast } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -10,6 +10,7 @@ import { toErrorMap } from '../../utils/toErrorMap';
 
 export const Register: React.FC<RouteComponentProps> = ({ history }) => {
     const [register] = useRegisterMutation();
+    const toast = useToast();
     return (
 
         <Responsive variant="small">
@@ -27,7 +28,7 @@ export const Register: React.FC<RouteComponentProps> = ({ history }) => {
                 initialValues={{ email: '', clubUsername: '', password: '', university: '', clubName: '' }}
                 onSubmit={async (values, { setErrors }) => {
                     const response = await register({
-                        variables: { options: values },
+                        variables: { options: values, userAvatar: '' },
                         update: (cache, { data }) => {
                             cache.writeQuery<MeQuery>({
                                 query: MeDocument,
@@ -44,6 +45,14 @@ export const Register: React.FC<RouteComponentProps> = ({ history }) => {
                     if (response.data?.register.errors) {
                         setErrors(toErrorMap(response.data.register.errors));
                     } else if (response.data.register.user) {
+                        toast({
+                            position: 'bottom-right',
+                            title: "Logged in",
+                            description: `Welcome ${response.data?.register.user.clubUsername} to the club`,
+                            status: "success",
+                            duration: 2000,
+                            isClosable: true,
+                        })
                         history.push('/');
                     }
                 }}
@@ -64,6 +73,7 @@ export const Register: React.FC<RouteComponentProps> = ({ history }) => {
                         </Box>
                         <Box mt={4}>
                             <InputField
+                                type="password"
                                 name="password"
                                 placeholder="password"
                                 label="Password"

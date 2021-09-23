@@ -1,10 +1,10 @@
 import { Image } from '@chakra-ui/image';
 import { Box, Container, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
-import { Button, Link } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
-import { RouteComponentProps, useParams } from "react-router-dom";
-import { Layout, EditDeletePostButtons } from '../../../components/exportComponents';
+import { Link, RouteComponentProps, useParams } from "react-router-dom";
+import { EditDeletePostButtons, Layout } from '../../../components/exportComponents';
 import { MotionBox } from '../../../components/ui/Motion';
 import { PageSlideFade, StaggerChildren } from '../../../components/ui/Transitions';
 import { PostsQuery, useMeQuery, usePageQuery, usePostsQuery } from '../../../generated/graphql';
@@ -48,7 +48,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
         body = (
             <>
                 <Flex align='center'>
-                    <Link href={`/create-post`}>
+                    <Link to={`/create-post`}>
                         <Button
                             variant="unstyled">
                             Create post
@@ -73,29 +73,47 @@ export const Page: React.FC<RouteComponentProps> = () => {
                             textAlign="center"
                             mt={4}
                         >
-                            <Flex
-                                display="flex"
-                                flexDirection="row"
-                                alignItems="flex-start"
-                                justifyContent="flex-start"
-                            >
-                                <Text fontSize="xxx-large" fontWeight="bold">{page.pageTitle}</Text>
-                            </Flex>
-                            <Box>
-                                <Text
-                                    textTransform={'uppercase'}
-                                    color={'blue.400'}
-                                    fontWeight={600}
-                                    fontSize={'sm'}
-                                    bg={useColorModeValue('blue.50', 'blue.900')}
-                                    p={2}
-                                    alignSelf={'center'}
-                                    rounded={'md'}>
-                                    University: {page.creator.university}
-                                </Text>
-                            </Box>
                             <MotionBox>
+                                <Flex
+                                    display="flex"
+                                    flexDirection="row"
+                                    alignItems="flex-start"
+                                    justifyContent="flex-start"
+                                >
+                                    <Text fontSize="xxx-large" fontWeight="bold">{page.pageTitle}</Text>
+                                </Flex>
+                            </MotionBox>
+                            <MotionBox>
+                                <Box>
+                                    <Text
+                                        textTransform={'uppercase'}
+                                        color={'blue.400'}
+                                        fontWeight={600}
+                                        fontSize={'sm'}
+                                        bg={useColorModeValue('blue.50', 'blue.900')}
+                                        p={2}
+                                        alignSelf={'center'}
+                                        rounded={'md'}>
+                                        University: {page.creator.university}
+                                    </Text>
+                                </Box>
+                            </MotionBox>
+                            <MotionBox
+                                opacity="0"
+                                initial={{
+                                    translateX: -150,
+                                    opacity: 0
+                                }}
+                                animate={{
+                                    translateX: 0,
+                                    opacity: 1,
+                                    transition: {
+                                        duration: 0.75
+                                    }
+                                }}
+                            >
                                 <Image
+                                    mt={'8'}
                                     size="150px"
                                     src={page.pageimgUrl}
                                     width="150%"
@@ -104,45 +122,47 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                 />
                             </MotionBox>
                         </Flex>
-                        <Box
-                            borderRadius="lg"
-                            pl={3}
-                            pr={3}
-                            pt={5}
-                            pb={5}
-                            display="inherit"
-                            boxShadow="sm"
-                        >
-                            <Flex
-                                display="flex"
-                                flexDirection="column"
-                                alignItems="center"
-                                justifyContent="center"
-                                textAlign="center"
-                                mt={4}>
+                        <MotionBox>
+                            <Box
+                                borderRadius="lg"
+                                pl={3}
+                                pr={3}
+                                pt={5}
+                                pb={5}
+                                display="inherit"
+                                boxShadow="sm"
+                            >
                                 <Flex
                                     display="flex"
-                                    flexDirection="row"
+                                    flexDirection="column"
                                     alignItems="center"
-                                    justifyContent="flex-start"
-                                    mb={7}
-                                >
-                                    <Text
-                                        textTransform={'uppercase'}
-                                        color={'teal.300'}
-                                        fontWeight={500}
-                                        fontSize="38px"
-                                        bg={useColorModeValue('blue.50', 'blue.900')}
-                                        p={2}
-                                        alignSelf={'flex-start'}
-                                        rounded={'md'}>
-                                        About us
-                                    </Text>
+                                    justifyContent="center"
+                                    textAlign="center"
+                                    mt={4}>
+                                    <Flex
+                                        display="flex"
+                                        flexDirection="row"
+                                        alignItems="center"
+                                        justifyContent="flex-start"
+                                        mb={7}
+                                    >
+                                        <Text
+                                            textTransform={'uppercase'}
+                                            color={'teal.300'}
+                                            fontWeight={500}
+                                            fontSize="38px"
+                                            bg={useColorModeValue('blue.50', 'blue.900')}
+                                            p={2}
+                                            alignSelf={'flex-start'}
+                                            rounded={'md'}>
+                                            About us
+                                        </Text>
+                                    </Flex>
+                                    <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
                                 </Flex>
-                                <Text fontWeight={600} fontSize="22px">{page.aboutUs}</Text>
-                            </Flex>
-                        </Box>
-                        <Box>
+                            </Box>
+                        </MotionBox>
+                        <MotionBox>
                             <Box
                                 borderRadius="lg"
                                 boxShadow="sm"
@@ -181,7 +201,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                     <Text fontWeight={600} fontSize="22px">{page.pageText}</Text>
                                 </Flex>
                             </Box>
-                        </Box>
+                        </MotionBox>
                         <Layout>
                             <Text
                                 textTransform={'uppercase'}
@@ -194,32 +214,49 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                 rounded={'md'}>
                                 Posts
                             </Text>
-                            {!postData && postLoading ? (
-                                <div>Loading....</div>
-                            ) : (
-                                <Stack display="block" spacing={8}>
-                                    {body}
-                                    {/* .filter helps us distinguish which posts correlates with the page. Whether
+                            <MotionBox
+                                opacity="0"
+                                initial={{
+                                    translateY: 150,
+                                    opacity: 0
+                                }}
+                                animate={{
+                                    translateY: 0,
+                                    opacity: 1,
+                                    transition: {
+                                        duration: 1
+                                    }
+                                }}
+                            >
+                                {!postData && postLoading ? (
+                                    <div>Loading....</div>
+                                ) : (
+                                    <Stack display="block" spacing={8}>
+                                        {body}
+                                        {/* .filter helps us distinguish which posts correlates with the page. Whether
                          it is the same owner/user that posts it */}
-                                    {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
-                                        <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
-                                            <Box flex={1}>
-                                                <Heading fontSize="xl">
-                                                    {p.title}
-                                                </Heading>
-                                                <Text>Creator: {p.postCreator.creator.clubName}, {timeStamp(p.createdAt)}</Text>
-                                                <Text>{p.text}</Text>
-                                                <Box ml="auto">
-                                                    <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
+                                        {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (
+                                            <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
+                                                <Box flex={1}>
+                                                    <Link to={`/post/${p.id}`}>
+                                                        <Heading fontSize="xl">
+                                                            {p.title}
+                                                        </Heading>
+                                                    </Link>
+                                                    <Text>Creator: {p.postCreator.creator.clubName}, {timeStamp(p.createdAt)}</Text>
+                                                    <Text>{p.text}</Text>
+                                                    <Box ml="auto">
+                                                        <EditDeletePostButtons id={p.id} postCreatorId={p.postCreatorId} />
+                                                    </Box>
+                                                    {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
                                                 </Box>
-                                                {p.postimgUrl ? <Image size="80px" width="100%" height="auto" minHeight="146px" objectFit="cover" src={p.postimgUrl} mt={3} maxH={600} /> : null}
-                                            </Box>
-                                            <Flex align="center">
+                                                <Flex align="center">
+                                                </Flex>
                                             </Flex>
-                                        </Flex>
-                                    ))}
-                                </Stack>
-                            )}
+                                        ))}
+                                    </Stack>
+                                )}
+                            </MotionBox>
                             {/* This is for pagination for posts */}
                             {postData && postData.posts.hasMore ? (
                                 <Flex>

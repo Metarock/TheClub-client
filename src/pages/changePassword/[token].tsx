@@ -7,6 +7,7 @@ import { InputField, Responsive } from '../../components/exportComponents';
 import { MeDocument, MeQuery, useChangePasswordMutation } from '../../generated/graphql';
 import { toErrorMap } from '../../utils/toErrorMap';
 import * as Yup from 'yup';
+import { Heading, useToast } from '@chakra-ui/react';
 
 
 
@@ -14,12 +15,17 @@ export const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
     const { token }: any = useParams(); //get id from the url
     const [changePassword] = useChangePasswordMutation();
     const [tokenError, setTokenError] = useState('');
+    const toast = useToast();
     return (
         <Responsive variant="small">
+            <Heading textAlign="center" size="xl" fontWeight="extrabold">
+                Change Password
+            </Heading>
             <Formik
                 initialValues={{ newPassword: '' }}
                 validationSchema={Yup.object({
-                    newPassword: Yup.string().min(6, "Must be more than 5").required("Password required")
+                    newPassword: Yup.string().min(6, "Must be more than 5").required("Password required"),
+                    confirmPassword: Yup.string().oneOf([Yup.ref("newPassword"), null], "Password must match"),
                 })}
                 onSubmit={async (values, { setErrors }) => {
                     const response = await changePassword({
@@ -48,18 +54,35 @@ export const ChangePassword: React.FC<RouteComponentProps> = ({ history }) => {
                         }
                         setErrors(errorMap);
                     } else if (response.data?.changePassword.user) {
+                        toast({
+                            position: 'bottom-right',
+                            title: "Password changed successfully",
+                            status: "success",
+                            duration: 2000,
+                            isClosable: true,
+                        })
                         history.push('/');
                     }
                 }}
             >
                 {({ isSubmitting }) => (
                     <Form>
-                        <InputField
-                            name="newPassword"
-                            placeholder="new password"
-                            label="New Password"
-                            type="password"
-                        />
+                        <Box>
+                            <InputField
+                                name="newPassword"
+                                placeholder="new password"
+                                label="New Password"
+                                type="password"
+                            />
+                        </Box>
+                        <Box mt={4}>
+                            <InputField
+                                name="confirmPassword"
+                                placeholder="confirmPassword"
+                                label="confirmPassword"
+                                type="password"
+                            />
+                        </Box>
                         {tokenError ? (
                             <Flex>
                                 <Box mr={2} color='red'>{tokenError}</Box>

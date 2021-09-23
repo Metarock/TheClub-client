@@ -85,7 +85,13 @@ export const item = {
 };
 
 export const PageSlideFade = ({ children }: any) => {
-    return <SlideFade in>{children}</SlideFade>;
+    return <SlideFade animate={{
+        translateX: 0,
+        opacity: 1,
+        transition: {
+            duration: 0.75
+        }
+    }} in>{children}</SlideFade>;
 };
 
 export const StaggerChildren = ({ children }: any) => {
