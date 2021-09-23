@@ -6,7 +6,7 @@ import { usePostQuery } from '../../../generated/graphql';
 
 
 
-export const Post: React.FC<RouteComponentProps> = ({ }) => {
+export const Post: React.FC<RouteComponentProps> = () => {
     const { id }: any = useParams(); //get id from the url
     const getId = parseInt(id); //convert the id to integer
 
