@@ -4,7 +4,7 @@ import { ExternalLinkIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, IconButton, Image, Menu, MenuButton, MenuItem, MenuList, useColorMode, useToast } from "@chakra-ui/react";
 import React from 'react';
 import { FiLogIn } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 
@@ -14,6 +14,7 @@ interface NavbarProps {
 
 
 export const Navbar: React.FC<NavbarProps> = () => {
+    const history = useHistory();
     const { colorMode } = useColorMode();
     const primaryColor = colorMode === "dark" ? "white" : "white";
     const { data, loading } = useMeQuery();
@@ -125,11 +126,13 @@ export const Navbar: React.FC<NavbarProps> = () => {
                                 duration: 9000,
                                 isClosable: true,
                             })
+                            history.push('/');
                         }}
                             color={primaryColor}
                             isLoading={logoutFetching}
                         >
-                            Logout</MenuItem>
+                            Logout
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </Flex>

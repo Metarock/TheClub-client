@@ -5,11 +5,7 @@ import { Routes } from "./utils/Routes";
 
 export const App = () => (
   <>
-    <AnimatePresence
-      exitBeforeEnter
-      initial={false}
-      onExitComplete={() => window.scrollTo(0, 0)}
-    >
+    <AnimatePresence>
       <Navbar />
       <Routes />
       <Footer />
