@@ -17,7 +17,7 @@ export const Routes: React.FC = () => {
                         <Route exact path="/pages/:id" component={Page} />
                         <Route exact path="/pages/edit/:id" component={EditPage} />
                         <Route exact path="/post/:id" component={Post} />
-                        <Route exact path="/pages/editPost/:id" component={EditPost} />
+                        <Route exact path="/post/editPost/:id" component={EditPost} />
                         <Route exact path="/edit-profile" component={EditProfile} />
                 </Switch>
 

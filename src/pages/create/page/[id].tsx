@@ -1,6 +1,6 @@
 import { Image } from '@chakra-ui/image';
 import { Box, Container, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/react';
+import { Button, Spinner } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/system';
 import React from 'react';
 import { Link, RouteComponentProps, useParams } from "react-router-dom";
@@ -28,7 +28,21 @@ export const Page: React.FC<RouteComponentProps> = () => {
 
     const page = pageQuery.data?.page;
 
-    if (page === undefined) return <p>loading</p>
+    if (page === undefined) {
+        return (
+            <Box
+                height="650px"
+                width="780px"
+                position="fixed"
+                top="50%"
+                left="50%"
+                mt="-80px"
+                ml="-30px"
+            >
+                <Spinner size="xl" />
+            </Box>
+        )
+    }
     if (page === null) return <p>Page not found</p> //error 404
 
     let body = null;
