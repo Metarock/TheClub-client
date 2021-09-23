@@ -61,14 +61,11 @@ export const Page: React.FC<RouteComponentProps> = () => {
     else if (!!data?.me && data?.me.id === page.creator.id) { //if user and creator id match allow them to post
         body = (
             <>
-                <Flex align='center'>
-                    <Link to={`/create-post`}>
-                        <Button
-                            variant="unstyled">
-                            Create post
-                        </Button>
-                    </Link>
-                </Flex>
+                <Link to={`/create-post`}>
+                    <Button variant="unstyled">
+                        <Text>Create post</Text>
+                    </Button>
+                </Link>
             </>
         )
 
@@ -135,6 +132,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                     minHeight="250px"
                                 />
                             </MotionBox>
+                            {body}
                         </Flex>
                         <MotionBox>
                             <Box
@@ -246,7 +244,7 @@ export const Page: React.FC<RouteComponentProps> = () => {
                                     <div>Loading....</div>
                                 ) : (
                                     <Stack display="block" spacing={8} mt={4}>
-                                        {body}
+
                                         {/* .filter helps us distinguish which posts correlates with the page. Whether
                          it is the same owner/user that posts it */}
                                         {postData?.posts.posts.filter(x => x.postCreatorId === page.creatorId).map((p) => !p ? null : (

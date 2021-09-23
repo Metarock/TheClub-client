@@ -114,8 +114,7 @@ export const Home: React.FC<RouteComponentProps | React.Component> = () => {
                         </Text>
                         <Heading>A platform for all University Clubs</Heading>
                         <Text color={'gray.500'} fontSize={'lg'}>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                            nonumy eirmod tempor invidunt ut labore
+                            Can't find that one club? Welcome to theClub where you can find various clubs that suit you.
                         </Text>
                         <Stack
                             spacing={4}
