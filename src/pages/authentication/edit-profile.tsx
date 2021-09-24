@@ -1,11 +1,11 @@
-import { Avatar, Box, Button, Heading, Image } from '@chakra-ui/react';
+import { Avatar, Box, Button, Heading, Image, useToast } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import React, { useRef, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import { InputField, Layout, Responsive } from '../../components/exportComponents';
 import { MotionBox } from '../../components/ui/Motion';
-import { useDeleteAccountMutation, useEditProfileMutation, useMeQuery } from '../../generated/graphql';
+import { useEditProfileMutation, useForgotPasswordMutation, useMeQuery } from '../../generated/graphql';
 import { postImage } from '../../utils/postImage';
 
 
@@ -16,8 +16,9 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { data, loading } = useMeQuery();
     const [updateProfile] = useEditProfileMutation();
-    const [deleteAccount] = useDeleteAccountMutation();
+    const [forgotPassword] = useForgotPasswordMutation();
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const toast = useToast();
 
     if (loading || !data?.me) {
         return (
@@ -42,10 +43,20 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
     const handleDeleteAccount = async () => {
         setDeleteLoading(true);
 
-        const deletedAccount = await deleteAccount({
-            variables: { id: data?.me.id }
-        });
-        if (deletedAccount.data?.deleteAccount) history.push('/');
+        const changePassword = await forgotPassword({ variables: { email: data?.me.email } });
+
+        if (changePassword.data?.forgotPassword.errors) {
+            console.log('error cant find email', changePassword.data.forgotPassword.errors);
+            return;
+        }
+        toast({
+            position: 'bottom-right',
+            title: "Email sent",
+            description: "Change password link sent",
+            status: "success",
+            duration: 10000,
+            isClosable: true,
+        })
 
         setDeleteLoading(false);
     }
@@ -144,12 +155,11 @@ export const EditProfile: React.FC<RouteComponentProps> = ({ history }) => {
                             <Button
                                 ml={4}
                                 mt={4}
-                                type="submit"
                                 isLoading={deleteLoading}
                                 onClick={handleDeleteAccount}
-                                colorScheme="red"
+                                colorScheme={"orange"}
                             >
-                                Delete Account
+                                Change password
                             </Button>
                             <label htmlFor="userAvatar">
                                 <Button ml={4} mt={4} mr={8} onClick={() => fileInputRef.current?.click()}>
