@@ -3,8 +3,6 @@
 This is assignment for MSA phase 2. The purpose of this web application is to allow clubs from all universities
 to have a singular platform to showcase their clubs. This benefits individuals who want to search clubs in other universities, based in New Zealand.
 
-## [DEMO](https://theclub.azurewebsites.net/)
-
 ## Available Scripts
 
 In the project directory, you can run:
